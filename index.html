@@ -298,36 +298,34 @@
             40% { transform: scale(1); }
         }
 
-.footer-socials {
-    display: flex;
-    flex-direction: row; /* Принудительно в строку */
-    justify-content: center;
-    align-items: center;
-    gap: 32px;
-    margin-top: 20px;
-    padding-bottom: 10px;
-}
+        .footer-socials {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+            margin-top: 20px;
+            padding-bottom: 10px;
+        }
 
-/* Делаем так, чтобы ссылки со значками не превращались в блоки */
-.footer-socials a {
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-}
+        .footer-socials a {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+        }
 
-.social-icon {
-    width: 24px;
-    height: 24px;
-    fill: #86868b; /* Спокойный серый цвет в стиле Apple */
-    transition: fill 0.3s ease, transform 0.3s ease;
-}
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            fill: #86868b;
+            transition: fill 0.3s ease, transform 0.3s ease;
+        }
 
-.social-icon:hover {
-    fill: #1d1d1f; /* Затемнение при наведении */
-    transform: translateY(-2px); /* Легкий подпружинивающий эффект */
-}
-</style>
- 
+        .social-icon:hover {
+            fill: #1d1d1f;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body class="antialiased selection:bg-apple-blue selection:text-white">
 
@@ -574,13 +572,13 @@
             <button onclick="toggleChat()" class="text-gray-400 hover:text-black hover:scale-110 transition-all p-1">
                 <i class="ph ph-x text-lg"></i>
             </button>
-            </div>
+        </div>
         
         <div id="chat-messages" class="flex-grow p-4 overflow-y-auto flex flex-col gap-3 bg-gray-50/30">
             <div class="chat-message self-start max-w-[85%] bg-white border border-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
                 <p class="text-sm text-apple-dark">Здравствуйте! Я интеллектуальный помощник <b>re:market</b>. Какой гаджет вы ищете сегодня?</p>
             </div>
-            </div>
+        </div>
 
         <div class="p-4 border-t border-gray-200/50 bg-white/50 backdrop-blur-md">
             <form id="chat-form" onsubmit="handleChatSubmit(event)" class="relative flex items-center">
@@ -592,30 +590,41 @@
         </div>
     </div>
     
-    <div class="footer-socials">
-    <!-- Instagram -->
-    <a href="https://instagram.com/remarketapple" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-    </a>
+    <footer class="border-t border-gray-200/50 mt-20 py-20 text-center glass relative z-10">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
+            <div class="flex flex-col items-center justify-center cursor-pointer group">
+                <p class="font-sans font-extrabold text-7xl text-apple-dark tracking-tighter group-hover:scale-105 group-hover:text-apple-blue transition-all duration-300">re:market</p>
+                <p class="mt-4 text-sm tracking-[0.4em] text-gray-500 font-bold uppercase group-hover:tracking-[0.5em] transition-all duration-300">EST'D 2022</p>
+                <p class="mt-2 text-xs tracking-[0.3em] text-gray-400 font-bold uppercase select-none pointer-events-none">улица Темерницкая, 74 | Ростов-на-Дону</p>
+            </div>
 
-    <!-- Telegram (новая ссылка) -->
-    <a href="https://t.me/remarketapple" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-        <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.14-.26.26-.534.26l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.832.943z"/></svg>
-    </a>
+            <!-- Иконки социальных сетей -->
+            <div class="footer-socials">
+                <!-- Instagram -->
+                <a href="https://instagram.com/remarketapple" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
 
-    <!-- VK (исправленный логотип) -->
-    <a href="https://vk.ru/remarketapple" target="_blank" rel="noopener noreferrer" aria-label="VK">
-        <svg class="social-icon" viewBox="0 0 24 24"><path d="M15.684 21H12.3a1.59 1.59 0 0 1-1.464-1.036s-.312-.804-1.452-1.872c-1.284-1.2-1.836-1.092-2.112-.624-.54.912-.42 2.628-.42 2.628s-.036.336-.36.36H4.896c-2.304-.12-4.32-1.392-5.184-3.444-2.16-5.124-.864-11.4 2.892-14.772C4.464 1.452 7.02 1 7.02 1h1.344c.36 0 .504.228.504.228s.72 1.836 1.68 3.528c2.04 3.588 2.856 3.756 3.192 3.528.804-.54.6-4.944.6-4.944s-.048-.78-.456-.972c-.396-.192-1.152-.228-1.464-.264-.264-.024.168-.408.732-.672C14.076.624 15.6 0 17.76 0h1.008c1.344 0 1.68.756 1.68 2.508V6.96c0 .768.456.912.756.456 1.044-1.584 2.82-4.392 2.82-4.392s.228-.444.648-.444h3.096c1.152 0 1.5.6 1.2 1.404-.6 1.584-3.324 5.928-3.324 5.928s-.336.528-.108.912c1.032 1.74 3.024 4.548 4.38 6.948.732 1.284.456 2.052-.72 2.052h-3.48a2.15 2.15 0 0 1-1.836-1.02s-.972-2.112-2.076-3.156c-.6-.564-1.008-.732-1.392-.732-.3 0-.432.228-.432.9v2.544c0 .804-.228 1.152-1.032 1.152z"/></svg>
-    </a>
+                <!-- Telegram -->
+                <a href="https://t.me/remarketapple" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.14-.26.26-.534.26l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.832.943z"/></svg>
+                </a>
 
-    <!-- WhatsApp -->
-    <a href="https://wa.me/79043422202" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-        <svg class="social-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.0
-    
-    </a>
-                    
-        </div>
-        </div>
+                <!-- VK -->
+                <a href="https://vk.ru/remarketapple" target="_blank" rel="noopener noreferrer" aria-label="VK">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path d="M15.684 21H12.3a1.59 1.59 0 0 1-1.464-1.036s-.312-.804-1.452-1.872c-1.284-1.2-1.836-1.092-2.112-.624-.54.912-.42 2.628-.42 2.628s-.036.336-.36.36H4.896c-2.304-.12-4.32-1.392-5.184-3.444-2.16-5.124-.864-11.4 2.892-14.772C4.464 1.452 7.02 1 7.02 1h1.344c.36 0 .504.228.504.228s.72 1.836 1.68 3.528c2.04 3.588 2.856 3.756 3.192 3.528.804-.54.6-4.944.6-4.944s-.048-.78-.456-.972c-.396-.192-1.152-.228-1.464-.264-.264-.024.168-.408.732-.672C14.076.624 15.6 0 17.76 0h1.008c1.344 0 1.68.756 1.68 2.508V6.96c0 .768.456.912.756.456 1.044-1.584 2.82-4.392 2.82-4.392s.228-.444.648-.444h3.096c1.152 0 1.5.6 1.2 1.404-.6 1.584-3.324 5.928-3.324 5.928s-.336.528-.108.912c1.032 1.74 3.024 4.548 4.38 6.948.732 1.284.456 2.052-.72 2.052h-3.48a2.15 2.15 0 0 1-1.836-1.02s-.972-2.112-2.076-3.156c-.6-.564-1.008-.732-1.392-.732-.3 0-.432.228-.432.9v2.544c0 .804-.228 1.152-1.032 1.152z"/></svg>
+                </a>
+
+                <!-- WhatsApp -->
+                <a href="https://wa.me/79043422202" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                    <svg class="social-icon" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                </a>
+
+                <!-- MAX -->
+                <a href="https://web.max.ru/79043422202" target="_blank" rel="noopener noreferrer" aria-label="MAX">
+                    <svg class="social-icon" viewBox="0 0 24 24"><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-weight="bold" font-size="15" fill="currentColor">M</text></svg>
+                </a>
+            </div>
         </div>
     </footer>
 
@@ -695,7 +704,7 @@
                             <p class="text-lg font-medium text-apple-dark mt-4">${prefixText}${formatPrice(product.price)}</p>
                         </div>
                         <div class="flex-grow flex items-center justify-center relative mt-6">
-                            <img src="${product.img}" alt="${product.name}" class="card-image ${product.width} h-auto object-contain drop-shadow-xl rounded-2xl ${mixBlendClass}">
+                            <img src="${product.img}" alt="${product.name}" class="card-image ${product.width} h-auto object-contain drop-shadow-xl rounded-2xl${mixBlendClass}">
                         </div>
                         <button onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '${product.img}')" class="card-content w-full py-3.5 mt-6 liquid-btn-dark rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-md">
                             В корзину
@@ -938,263 +947,4 @@
             if (isAuth) {
                 container.innerHTML = `
                     <button onclick="openProfileModal()" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark transition-all shadow-sm flex items-center gap-2">
-                        <i class="ph-fill ph-user-circle text-lg text-apple-blue"></i> <span>${name}</span>
-                    </button>
-                `;
-            } else {
-                container.innerHTML = `
-                    <button onclick="openAuthModal('login')" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark transition-all shadow-sm flex items-center gap-2">
-                        <i class="ph ph-user text-base"></i> Войти
-                    </button>
-                `;
-            }
-        }
-
-        window.openProfileModal = function() {
-            if (!currentUser) return;
-            document.getElementById('profile-name').textContent = currentUser.displayName || 'Пользователь';
-            document.getElementById('profile-email').textContent = currentUser.email || '';
-            document.getElementById('profile-avatar').textContent = (currentUser.displayName || currentUser.email || 'U')[0].toUpperCase();
-
-            const modal = document.getElementById('profile-modal');
-            const overlay = document.getElementById('profile-modal-overlay');
-            modal.classList.remove('hidden');
-            overlay.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0', 'scale-95');
-                overlay.classList.remove('opacity-0');
-            }, 10);
-            renderUserOrders();
-        };
-
-        window.closeProfileModal = function() {
-            const modal = document.getElementById('profile-modal');
-            const overlay = document.getElementById('profile-modal-overlay');
-            modal.classList.add('opacity-0', 'scale-95');
-            overlay.classList.add('opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                overlay.classList.add('hidden');
-            }, 300);
-        };
-
-        window.logoutUser = async function() {
-            try {
-                await signOut(auth);
-                currentUser = null;
-                userOrders = [];
-                closeProfileModal();
-                showToast("Вы вышли из аккаунта");
-            } catch (e) {
-                console.error("Logout error:", e);
-            }
-        };
-
-        async function loadUserOrders(uid) {
-            if (!db) return;
-            try {
-                const ordersRef = collection(db, 'artifacts', appId, 'users', uid, 'orders');
-                onSnapshot(ordersRef, (snapshot) => {
-                    userOrders = [];
-                    snapshot.forEach((doc) => {
-                        userOrders.push(doc.data());
-                    });
-                    userOrders.sort((a, b) => b.timestamp - a.timestamp);
-                    renderUserOrders();
-                }, (error) => {
-                    console.debug("Orders fetch error:", error);
-                });
-            } catch (e) {
-                console.debug("Orders load error:", e);
-            }
-        }
-
-        function renderUserOrders() {
-            const container = document.getElementById('profile-orders');
-            if (!container) return;
-
-            if (userOrders.length === 0) {
-                container.innerHTML = `<p class="text-xs text-gray-400 text-center py-4">У вас пока нет оформленных заказов</p>`;
-                return;
-            }
-
-            container.innerHTML = '';
-            userOrders.forEach(order => {
-                const itemsList = order.items.map(i => `${i.name} (${i.quantity} шт.)`).join(', ');
-                const orderHTML = `
-                    <div class="bg-white/60 p-3 rounded-2xl border border-white text-xs">
-                        <div class="flex justify-between font-semibold text-apple-dark mb-1">
-                            <span>Заказ от ${order.date}</span>
-                            <span class="text-apple-blue">${formatPrice(order.total)}</span>
-                        </div>
-                        <p class="text-gray-500 truncate">${itemsList}</p>
-                    </div>
-                `;
-                container.insertAdjacentHTML('beforeend', orderHTML);
-            });
-        }
-
-        let toastTimeout;
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            const msgEl = document.getElementById('toast-msg');
-            msgEl.textContent = message;
-            toast.classList.add('show');
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        window.copyPromo = function() {
-            const dummy = document.createElement('input');
-            document.body.appendChild(dummy);
-            dummy.value = "https://remarketapple.ru/invite/10-percent-off";
-            dummy.select();
-            document.execCommand('copy');
-            document.body.removeChild(dummy);
-            showToast("Секретная ссылка скопирована!");
-        }
-
-        window.handleHover = function(e, card) {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left; 
-            const y = e.clientY - rect.top;  
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -8;
-            const rotateY = ((x - centerX) / centerX) * 8;
-            card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
-        };
-
-        window.resetHover = function(card) {
-            card.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-        };
-
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                nav.classList.add('shadow-md', 'glass-heavy');
-                nav.classList.remove('glass');
-            } else {
-                nav.classList.remove('shadow-md', 'glass-heavy');
-                nav.classList.add('glass');
-            }
-            
-            const heroImg = document.getElementById('hero-image');
-            const scrollVal = window.scrollY;
-            if(scrollVal < 600) {
-                 heroImg.style.transform = `rotateX(${8 - scrollVal*0.015}deg) scale(${0.95 + scrollVal*0.00015}) translateY(${scrollVal*0.05}px)`;
-            }
-        });
-
-        let isChatbotOpen = false;
-        let aiChatHistory = [];
-        const systemInstruction = "Вы — 're:market AI', вежливый и профессиональный консультант премиального интернет-магазина техники Apple. Тон: премиальный, дружелюбный, экспертный. Отвечайте коротко.";
-
-        window.toggleChat = function() {
-            const chatPanel = document.getElementById('chat-panel');
-            isChatbotOpen = !isChatbotOpen;
-            if (isChatbotOpen) {
-                chatPanel.classList.add('open');
-                document.getElementById('chat-input').focus();
-            } else {
-                chatPanel.classList.remove('open');
-            }
-        }
-
-        window.handleChatSubmit = async function(event) {
-            event.preventDefault();
-            const inputEl = document.getElementById('chat-input');
-            const message = inputEl.value.trim();
-            if (!message) return;
-            
-            appendMessage(message, 'user');
-            inputEl.value = '';
-            inputEl.disabled = true;
-            aiChatHistory.push({ role: "user", parts: [{ text: message }] });
-            showTypingIndicator();
-            
-            try {
-                const responseText = await callGeminiAPI(aiChatHistory);
-                hideTypingIndicator();
-                appendMessage(responseText, 'model');
-                aiChatHistory.push({ role: "model", parts: [{ text: responseText }] });
-            } catch (error) {
-                hideTypingIndicator();
-                appendMessage("Извините, сейчас я не могу ответить. Попробуйте позже.", 'error');
-                aiChatHistory.pop();
-            } finally {
-                inputEl.disabled = false;
-                inputEl.focus();
-            }
-        }
-
-        function appendMessage(text, sender) {
-            const messagesContainer = document.getElementById('chat-messages');
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `chat-message max-w-[85%] px-4 py-3 shadow-sm text-sm ${
-                sender === 'user' 
-                    ? 'self-end bg-apple-blue text-white rounded-2xl rounded-tr-sm' 
-                    : sender === 'error'
-                        ? 'self-start bg-red-50 text-red-600 border border-red-100 rounded-2xl rounded-tl-sm'
-                        : 'self-start bg-white border border-gray-100 text-apple-dark rounded-2xl rounded-tl-sm leading-relaxed'
-            }`;
-            let formattedText = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
-            msgDiv.innerHTML = formattedText;
-            messagesContainer.appendChild(msgDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        function showTypingIndicator() {
-            const messagesContainer = document.getElementById('chat-messages');
-            const typingDiv = document.createElement('div');
-            typingDiv.id = 'typing-indicator';
-            typingDiv.className = 'chat-message self-start bg-white border border-gray-100 rounded-2xl rounded-tl-sm px-4 py-4 shadow-sm flex items-center gap-1 typing-indicator';
-            typingDiv.innerHTML = '<span></span><span></span><span></span>';
-            messagesContainer.appendChild(typingDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        function hideTypingIndicator() {
-            const indicator = document.getElementById('typing-indicator');
-            if (indicator) indicator.remove();
-        }
-
-        async function callGeminiAPI(history) {
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-            const payload = {
-                contents: history,
-                systemInstruction: { parts: [{ text: systemInstruction }] }
-            };
-            
-            let retries = 3;
-            let delay = 1000;
-            
-            while (retries > 0) {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.candidates && result.candidates[0].content && result.candidates[0].content.parts) {
-                        return result.candidates[0].content.parts[0].text;
-                    }
-                    throw new Error("Неожиданная структура ответа");
-                } else if (response.status === 429) {
-                    await new Promise(r => setTimeout(r, delay));
-                    delay *= 2;
-                    retries--;
-                } else {
-                    throw new Error(`Ошибка: ${response.status}`);
-                }
-            }
-            throw new Error("Превышено количество попыток");
-        }
-    </script>
-</body>
-</html>
+                        <
