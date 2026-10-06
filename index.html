@@ -195,6 +195,30 @@
             box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
         }
 
+        .product-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.1s ease-out;
+        }
+        
+        .product-card:hover {
+            border-color: rgba(255, 255, 255, 1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.08), 0 0 40px rgba(0,113,227,0.05);
+        }
+
+        .card-content {
+            transform: translateZ(30px);
+        }
+        
+        .card-image {
+            transform: translateZ(60px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .product-card:hover .card-image {
+            transform: translateZ(80px) scale(1.05);
+        }
+
         /* Горизонтальный баннер с телефоном */
         .brand-banner-stage {
             perspective: 1200px;
@@ -280,7 +304,7 @@
         </div>
     </div>
 
-    <!-- Навигация: Логотип СТАТИЧНЫЙ (не кликабельный, не меняет цвет) -->
+    <!-- Навигация: Логотип статичный, не кликабельный, не меняет цвет -->
     <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
@@ -315,7 +339,7 @@
         </div>
     </nav>
 
-    <!-- Главный экран с горизонтальным iPhone 18 Pro Max Burgundy -->
+    <!-- Главный экран -->
     <main class="pt-48 sm:pt-56 pb-16 sm:pb-24 lg:pb-32 overflow-hidden text-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-apple-dark mb-6">
@@ -330,7 +354,6 @@
                 </a>
             </div>
     
-            <!-- Интерактивная витрина с текстом и телефоном -->
             <div class="brand-banner-stage" id="banner-stage">
                 <div class="brand-typography">
                     re:market
@@ -388,6 +411,10 @@
         </div>
 
         <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+            <div id="name-field-container" class="hidden">
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Имя</label>
+                <input type="text" id="auth-name" placeholder="Иван Иванов" class="w-full bg-white/80 border border-gray-200 rounded-2xl px-4 py-3.5 text-sm">
+            </div>
             <div>
                 <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Email</label>
                 <input type="email" id="auth-email" required placeholder="name@example.com" class="w-full bg-white/80 border border-gray-200 rounded-2xl px-4 py-3.5 text-sm">
@@ -398,6 +425,34 @@
             </div>
             <button type="submit" id="auth-submit-btn" class="w-full liquid-btn-dark py-4 rounded-2xl font-semibold shadow-lg mt-2">Войти</button>
         </form>
+
+        <div class="mt-6 text-center">
+            <p id="auth-switch-text" class="text-sm text-gray-500">
+                Нет аккаунта? <button onclick="switchAuthMode()" class="text-apple-blue font-semibold hover:underline">Зарегистрироваться</button>
+            </p>
+        </div>
+    </div>
+
+    <div id="profile-modal-overlay" class="fixed inset-0 bg-white/30 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeProfileModal()"></div>
+    
+    <div id="profile-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg glass-heavy rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-white">
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-apple-blue to-purple-500 text-white font-bold text-lg flex items-center justify-center shadow-md" id="profile-avatar">U</div>
+                <div>
+                    <h3 id="profile-name" class="text-xl font-bold text-apple-dark">Пользователь</h3>
+                    <p id="profile-email" class="text-xs text-gray-500">email@example.com</p>
+                </div>
+            </div>
+            <button onclick="closeProfileModal()" class="text-gray-400 hover:text-black p-2 rounded-full liquid-btn"><i class="ph ph-x text-xl"></i></button>
+        </div>
+        <div class="border-t border-gray-200/50 pt-4 mb-6">
+            <h4 class="text-sm font-bold text-apple-dark mb-3">История заказов</h4>
+            <div id="profile-orders" class="space-y-3 max-h-48 overflow-y-auto">
+                <p class="text-xs text-gray-400 text-center py-4">У вас пока нет оформленных заказов</p>
+            </div>
+        </div>
+        <button onclick="logoutUser()" class="w-full bg-red-50 text-red-600 border border-red-100 py-3 rounded-2xl font-semibold hover:bg-red-100 transition-all">Выйти из аккаунта</button>
     </div>
 
     <div id="toast" class="toast glass-heavy px-6 py-4 rounded-2xl border border-white shadow-xl flex items-center gap-3">
@@ -405,7 +460,7 @@
         <span class="text-apple-dark font-medium" id="toast-msg">Товар добавлен</span>
     </div>
 
-    <!-- Футер с гиперактивной анимацией и кнопкой связи -->
+    <!-- Футер с анимациями текста и кнопкой связи -->
     <footer class="border-t border-gray-200/50 mt-20 py-20 text-center glass relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
             <div class="flex flex-col items-center justify-center cursor-pointer group mb-6">
@@ -463,66 +518,323 @@
         </div>
     </div>
 
-    <script>
-        // Параллакс-эффект движения горизонтального телефона от мыши
-        const stage = document.getElementById('banner-stage');
-        const phone = document.getElementById('horizontal-phone');
+    <!-- Скрипты сайта и Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        stage.addEventListener('mousemove', (e) => {
-            const rect = stage.getBoundingClientRect();
-            const x = (e.clientX - rect.left - rect.width / 2) / 15;
-            const y = (e.clientY - rect.top - rect.height / 2) / 15;
-            phone.style.transform = `translate(-50%, -50%) rotateY(${x}deg) rotateX(${-y}deg) scale(1.03)`;
-        });
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
 
-        stage.addEventListener('mouseleave', () => {
-            phone.style.transform = 'translate(-50%, -50%) rotateY(0deg) rotateX(0deg) scale(1)';
-        });
+        let app, db, auth;
+        let currentUser = null;
+        let userOrders = [];
+
+        try {
+            app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+
+            const initAuth = async () => {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            };
+            initAuth();
+
+            onAuthStateChanged(auth, (user) => {
+                if (user && !user.isAnonymous) {
+                    currentUser = user;
+                    const fallbackName = user.email ? user.email.split('@')[0] : 'Пользователь';
+                    updateAuthNav(true, user.displayName || fallbackName);
+                    loadUserOrders(user.uid);
+                } else {
+                    currentUser = null;
+                    updateAuthNav(false);
+                }
+            });
+        } catch (e) {
+            console.log("Firebase init fallback:", e);
+        }
 
         const products = [
-            { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop' },
-            { id: 'macbookpro16', name: 'MacBook Pro 16"', desc: 'M3 Max. Невероятная мощь.', price: 349990, prefix: 'от', img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop' },
-            { id: 'ipadpro', name: 'iPad Pro', desc: 'Тонкий. Легкий. Эпичный.', price: 99990, prefix: 'от', img: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=800&auto=format&fit=crop' }
+            { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop', width: 'w-48', mixBlend: false, fullWidth: false },
+            { id: 'macbookpro16', name: 'MacBook Pro 16"', desc: 'M3 Max. Невероятная мощь.', price: 349990, prefix: 'от', img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop', width: 'w-64', mixBlend: false, fullWidth: false },
+            { id: 'ipadpro', name: 'iPad Pro', desc: 'Тонкий. Легкий. Эпичный.', price: 99990, prefix: 'от', img: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=800&auto=format&fit=crop', width: 'w-56', mixBlend: false, fullWidth: false }
         ];
+
+        let cart = [];
+        let isCartOpen = false;
+        let isRegisterMode = false;
+
+        const formatPrice = (price) => {
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽";
+        };
 
         function renderProducts() {
             const grid = document.getElementById('products-grid');
             if (!grid) return;
             grid.innerHTML = '';
-            products.forEach(p => {
-                grid.innerHTML += `
+            
+            products.forEach(product => {
+                const cardHTML = `
                     <div class="product-card glass rounded-[2rem] p-8 flex flex-col justify-between h-[480px]">
                         <div class="card-content text-center">
-                            <h3 class="text-2xl font-semibold text-apple-dark">${p.name}</h3>
-                            <p class="text-sm text-gray-500 mt-2">${p.desc}</p>
-                            <p class="text-lg font-medium text-apple-dark mt-4">${p.prefix} ${p.price.toLocaleString()} ₽</p>
+                            <h3 class="text-2xl font-semibold text-apple-dark">${product.name}</h3>
+                            <p class="text-sm text-gray-500 mt-2">${product.desc}</p>
+                            <p class="text-lg font-medium text-apple-dark mt-4">${product.prefix} ${formatPrice(product.price)}</p>
                         </div>
                         <div class="flex-grow flex items-center justify-center relative mt-6">
-                            <img src="${p.img}" class="w-48 h-auto object-contain drop-shadow-xl rounded-2xl">
+                            <img src="${product.img}" alt="${product.name}" class="card-image ${product.width} h-auto object-contain drop-shadow-xl rounded-2xl">
                         </div>
-                        <button onclick="showToast('${p.name} добавлен')" class="w-full py-3.5 liquid-btn-dark rounded-full font-medium shadow-md">В корзину</button>
-                    </div>`;
+                        <button onclick="window.addToCart('${product.id}', '${product.name}', ${product.price}, '${product.img}')" class="card-content w-full py-3.5 mt-6 liquid-btn-dark rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-md">
+                            В корзину
+                        </button>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', cardHTML);
             });
         }
+
         window.addEventListener('DOMContentLoaded', renderProducts);
 
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            document.getElementById('toast-msg').textContent = msg;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 3000);
+        window.addToCart = function(id, name, price, img) {
+            const existingItem = cart.find(item => item.id === id);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ id, name, price, img, quantity: 1 });
+            }
+            updateCartUI();
+            showToast(`${name} добавлен в корзину`);
+        };
+
+        window.removeFromCart = function(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        };
+
+        window.changeQuantity = function(id, delta) {
+            const item = cart.find(item => item.id === id);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    removeFromCart(id);
+                } else {
+                    updateCartUI();
+                }
+            }
+        };
+
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const cartBadge = document.getElementById('cart-badge');
+            
+            let totalCount = 0;
+            let totalPrice = 0;
+            
+            cart.forEach(item => {
+                totalCount += item.quantity;
+                totalPrice += item.price * item.quantity;
+            });
+
+            if (totalCount > 0) {
+                cartBadge.textContent = totalCount;
+                cartBadge.classList.remove('opacity-0');
+            } else {
+                cartBadge.classList.add('opacity-0');
+            }
+
+            cartTotal.textContent = formatPrice(totalPrice);
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `
+                    <div class="text-center text-gray-400 mt-20" id="empty-cart-msg">
+                        <i class="ph ph-shopping-bag text-6xl mb-4 opacity-50"></i>
+                        <p class="text-lg text-apple-dark font-medium">Корзина пуста</p>
+                        <p class="text-sm mt-2">Добавьте что-нибудь, чтобы продолжить.</p>
+                    </div>
+                `;
+            } else {
+                cartItemsContainer.innerHTML = '';
+                cart.forEach(item => {
+                    cartItemsContainer.innerHTML += `
+                        <div class="flex items-center gap-4 bg-white/60 p-3 rounded-2xl border border-white shadow-sm">
+                            <div class="w-20 h-20 bg-white rounded-xl flex items-center justify-center shadow-inner overflow-hidden shrink-0">
+                                <img src="${item.img}" alt="${item.name}" class="w-16 h-16 object-cover">
+                            </div>
+                            <div class="flex-grow">
+                                <h4 class="text-apple-dark font-semibold text-sm">${item.name}</h4>
+                                <div class="text-apple-blue font-medium text-sm mt-1">${formatPrice(item.price)}</div>
+                                <div class="flex items-center gap-3 mt-2 bg-gray-100 rounded-full w-fit px-2 py-1">
+                                    <button onclick="changeQuantity('${item.id}', -1)" class="w-5 h-5 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200">-</button>
+                                    <span class="text-apple-dark text-xs font-bold w-4 text-center">${item.quantity}</span>
+                                    <button onclick="changeQuantity('${item.id}', 1)" class="w-5 h-5 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200">+</button>
+                                </div>
+                            </div>
+                            <button onclick="removeFromCart('${item.id}')" class="text-gray-400 hover:text-red-500 p-2"><i class="ph ph-trash text-xl"></i></button>
+                        </div>
+                    `;
+                });
+            }
         }
+
+        window.toggleCart = function() {
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            isCartOpen = !isCartOpen;
+            if (isCartOpen) {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+                document.body.style.overflow = 'hidden';
+            } else {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+                document.body.style.overflow = '';
+            }
+        };
+
+        window.checkout = async function() {
+            if (cart.length === 0) return;
+            if (!currentUser) {
+                toggleCart();
+                openAuthModal('login');
+                showToast("Пожалуйста, войдите в аккаунт");
+                return;
+            }
+            try {
+                let totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const orderData = {
+                    items: cart, total: totalAmount,
+                    date: new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }),
+                    timestamp: Date.now()
+                };
+                if (db) {
+                    await addDoc(collection(db, 'artifacts', appId, 'users', currentUser.uid, 'orders'), orderData);
+                }
+                cart = [];
+                updateCartUI();
+                toggleCart();
+                showToast("Заказ успешно оформлен!");
+            } catch (error) {
+                showToast("Ошибка при оформлении заказа");
+            }
+        };
+
+        window.openAuthModal = function(mode = 'login') {
+            isRegisterMode = (mode === 'register');
+            const modal = document.getElementById('auth-modal');
+            const overlay = document.getElementById('auth-modal-overlay');
+            const title = document.getElementById('auth-title');
+            const submitBtn = document.getElementById('auth-submit-btn');
+            const nameContainer = document.getElementById('name-field-container');
+            const switchText = document.getElementById('auth-switch-text');
+
+            if (isRegisterMode) {
+                title.textContent = 'Регистрация';
+                submitBtn.textContent = 'Зарегистрироваться';
+                nameContainer.classList.remove('hidden');
+                switchText.innerHTML = 'Уже есть аккаунт? <button onclick="openAuthModal(\'login\')" class="text-apple-blue font-semibold hover:underline">Войти</button>';
+            } else {
+                title.textContent = 'Вход в систему';
+                submitBtn.textContent = 'Войти';
+                nameContainer.classList.add('hidden');
+                switchText.innerHTML = 'Нет аккаунта? <button onclick="openAuthModal(\'register\')" class="text-apple-blue font-semibold hover:underline">Зарегистрироваться</button>';
+            }
+            modal.classList.remove('hidden');
+            overlay.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0', 'scale-95'); overlay.classList.remove('opacity-0'); }, 10);
+        };
+
+        window.closeAuthModal = function() {
+            const modal = document.getElementById('auth-modal');
+            const overlay = document.getElementById('auth-modal-overlay');
+            modal.classList.add('opacity-0', 'scale-95');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 300);
+        };
+
+        window.switchAuthMode = function() { openAuthModal(isRegisterMode ? 'login' : 'register'); };
+
+        window.handleAuthSubmit = async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            const name = document.getElementById('auth-name').value;
+            try {
+                if (isRegisterMode) {
+                    const uc = await createUserWithEmailAndPassword(auth, email, password);
+                    await updateProfile(uc.user, { displayName: name || email.split('@')[0] });
+                    currentUser = uc.user;
+                } else {
+                    const uc = await signInWithEmailAndPassword(auth, email, password);
+                    currentUser = uc.user;
+                }
+                closeAuthModal();
+                updateAuthNav(true, currentUser.displayName || currentUser.email.split('@')[0]);
+                showToast("Успешно!");
+            } catch (err) {
+                showToast("Ошибка авторизации");
+            }
+        };
+
+        function updateAuthNav(isAuth, name = '') {
+            const container = document.getElementById('auth-nav-container');
+            if (isAuth) {
+                container.innerHTML = `<button onclick="openProfileModal()" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> ${name}</button>`;
+            } else {
+                container.innerHTML = `<button onclick="openAuthModal('login')" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> Войти</button>`;
+            }
+        }
+
+        window.openProfileModal = function() {
+            if (!currentUser) return;
+            const modal = document.getElementById('profile-modal');
+            const overlay = document.getElementById('profile-modal-overlay');
+            document.getElementById('profile-name').textContent = currentUser.displayName || 'Пользователь';
+            document.getElementById('profile-email').textContent = currentUser.email || 'Аноним';
+            document.getElementById('profile-avatar').textContent = (currentUser.displayName || 'U').charAt(0).toUpperCase();
+            modal.classList.remove('hidden'); overlay.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0', 'scale-95'); overlay.classList.remove('opacity-0'); }, 10);
+        };
+
+        window.closeProfileModal = function() {
+            const modal = document.getElementById('profile-modal');
+            const overlay = document.getElementById('profile-modal-overlay');
+            modal.classList.add('opacity-0', 'scale-95'); overlay.classList.add('opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 300);
+        };
+
+        window.logoutUser = async function() {
+            await signOut(auth);
+            closeProfileModal();
+            showToast("Вы вышли из аккаунта");
+        };
+
+        window.showToast = function(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+
+        window.copyPromo = function() {
+            navigator.clipboard.writeText("REMARKET10");
+            showToast("Промокод REMARKET10 скопирован!");
+        };
 
         window.openLinksModal = function() {
             const modal = document.getElementById('links-modal');
             const overlay = document.getElementById('links-modal-overlay');
             if (modal && overlay) {
-                modal.classList.remove('hidden');
-                overlay.classList.remove('hidden');
-                setTimeout(() => {
-                    modal.classList.remove('opacity-0', 'scale-95');
-                    overlay.classList.remove('opacity-0');
-                }, 10);
+                modal.classList.remove('hidden'); overlay.classList.remove('hidden');
+                setTimeout(() => { modal.classList.remove('opacity-0', 'scale-95'); overlay.classList.remove('opacity-0'); }, 10);
                 document.body.style.overflow = 'hidden';
             }
         };
@@ -531,20 +843,26 @@
             const modal = document.getElementById('links-modal');
             const overlay = document.getElementById('links-modal-overlay');
             if (modal && overlay) {
-                modal.classList.add('opacity-0', 'scale-95');
-                overlay.classList.add('opacity-0');
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                    overlay.classList.add('hidden');
-                }, 300);
+                modal.classList.add('opacity-0', 'scale-95'); overlay.classList.add('opacity-0');
+                setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 300);
                 document.body.style.overflow = '';
             }
         };
 
-        function toggleCart() {}
-        function openAuthModal() {}
-        function closeAuthModal() {}
-        function copyPromo() { showToast("Промокод скопирован!"); }
+        // Параллакс горизонтального телефона
+        const stage = document.getElementById('banner-stage');
+        const phone = document.getElementById('horizontal-phone');
+        if (stage && phone) {
+            stage.addEventListener('mousemove', (e) => {
+                const rect = stage.getBoundingClientRect();
+                const x = (e.clientX - rect.left - rect.width / 2) / 15;
+                const y = (e.clientY - rect.top - rect.height / 2) / 15;
+                phone.style.transform = `translate(-50%, -50%) rotateY(${x}deg) rotateX(${-y}deg) scale(1.03)`;
+            });
+            stage.addEventListener('mouseleave', () => {
+                phone.style.transform = 'translate(-50%, -50%) rotateY(0deg) rotateX(0deg) scale(1)';
+            });
+        }
     </script>
 </body>
 </html>
