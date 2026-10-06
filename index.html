@@ -219,46 +219,42 @@
             transform: translateZ(80px) scale(1.05);
         }
 
-        /* Горизонтальный баннер с телефоном */
-        .brand-banner-stage {
-            perspective: 1200px;
+        /* Бесшовная галерея-слайдер для 11 картинок */
+        .photo-slider-container {
             position: relative;
-            display: inline-block;
             width: 100%;
-            max-width: 950px;
+            max-width: 850px;
             margin: 0 auto;
+            overflow: hidden;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
 
-        .brand-typography {
-            font-size: clamp(60px, 14vw, 160px);
-            font-weight: 900;
-            line-height: 1;
-            letter-spacing: -0.04em;
-            background: linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.02) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            opacity: 0.5;
-            user-select: none;
-            text-transform: uppercase;
-        }
-
-        .horizontal-phone-wrapper {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 75%;
-            max-width: 620px;
-            transition: transform 0.15s ease-out;
+        .photo-slider-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform;
-            z-index: 10;
         }
 
-        .horizontal-phone-wrapper img {
-            width: 100%;
-            height: auto;
-            filter: drop-shadow(0 25px 35px rgba(0,0,0,0.25));
-            border-radius: 20px;
+        .photo-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .photo-slide img {
+            max-height: 450px;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 16px;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
         }
 
         .toast {
@@ -304,7 +300,7 @@
         </div>
     </div>
 
-    <!-- Навигация: Логотип статичный, не кликабельный, не меняет цвет -->
+    <!-- Навигация -->
     <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
@@ -339,7 +335,7 @@
         </div>
     </nav>
 
-    <!-- Главный экран -->
+    <!-- Главный экран с заменой вывески на галерею из 11 картинок с бесконечной анимацией -->
     <main class="pt-48 sm:pt-56 pb-16 sm:pb-24 lg:pb-32 overflow-hidden text-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-apple-dark mb-6">
@@ -354,12 +350,20 @@
                 </a>
             </div>
     
-            <div class="brand-banner-stage" id="banner-stage">
-                <div class="brand-typography">
-                    re:market
-                </div>
-                <div class="horizontal-phone-wrapper" id="horizontal-phone">
-                    <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=1200&auto=format&fit=crop" alt="iPhone 18 Pro Max Burgundy">
+            <!-- Центральная галерея из 11 фотографий с бесконечной плавной анимацией -->
+            <div class="photo-slider-container" id="photoSlider">
+                <div class="photo-slider-track" id="sliderTrack">
+                    <div class="photo-slide"><img src="1.jpg" alt="1"></div>
+                    <div class="photo-slide"><img src="2.jpg" alt="2"></div>
+                    <div class="photo-slide"><img src="3.jpg" alt="3"></div>
+                    <div class="photo-slide"><img src="4.jpg" alt="4"></div>
+                    <div class="photo-slide"><img src="5.jpg" alt="5"></div>
+                    <div class="photo-slide"><img src="6.jpg" alt="6"></div>
+                    <div class="photo-slide"><img src="7.jpg" alt="7"></div>
+                    <div class="photo-slide"><img src="8.jpg" alt="8"></div>
+                    <div class="photo-slide"><img src="9.jpg" alt="9"></div>
+                    <div class="photo-slide"><img src="10.jpg" alt="10"></div>
+                    <div class="photo-slide"><img src="11.jpg" alt="11"></div>
                 </div>
             </div>
         </div>
@@ -460,7 +464,7 @@
         <span class="text-apple-dark font-medium" id="toast-msg">Товар добавлен</span>
     </div>
 
-    <!-- Футер с анимациями текста и кнопкой связи -->
+    <!-- Футер -->
     <footer class="border-t border-gray-200/50 mt-20 py-20 text-center glass relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
             <div class="flex flex-col items-center justify-center cursor-pointer group mb-6">
@@ -561,9 +565,9 @@
         }
 
         const products = [
-            { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop', width: 'w-48', mixBlend: false, fullWidth: false },
-            { id: 'macbookpro16', name: 'MacBook Pro 16"', desc: 'M3 Max. Невероятная мощь.', price: 349990, prefix: 'от', img: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop', width: 'w-64', mixBlend: false, fullWidth: false },
-            { id: 'ipadpro', name: 'iPad Pro', desc: 'Тонкий. Легкий. Эпичный.', price: 99990, prefix: 'от', img: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?q=80&w=800&auto=format&fit=crop', width: 'w-56', mixBlend: false, fullWidth: false }
+            { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: '1.jpg', width: 'w-48', mixBlend: false, fullWidth: false },
+            { id: 'macbookpro16', name: 'MacBook Pro 16"', desc: 'M3 Max. Невероятная мощь.', price: 349990, prefix: 'от', img: '4.jpg', width: 'w-64', mixBlend: false, fullWidth: false },
+            { id: 'ipadpro', name: 'iPad Pro', desc: 'Тонкий. Легкий. Эпичный.', price: 99990, prefix: 'от', img: '5.jpg', width: 'w-56', mixBlend: false, fullWidth: false }
         ];
 
         let cart = [];
@@ -600,6 +604,19 @@
         }
 
         window.addEventListener('DOMContentLoaded', renderProducts);
+
+        // Бесконечный слайдер для 11 фотографий
+        let currentSlide = 0;
+        const totalSlides = 11;
+        const track = document.getElementById('sliderTrack');
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            if (track) {
+                track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            }
+        }
+        setInterval(nextSlide, 3000);
 
         window.addToCart = function(id, name, price, img) {
             const existingItem = cart.find(item => item.id === id);
@@ -848,21 +865,6 @@
                 document.body.style.overflow = '';
             }
         };
-
-        // Параллакс горизонтального телефона
-        const stage = document.getElementById('banner-stage');
-        const phone = document.getElementById('horizontal-phone');
-        if (stage && phone) {
-            stage.addEventListener('mousemove', (e) => {
-                const rect = stage.getBoundingClientRect();
-                const x = (e.clientX - rect.left - rect.width / 2) / 15;
-                const y = (e.clientY - rect.top - rect.height / 2) / 15;
-                phone.style.transform = `translate(-50%, -50%) rotateY(${x}deg) rotateX(${-y}deg) scale(1.03)`;
-            });
-            stage.addEventListener('mouseleave', () => {
-                phone.style.transform = 'translate(-50%, -50%) rotateY(0deg) rotateX(0deg) scale(1)';
-            });
-        }
     </script>
 </body>
 </html>
