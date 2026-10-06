@@ -61,14 +61,6 @@
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Интерактивный отклик при наведении на текст футера */
-        .footer-interactive p, .footer-interactive div {
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .footer-interactive:hover {
-            transform: scale(1.03);
-        }
-
         .animated-bg {
             position: fixed;
             top: 0;
@@ -314,7 +306,7 @@
     <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <!-- Статичный левый логотип (без отклика, как просила) -->
+                <!-- Статичный левый логотип (без изменений и отклика) -->
                 <div class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none">
                     <i class="ph-fill ph-apple text-3xl"></i>
                     <span class="ml-2 font-sans font-extrabold text-2xl tracking-tighter">re:market</span>
@@ -468,13 +460,13 @@
         <span class="text-apple-dark font-medium" id="toast-msg">Товар добавлен</span>
     </div>
 
-    <!-- Футер с живым интерактивным откликом при наведении -->
+    <!-- Футер: у каждой из 3-х строк свой независимый индивидуальный отклик -->
     <footer class="border-t border-gray-200/50 mt-20 py-20 text-center glass relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
-            <div class="flex flex-col items-center justify-center cursor-pointer group mb-6 footer-interactive">
-                <p class="font-sans font-extrabold text-7xl text-apple-dark tracking-tighter transition-all duration-300">re:market</p>
-                <p class="mt-4 text-sm tracking-[0.4em] text-gray-500 font-bold uppercase transition-all duration-300">EST'D 2022</p>
-                <p class="mt-2 text-xs tracking-[0.3em] text-gray-400 font-bold uppercase select-none transition-all duration-300">улица Темерницкая, 74 | Ростов-на-Дону</p>
+            <div class="flex flex-col items-center justify-center mb-6">
+                <p class="font-sans font-extrabold text-7xl text-apple-dark tracking-tighter cursor-pointer transition-all duration-300 hover:scale-105">re:market</p>
+                <p class="mt-4 text-sm tracking-[0.4em] text-gray-500 font-bold uppercase cursor-pointer transition-all duration-300 hover:tracking-[0.5em] hover:scale-105">EST'D 2022</p>
+                <p class="mt-2 text-xs tracking-[0.3em] text-gray-400 font-bold uppercase select-none cursor-pointer transition-all duration-300 hover:tracking-[0.4em] hover:scale-105">улица Темерницкая, 74 | Ростов-на-Дону</p>
             </div>
 
             <div style="margin-top: 16px;">
