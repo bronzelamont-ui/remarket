@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>re:market — Links</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #000000;
+            color: #f5f5f7;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(25, 25, 25, 0.6);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover {
+            background: rgba(40, 40, 40, 0.8);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 113, 227, 0.2);
+        }
+    </style>
+</head>
+<body class="px-4 py-12">
+    <div class="w-full max-w-md mx-auto text-center space-y-8">
+        
+        <!-- Аватар / Логотип -->
+        <div class="space-y-3">
+            <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-tr from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center shadow-2xl">
+                <span class="text-2xl font-bold tracking-tighter text-white">re</span>
+            </div>
+            <h1 class="text-2xl font-semibold tracking-tight text-white">re:market</h1>
+            <p class="text-xs tracking-[0.3em] text-zinc-500 uppercase font-medium">Ростов-на-Дону, Темерницкая 74</p>
+        </div>
+
+        <!-- Кнопки-ссылки -->
+        <div class="space-y-4">
+            <a href="https://t.me/remarketapple" target="_blank" class="glass-card flex items-center justify-between p-4 rounded-2xl w-full text-left group">
+                <div class="flex items-center gap-3">
+                    <i class="fab fa-telegram text-xl text-zinc-400 group-hover:text-white transition-colors"></i>
+                    <span class="font-medium text-sm text-zinc-200">Telegram-канал</span>
+                </div>
+                <i class="fas fa-arrow-right text-xs text-zinc-600 group-hover:text-white transition-colors"></i>
+            </a>
+
+            <a href="https://vk.ru/remarketapple" target="_blank" class="glass-card flex items-center justify-between p-4 rounded-2xl w-full text-left group">
+                <div class="flex items-center gap-3">
+                    <i class="fab fa-vk text-xl text-zinc-400 group-hover:text-white transition-colors"></i>
+                    <span class="font-medium text-sm text-zinc-200">ВКонтакте</span>
+                </div>
+                <i class="fas fa-arrow-right text-xs text-zinc-600 group-hover:text-white transition-colors"></i>
+            </a>
+
+            <a href="https://wa.me/79043422202" target="_blank" class="glass-card flex items-center justify-between p-4 rounded-2xl w-full text-left group">
+                <div class="flex items-center gap-3">
+                    <i class="fab fa-whatsapp text-xl text-zinc-400 group-hover:text-white transition-colors"></i>
+                    <span class="font-medium text-sm text-zinc-200">WhatsApp (Написать)</span>
+                </div>
+                <i class="fas fa-arrow-right text-xs text-zinc-600 group-hover:text-white transition-colors"></i>
+            </a>
+
+            <a href="https://instagram.com/remarketapple" target="_blank" class="glass-card flex items-center justify-between p-4 rounded-2xl w-full text-left group">
+                <div class="flex items-center gap-3">
+                    <i class="fab fa-instagram text-xl text-zinc-400 group-hover:text-white transition-colors"></i>
+                    <span class="font-medium text-sm text-zinc-200">Instagram</span>
+                </div>
+                <i class="fas fa-arrow-right text-xs text-zinc-600 group-hover:text-white transition-colors"></i>
+            </a>
+        </div>
+
+        <!-- Подвал -->
+        <p class="text-[11px] text-zinc-600 tracking-wider uppercase pt-4">Эстетика технологий</p>
+    </div>
+</body>
+</html>
