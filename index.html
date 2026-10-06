@@ -61,6 +61,15 @@
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* Интерактивный отклик при наведении на любой текстовый элемент сайта (кроме левого верхнего логотипа) */
+        h1, h2, h3, h4, p, span:not(.static-brand), a:not(.static-brand), button {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+            display: inline-block;
+        }
+        h1:hover, h2:hover, h3:hover, h4:hover, p:hover, span:not(.static-brand):hover {
+            transform: scale(1.02) translateY(-2px);
+        }
+
         .animated-bg {
             position: fixed;
             top: 0;
@@ -219,42 +228,44 @@
             transform: translateZ(80px) scale(1.05);
         }
 
-        /* Бесшовная галерея-слайдер для 11 картинок */
-        .photo-slider-container {
+        /* Плавная бесконечная галерея картинок друг за другом (fade-эффект) */
+        .photo-fade-stage {
             position: relative;
             width: 100%;
-            max-width: 850px;
+            max-width: 650px;
+            height: 420px;
             margin: 0 auto;
-            overflow: hidden;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-        }
-
-        .photo-slider-track {
-            display: flex;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform;
-        }
-
-        .photo-slide {
-            min-width: 100%;
-            box-sizing: border-box;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 30px;
         }
 
-        .photo-slide img {
-            max-height: 450px;
+        .photo-fade-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .photo-fade-item.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .photo-fade-item img {
+            max-height: 400px;
             width: auto;
             max-width: 100%;
             object-fit: contain;
             border-radius: 16px;
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15));
         }
 
         .toast {
@@ -304,7 +315,8 @@
     <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none">
+                <!-- Статичный левый логотип (без изменений и отклика) -->
+                <div class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none static-brand">
                     <i class="ph-fill ph-apple text-3xl"></i>
                     <span class="ml-2 font-sans font-extrabold text-2xl tracking-tighter">re:market</span>
                 </div>
@@ -335,7 +347,7 @@
         </div>
     </nav>
 
-    <!-- Главный экран с заменой вывески на галерею из 11 картинок с бесконечной анимацией -->
+    <!-- Главный экран -->
     <main class="pt-48 sm:pt-56 pb-16 sm:pb-24 lg:pb-32 overflow-hidden text-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-apple-dark mb-6">
@@ -344,27 +356,20 @@
             <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto font-light">
                 Гипнотическая эстетика и ультимативная мощь.
             </p>
-            <div class="mt-10 flex justify-center gap-4 mb-16">
-                <a href="#products" class="liquid-btn-dark px-8 py-3.5 rounded-full font-medium transition-all hover:scale-105 shadow-xl">
-                    Каталог устройств
-                </a>
-            </div>
     
             <!-- Центральная галерея из 11 фотографий с бесконечной плавной анимацией -->
-            <div class="photo-slider-container" id="photoSlider">
-                <div class="photo-slider-track" id="sliderTrack">
-                    <div class="photo-slide"><img src="1.jpg" alt="1" onerror="this.src='1.png'"></div>
-                    <div class="photo-slide"><img src="2.jpg" alt="2" onerror="this.src='2.png'"></div>
-                    <div class="photo-slide"><img src="3.jpg" alt="3" onerror="this.src='3.png'"></div>
-                    <div class="photo-slide"><img src="4.jpg" alt="4" onerror="this.src='4.png'"></div>
-                    <div class="photo-slide"><img src="5.jpg" alt="5" onerror="this.src='5.png'"></div>
-                    <div class="photo-slide"><img src="6.jpg" alt="6" onerror="this.src='6.png'"></div>
-                    <div class="photo-slide"><img src="7.jpg" alt="7" onerror="this.src='7.png'"></div>
-                    <div class="photo-slide"><img src="8.jpg" alt="8" onerror="this.src='8.png'"></div>
-                    <div class="photo-slide"><img src="9.jpg" alt="9" onerror="this.src='9.png'"></div>
-                    <div class="photo-slide"><img src="10.jpg" alt="10" onerror="this.src='10.png'"></div>
-                    <div class="photo-slide"><img src="11.jpg" alt="11" onerror="this.src='11.png'"></div>
-                </div>
+            <div class="photo-fade-stage mt-16" id="fadeStage">
+                <div class="photo-fade-item active"><img src="1.jpg" alt="1" onerror="this.src='1.png'"></div>
+                <div class="photo-fade-item"><img src="2.jpg" alt="2" onerror="this.src='2.png'"></div>
+                <div class="photo-fade-item"><img src="3.jpg" alt="3" onerror="this.src='3.png'"></div>
+                <div class="photo-fade-item"><img src="4.jpg" alt="4" onerror="this.src='4.png'"></div>
+                <div class="photo-fade-item"><img src="5.jpg" alt="5" onerror="this.src='5.png'"></div>
+                <div class="photo-fade-item"><img src="6.jpg" alt="6" onerror="this.src='6.png'"></div>
+                <div class="photo-fade-item"><img src="7.jpg" alt="7" onerror="this.src='7.png'"></div>
+                <div class="photo-fade-item"><img src="8.jpg" alt="8" onerror="this.src='8.png'"></div>
+                <div class="photo-fade-item"><img src="9.jpg" alt="9" onerror="this.src='9.png'"></div>
+                <div class="photo-fade-item"><img src="10.jpg" alt="10" onerror="this.src='10.png'"></div>
+                <div class="photo-fade-item"><img src="11.jpg" alt="11" onerror="this.src='11.png'"></div>
             </div>
         </div>
     </main>
@@ -533,7 +538,6 @@
 
         let app, db, auth;
         let currentUser = null;
-        let userOrders = [];
 
         try {
             app = initializeApp(firebaseConfig);
@@ -554,7 +558,6 @@
                     currentUser = user;
                     const fallbackName = user.email ? user.email.split('@')[0] : 'Пользователь';
                     updateAuthNav(true, user.displayName || fallbackName);
-                    loadUserOrders(user.uid);
                 } else {
                     currentUser = null;
                     updateAuthNav(false);
@@ -565,9 +568,9 @@
         }
 
         const products = [
-            { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: '1.jpg', width: 'w-48', mixBlend: false, fullWidth: false },
-            { id: 'macbookpro16', name: 'MacBook Pro 16"', desc: 'M3 Max. Невероятная мощь.', price: 349990, prefix: 'от', img: '4.jpg', width: 'w-64', mixBlend: false, fullWidth: false },
-            { id: 'ipadpro', name: 'iPad Pro', desc: 'Тонкий. Легкий. Эпичный.', price: 99990, prefix: 'от', img: '5.jpg', width: 'w-56', mixBlend: false, fullWidth: false }
+            { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: '1.jpg', width: 'w-48' },
+            { id: 'macbookpro16', name: 'MacBook Pro 16"', desc: 'M3 Max. Невероятная мощь.', price: 349990, prefix: 'от', img: '4.jpg', width: 'w-64' },
+            { id: 'ipadpro', name: 'iPad Pro', desc: 'Тонкий. Легкий. Эпичный.', price: 99990, prefix: 'от', img: '5.jpg', width: 'w-56' }
         ];
 
         let cart = [];
@@ -605,18 +608,17 @@
 
         window.addEventListener('DOMContentLoaded', renderProducts);
 
-        // Бесконечный слайдер для 11 фотографий с защитой от битых расширений (jpg/png)
-        let currentSlide = 0;
-        const totalSlides = 11;
-        const track = document.getElementById('sliderTrack');
+        // Плавная бесконечная смена 11 картинок по очереди (fade-эффект)
+        let currentIndex = 0;
+        const fadeItems = document.querySelectorAll('.photo-fade-item');
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            if (track) {
-                track.style.transform = `translateX(-${currentSlide * 100}%)`;
-            }
+        function changePhoto() {
+            if (fadeItems.length === 0) return;
+            fadeItems[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % fadeItems.length;
+            fadeItems[currentIndex].classList.add('active');
         }
-        setInterval(nextSlide, 3000);
+        setInterval(changePhoto, 3500);
 
         window.addToCart = function(id, name, price, img) {
             const existingItem = cart.find(item => item.id === id);
