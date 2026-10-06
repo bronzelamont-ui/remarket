@@ -645,32 +645,6 @@
             </a>
         </div>
     </div>
-
-    <script>
-        window.openLinksModal = function() {
-            const modal = document.getElementById('links-modal');
-            const overlay = document.getElementById('links-modal-overlay');
-            modal.classList.remove('hidden');
-            overlay.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0', 'scale-95');
-                overlay.classList.remove('opacity-0');
-            }, 10);
-            document.body.style.overflow = 'hidden';
-        };
-
-        window.closeLinksModal = function() {
-            const modal = document.getElementById('links-modal');
-            const overlay = document.getElementById('links-modal-overlay');
-            modal.classList.add('opacity-0', 'scale-95');
-            overlay.classList.add('opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                overlay.classList.add('hidden');
-            }, 300);
-            document.body.style.overflow = '';
-        };
-    </script>
     
         window.openLinksModal = function() {
             const modal = document.getElementById('links-modal');
