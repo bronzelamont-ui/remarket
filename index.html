@@ -604,24 +604,24 @@
         </div>
     </footer>
 
- <!-- Модальное окно со всеми ссылками -->
+<!-- Модальное окно со всеми ссылками -->
     <div id="links-modal-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeLinksModal()"></div>
     
     <div id="links-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-gray-100">
         <div class="flex justify-between items-center mb-6">
-            <h3 class="text-2xl font-bold text-apple-dark">re:market | Ссылки</h3>
+            <h3 class="text-2xl font-bold text-apple-dark">re:market</h3>
             <button onclick="closeLinksModal()" class="text-gray-400 hover:text-black p-2 rounded-full bg-gray-100 transition-all">
                 <i class="ph ph-x text-xl"></i>
             </button>
         </div>
 
-        <p class="text-sm text-gray-500 mb-6 text-center">Выберите удобный способ связи или наши соцсети:</p>
+        <p class="text-sm text-gray-500 mb-6 text-center">Выберите удобный для вас способ связи с нами:</p>
 
         <!-- Список ссылок -->
         <div class="space-y-3">
             <a href="https://t.me/remarketapple" target="_blank" rel="noopener noreferrer" style="position: relative; z-index: 60;" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
                 <div class="font-bold text-base">Telegram</div>
-                <div class="text-xs text-gray-400 group-hover:text-gray-300">Написать в мессенджер</div>
+                <div class="text-xs text-gray-400 group-hover:text-gray-300">@remarketapple</div>
             </a>
 
             <a href="https://wa.me/79043422202" target="_blank" rel="noopener noreferrer" style="position: relative; z-index: 60;" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
@@ -635,18 +635,48 @@
             </a>
 
             <a href="https://vk.ru/remarketapple" target="_blank" rel="noopener noreferrer" style="position: relative; z-index: 60;" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
-                <div class="font-bold text-base">ВКонтакте</div>
+                <div class="font-bold text-base">VK</div>
                 <div class="text-xs text-gray-400 group-hover:text-gray-300">vk.ru/remarketapple</div>
             </a>
 
             <a href="https://web.max.ru/79043422202" target="_blank" rel="noopener noreferrer" style="position: relative; z-index: 60;" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
                 <div class="font-bold text-base">MAX</div>
-                <div class="text-xs text-gray-400 group-hover:text-gray-300">web.max.ru</div>
+                <div class="text-xs text-gray-400 group-hover:text-gray-300">+7 (904) 342-22-02</div>
             </a>
         </div>
     </div>
 
     <script>
+        window.openLinksModal = function() {
+            const modal = document.getElementById('links-modal');
+            const overlay = document.getElementById('links-modal-overlay');
+            if (modal && overlay) {
+                modal.classList.remove('hidden');
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0', 'scale-95');
+                    overlay.classList.remove('opacity-0');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        window.closeLinksModal = function() {
+            const modal = document.getElementById('links-modal');
+            const overlay = document.getElementById('links-modal-overlay');
+            if (modal && overlay) {
+                modal.classList.add('opacity-0', 'scale-95');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    overlay.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = '';
+            }
+        };
+    </script>
+</body>
+</html>
         window.openLinksModal = function() {
             const modal = document.getElementById('links-modal');
             const overlay = document.getElementById('links-modal-overlay');
