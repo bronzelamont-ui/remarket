@@ -37,9 +37,9 @@
                     },
                     colors: {
                         apple: {
-                            light: '#000000',
+                            light: '#fbfbfd',
                             gray: '#86868b',
-                            dark: '#f5f5f7',
+                            dark: '#1d1d1f',
                             blue: '#0071e3',
                         }
                     }
@@ -50,8 +50,8 @@
 
     <style>
         body {
-            background-color: #000000;
-            color: #f5f5f7;
+            background-color: #fbfbfd;
+            color: #1d1d1f;
             overflow-x: hidden;
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
@@ -61,50 +61,141 @@
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+            background: #fbfbfd;
+        }
+
+        .fluid-shape {
+            position: absolute;
+            filter: blur(60px);
+            opacity: 0.6;
+            animation: fluidRotate 30s infinite linear;
+        }
+
+        .shape-1 {
+            width: 70vw;
+            height: 70vw;
+            background: linear-gradient(135deg, rgba(80,0,30,0.3) 0%, rgba(120,20,60,0.15) 100%);
+            top: -20%;
+            left: -10%;
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: fluidRotate 35s infinite linear, move1 25s infinite alternate ease-in-out;
+        }
+
+        .shape-2 {
+            width: 60vw;
+            height: 60vw;
+            background: linear-gradient(135deg, rgba(175,82,222,0.3) 0%, rgba(255,45,85,0.15) 100%);
+            bottom: -20%;
+            right: -10%;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: fluidRotate 40s infinite linear reverse, move2 30s infinite alternate ease-in-out;
+        }
+
+        .shape-3 {
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
+            top: 30%;
+            left: 30%;
+            border-radius: 50%;
+            animation: move3 20s infinite alternate ease-in-out;
+        }
+
+        .bg-glass-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            backdrop-filter: blur(80px) saturate(150%);
+            -webkit-backdrop-filter: blur(80px) saturate(150%);
+            background: rgba(251, 251, 253, 0.5);
+            pointer-events: none;
+        }
+
+        @keyframes fluidRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes move1 {
+            0% { top: -20%; left: -10%; }
+            100% { top: 5%; left: 5%; }
+        }
+        @keyframes move2 {
+            0% { bottom: -20%; right: -10%; }
+            100% { bottom: 5%; right: 5%; }
+        }
+        @keyframes move3 {
+            0% { top: 30%; left: 30%; }
+            100% { top: 45%; left: 45%; }
+        }
+        
+        @keyframes shine {
+            100% { left: 200%; }
+        }
+
+        .glass-pill {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: saturate(220%) blur(30px);
+            -webkit-backdrop-filter: saturate(220%) blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 15px 35px -10px rgba(0,113,227,0.12), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+        }
+
         .liquid-btn {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.45);
             backdrop-filter: saturate(200%) blur(25px);
             -webkit-backdrop-filter: saturate(200%) blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+            color: #1d1d1f;
         }
         .liquid-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.75);
+            border-color: rgba(255, 255, 255, 1);
+            box-shadow: 0 12px 40px 0 rgba(0, 113, 227, 0.15), inset 0 1px 2px rgba(255, 255, 255, 1);
             transform: scale(1.03);
         }
 
         .liquid-btn-dark {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(29, 29, 31, 0.85);
             backdrop-filter: saturate(200%) blur(25px);
             -webkit-backdrop-filter: saturate(200%) blur(25px);
-            border: 1px solid rgba(255, 255, 255, 1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            color: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            color: #ffffff;
         }
         .liquid-btn-dark:hover {
-            background: rgba(255, 255, 255, 1);
+            background: rgba(0, 0, 0, 0.95);
             transform: scale(1.03);
         }
 
         .glass {
-            background: rgba(20, 20, 22, 0.6);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: saturate(180%) blur(25px);
             -webkit-backdrop-filter: saturate(180%) blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
         }
 
         .glass-heavy {
-            background: rgba(30, 30, 35, 0.8);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: saturate(200%) blur(30px);
             -webkit-backdrop-filter: saturate(200%) blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
         }
 
-        /* Баннер с брендовой надписью на заднем плане и горизонтальным телефоном */
+        /* Горизонтальный баннер с телефоном */
         .brand-banner-stage {
             perspective: 1200px;
             position: relative;
@@ -119,10 +210,10 @@
             font-weight: 900;
             line-height: 1;
             letter-spacing: -0.04em;
-            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(100,100,100,0.1) 100%);
+            background: linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.02) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            opacity: 0.35;
+            opacity: 0.5;
             user-select: none;
             text-transform: uppercase;
         }
@@ -142,7 +233,7 @@
         .horizontal-phone-wrapper img {
             width: 100%;
             height: auto;
-            filter: drop-shadow(0 30px 40px rgba(0,0,0,0.95));
+            filter: drop-shadow(0 25px 35px rgba(0,0,0,0.25));
             border-radius: 20px;
         }
 
@@ -163,29 +254,59 @@
 </head>
 <body class="antialiased selection:bg-apple-blue selection:text-white">
 
+    <div class="animated-bg">
+        <div class="fluid-shape shape-1"></div>
+        <div class="fluid-shape shape-2"></div>
+        <div class="fluid-shape shape-3"></div>
+    </div>
+    <div class="bg-glass-overlay"></div>
+
+    <div class="absolute top-24 left-1/2 transform -translate-x-1/2 z-40 w-[95%] max-w-3xl transition-all duration-500 hover:scale-[1.02]">
+        <div class="glass-pill rounded-full px-6 py-3 flex flex-col sm:flex-row items-center justify-between gap-4 cursor-pointer relative overflow-hidden group">
+            <div class="absolute top-0 -left-[100%] w-1/2 h-full bg-gradient-to-r from-transparent via-white/50 to-transparent skew-x-12 group-hover:animate-[shine_1.5s_ease-in-out]"></div>
+            
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-tr from-apple-blue to-purple-500 text-white rounded-full p-2 flex items-center justify-center shadow-lg z-10">
+                    <i class="ph-fill ph-ticket text-xl"></i>
+                </div>
+                <div class="z-10">
+                    <span class="block text-sm font-bold text-apple-dark">Скидка 10% вам и вашему другу!</span>
+                    <span class="block text-xs text-gray-600">Поделитесь уникальной ссылкой-приглашением</span>
+                </div>
+            </div>
+            <button onclick="copyPromo()" class="liquid-btn-dark px-5 py-2.5 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 shadow-md whitespace-nowrap z-10">
+                <i class="ph ph-share-network mr-1"></i> Поделиться
+            </button>
+        </div>
+    </div>
+
+    <!-- Навигация: Логотип СТАТИЧНЫЙ (не кликабельный, не меняет цвет) -->
     <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0 flex items-center cursor-pointer text-white hover:text-apple-blue transition-all">
+                <div class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none">
                     <i class="ph-fill ph-apple text-3xl"></i>
                     <span class="ml-2 font-sans font-extrabold text-2xl tracking-tighter">re:market</span>
                 </div>
                 
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-2 text-sm font-medium text-gray-300">
-                        <a href="#" class="hover:text-white hover:bg-white/10 transition-all px-4 py-2 rounded-full">Mac</a>
-                        <a href="#" class="hover:text-white hover:bg-white/10 transition-all px-4 py-2 rounded-full">iPad</a>
-                        <a href="#" class="hover:text-white hover:bg-white/10 transition-all px-4 py-2 rounded-full">iPhone</a>
-                        <a href="#" class="hover:text-white hover:bg-white/10 transition-all px-4 py-2 rounded-full">Watch</a>
-                        <a href="#" class="hover:text-white hover:bg-white/10 transition-all px-4 py-2 rounded-full">AirPods</a>
+                    <div class="ml-10 flex items-baseline space-x-2 text-sm font-medium">
+                        <a href="#" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">Mac</a>
+                        <a href="#" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">iPad</a>
+                        <a href="#" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">iPhone</a>
+                        <a href="#" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">Watch</a>
+                        <a href="#" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">AirPods</a>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <button onclick="openAuthModal('login')" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold transition-all shadow-sm flex items-center gap-2">
-                        <i class="ph ph-user text-base"></i> Войти
-                    </button>
-                    <button onclick="toggleCart()" class="relative p-2.5 rounded-full liquid-btn text-white transition-all">
+                    <div id="auth-nav-container">
+                        <button onclick="openAuthModal('login')" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark transition-all shadow-sm flex items-center gap-2">
+                            <i class="ph ph-user text-base"></i> Войти
+                        </button>
+                    </div>
+
+                    <button onclick="toggleCart()" class="relative p-2.5 rounded-full liquid-btn text-apple-dark hover:text-apple-blue transition-all">
                         <i class="ph ph-shopping-bag text-xl"></i>
                         <span id="cart-badge" class="absolute -top-1 -right-1 bg-apple-blue text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center opacity-0 transition-opacity">0</span>
                     </button>
@@ -194,29 +315,28 @@
         </div>
     </nav>
 
-    <!-- Главный экран -->
-    <main class="pt-40 sm:pt-48 pb-16 sm:pb-24 lg:pb-32 overflow-hidden text-center">
+    <!-- Главный экран с горизонтальным iPhone 18 Pro Max Burgundy -->
+    <main class="pt-48 sm:pt-56 pb-16 sm:pb-24 lg:pb-32 overflow-hidden text-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <span class="inline-block py-1 px-4 rounded-full bg-rose-950/40 text-rose-400 text-xs font-bold uppercase tracking-widest mb-4 border border-rose-900/30">Новинка 2026</span>
-            <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6">
-                iPhone 18 Pro Max <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-purple-400 to-rose-300">Burgundy.</span>
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-apple-dark mb-6">
+                iPhone 18 Pro Max <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-apple-blue to-purple-500">Burgundy.</span>
             </h1>
-            <p class="mt-4 text-xl text-gray-400 max-w-2xl mx-auto font-light">
-                Благородный бордовый оттенок, титановый корпус и абсолютное технологическое превосходство.
+            <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto font-light">
+                Безупречный дизайн. Невероятная мощь. Ощутите эстетику технологий в каждом прикосновении.
             </p>
-            <div class="mt-8 flex justify-center gap-4 mb-16">
+            <div class="mt-10 flex justify-center gap-4 mb-16">
                 <a href="#products" class="liquid-btn-dark px-8 py-3.5 rounded-full font-medium transition-all hover:scale-105 shadow-xl">
                     В каталог
                 </a>
             </div>
     
-            <!-- Брэндовый блок: надпись re:market на заднем плане + горизонтальный телефон -->
+            <!-- Интерактивная витрина с текстом и телефоном -->
             <div class="brand-banner-stage" id="banner-stage">
                 <div class="brand-typography">
                     re:market
                 </div>
                 <div class="horizontal-phone-wrapper" id="horizontal-phone">
-                    <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=1200&auto=format&fit=crop" alt="iPhone 18 Pro Max Burgundy Horizontal">
+                    <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=1200&auto=format&fit=crop" alt="iPhone 18 Pro Max Burgundy">
                 </div>
             </div>
         </div>
@@ -224,47 +344,127 @@
 
     <section id="products" class="py-24 relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold text-white mb-10 text-center">Шедевры инженерии.</h2>
+            <h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-10 text-center">Шедевры инженерии</h2>
+            
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid"></div>
         </div>
     </section>
 
-    <!-- Корзина -->
-    <div id="cart-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
-    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-[420px] glass-heavy z-50 transform translate-x-full transition-transform duration-500 ease-in-out border-l border-white/10 shadow-2xl flex flex-col">
-        <div class="p-6 border-b border-white/10 flex justify-between items-center">
-            <h2 class="text-2xl font-bold text-white">Ваша корзина</h2>
-            <button onclick="toggleCart()" class="text-gray-400 hover:text-white liquid-btn rounded-full p-2.5"><i class="ph ph-x text-xl"></i></button>
+    <div id="cart-overlay" class="fixed inset-0 bg-white/30 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
+    
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-[420px] glass-heavy z-50 transform translate-x-full transition-transform duration-500 ease-in-out border-l border-white shadow-2xl flex flex-col">
+        <div class="p-6 border-b border-gray-200/50 flex justify-between items-center">
+            <h2 class="text-2xl font-bold text-apple-dark">Ваша корзина</h2>
+            <button onclick="toggleCart()" class="text-gray-500 hover:text-black liquid-btn rounded-full p-2.5 transition-all">
+                <i class="ph ph-x text-xl"></i>
+            </button>
         </div>
+
         <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4">
-            <div class="text-center text-gray-500 mt-20">
-                <i class="ph ph-shopping-bag text-6xl mb-4 opacity-40"></i>
-                <p class="text-lg text-gray-300 font-medium">Корзина пуста</p>
+            <div class="text-center text-gray-400 mt-20" id="empty-cart-msg">
+                <i class="ph ph-shopping-bag text-6xl mb-4 opacity-50"></i>
+                <p class="text-lg text-apple-dark font-medium">Корзина пуста</p>
+                <p class="text-sm mt-2">Добавьте что-нибудь, чтобы продолжить.</p>
             </div>
         </div>
-        <div class="p-6 border-t border-white/10 bg-black/40 backdrop-blur-md">
+
+        <div class="p-6 border-t border-gray-200/50 bg-white/50 backdrop-blur-md">
             <div class="flex justify-between items-center mb-6">
-                <span class="text-gray-400 text-lg">Итого:</span>
-                <span class="text-white text-3xl font-bold" id="cart-total">0 ₽</span>
+                <span class="text-gray-500 text-lg">Итого:</span>
+                <span class="text-apple-dark text-3xl font-bold" id="cart-total">0 ₽</span>
             </div>
-            <button onclick="checkout()" class="w-full liquid-btn-dark py-4 rounded-2xl font-semibold text-lg shadow-lg">Оформить заказ</button>
+            <button onclick="checkout()" class="w-full liquid-btn-dark py-4 rounded-2xl font-semibold text-lg transition-all shadow-lg">
+                Оформить заказ
+            </button>
         </div>
     </div>
 
-    <div id="toast" class="toast glass-heavy px-6 py-4 rounded-2xl border border-white/20 shadow-xl flex items-center gap-3">
-        <i class="ph-fill ph-check-circle text-apple-blue text-2xl"></i>
-        <span class="text-white font-medium" id="toast-msg">Товар добавлен</span>
+    <div id="auth-modal-overlay" class="fixed inset-0 bg-white/30 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeAuthModal()"></div>
+    
+    <div id="auth-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md glass-heavy rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-white">
+        <div class="flex justify-between items-center mb-6">
+            <h3 id="auth-title" class="text-2xl font-bold text-apple-dark">Вход в систему</h3>
+            <button onclick="closeAuthModal()" class="text-gray-400 hover:text-black p-2 rounded-full liquid-btn"><i class="ph ph-x text-xl"></i></button>
+        </div>
+
+        <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Email</label>
+                <input type="email" id="auth-email" required placeholder="name@example.com" class="w-full bg-white/80 border border-gray-200 rounded-2xl px-4 py-3.5 text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Пароль</label>
+                <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-white/80 border border-gray-200 rounded-2xl px-4 py-3.5 text-sm">
+            </div>
+            <button type="submit" id="auth-submit-btn" class="w-full liquid-btn-dark py-4 rounded-2xl font-semibold shadow-lg mt-2">Войти</button>
+        </form>
     </div>
 
-    <footer class="border-t border-white/10 mt-20 py-20 text-center glass relative z-10">
+    <div id="toast" class="toast glass-heavy px-6 py-4 rounded-2xl border border-white shadow-xl flex items-center gap-3">
+        <i class="ph-fill ph-check-circle text-apple-blue text-2xl"></i>
+        <span class="text-apple-dark font-medium" id="toast-msg">Товар добавлен</span>
+    </div>
+
+    <!-- Футер с гиперактивной анимацией и кнопкой связи -->
+    <footer class="border-t border-gray-200/50 mt-20 py-20 text-center glass relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
-            <p class="font-sans font-extrabold text-7xl text-white tracking-tighter">re:market</p>
-            <p class="mt-2 text-xs tracking-[0.3em] text-gray-500 font-bold uppercase select-none">улица Темерницкая, 74 | Ростов-на-Дону</p>
+            <div class="flex flex-col items-center justify-center cursor-pointer group mb-6">
+                <p class="font-sans font-extrabold text-7xl text-apple-dark tracking-tighter group-hover:scale-105 transition-all duration-300">re:market</p>
+                <p class="mt-4 text-sm tracking-[0.4em] text-gray-500 font-bold uppercase group-hover:tracking-[0.5em] transition-all duration-300">EST'D 2022</p>
+                <p class="mt-2 text-xs tracking-[0.3em] text-gray-400 font-bold uppercase select-none group-hover:tracking-[0.4em] transition-all duration-300">улица Темерницкая, 74 | Ростов-на-Дону</p>
+            </div>
+
+            <div style="margin-top: 16px;">
+                <button onclick="openLinksModal()" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 28px; background: rgba(255,255,255,0.8); backdrop-filter: blur(15px); border: 1px solid rgba(0,0,0,0.1); border-radius: 9999px; color: #1d1d1f; font-weight: 600; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.04); transition: all 0.3s;" onmouseover="this.style.background='#000';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.8)';this.style.color='#1d1d1f'">
+                    <i class="ph ph-share-network" style="font-size: 20px;"></i> Связаться с нами
+                </button>
+            </div>
         </div>
     </footer>
 
+    <!-- Модальное окно со всеми ссылками -->
+    <div id="links-modal-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeLinksModal()"></div>
+    
+    <div id="links-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-gray-100">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-2xl font-bold text-apple-dark">re:market</h3>
+            <button onclick="closeLinksModal()" class="text-gray-400 hover:text-black p-2 rounded-full bg-gray-100 transition-all">
+                <i class="ph ph-x text-xl"></i>
+            </button>
+        </div>
+
+        <p class="text-sm text-gray-500 mb-6 text-center">Выберите удобный для вас способ связи с нами:</p>
+
+        <div class="space-y-3">
+            <a href="https://t.me/remarketapple" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+                <div class="font-bold text-base">Telegram</div>
+                <div class="text-xs text-gray-400 group-hover:text-gray-300">@remarketapple</div>
+            </a>
+
+            <a href="https://wa.me/79043422202" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+                <div class="font-bold text-base">WhatsApp</div>
+                <div class="text-xs text-gray-400 group-hover:text-gray-300">+7 (904) 342-22-02</div>
+            </a>
+
+            <a href="https://instagram.com/remarketapple" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+                <div class="font-bold text-base">Instagram</div>
+                <div class="text-xs text-gray-400 group-hover:text-gray-300">@remarketapple</div>
+            </a>
+
+            <a href="https://vk.ru/remarketapple" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+                <div class="font-bold text-base">VK</div>
+                <div class="text-xs text-gray-400 group-hover:text-gray-300">vk.ru/remarketapple</div>
+            </a>
+
+            <a href="https://web.max.ru/79043422202" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+                <div class="font-bold text-base">MAX</div>
+                <div class="text-xs text-gray-400 group-hover:text-gray-300">+7 (904) 342-22-02</div>
+            </a>
+        </div>
+    </div>
+
     <script>
-        // Параллакс-эффект движения телефона от мыши
+        // Параллакс-эффект движения горизонтального телефона от мыши
         const stage = document.getElementById('banner-stage');
         const phone = document.getElementById('horizontal-phone');
 
@@ -289,13 +489,13 @@
             const grid = document.getElementById('products-grid');
             if (!grid) return;
             grid.innerHTML = '';
-            products.exports = products.forEach(p => {
+            products.forEach(p => {
                 grid.innerHTML += `
                     <div class="product-card glass rounded-[2rem] p-8 flex flex-col justify-between h-[480px]">
                         <div class="card-content text-center">
-                            <h3 class="text-2xl font-semibold text-white">${p.name}</h3>
-                            <p class="text-sm text-gray-400 mt-2">${p.desc}</p>
-                            <p class="text-lg font-medium text-white mt-4">${p.prefix} ${p.price.toLocaleString()} ₽</p>
+                            <h3 class="text-2xl font-semibold text-apple-dark">${p.name}</h3>
+                            <p class="text-sm text-gray-500 mt-2">${p.desc}</p>
+                            <p class="text-lg font-medium text-apple-dark mt-4">${p.prefix} ${p.price.toLocaleString()} ₽</p>
                         </div>
                         <div class="flex-grow flex items-center justify-center relative mt-6">
                             <img src="${p.img}" class="w-48 h-auto object-contain drop-shadow-xl rounded-2xl">
@@ -312,9 +512,39 @@
             t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 3000);
         }
+
+        window.openLinksModal = function() {
+            const modal = document.getElementById('links-modal');
+            const overlay = document.getElementById('links-modal-overlay');
+            if (modal && overlay) {
+                modal.classList.remove('hidden');
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0', 'scale-95');
+                    overlay.classList.remove('opacity-0');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        window.closeLinksModal = function() {
+            const modal = document.getElementById('links-modal');
+            const overlay = document.getElementById('links-modal-overlay');
+            if (modal && overlay) {
+                modal.classList.add('opacity-0', 'scale-95');
+                overlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    overlay.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = '';
+            }
+        };
+
         function toggleCart() {}
         function openAuthModal() {}
         function closeAuthModal() {}
+        function copyPromo() { showToast("Промокод скопирован!"); }
     </script>
 </body>
 </html>
