@@ -353,17 +353,17 @@
             <!-- Центральная галерея из 11 фотографий с бесконечной плавной анимацией -->
             <div class="photo-slider-container" id="photoSlider">
                 <div class="photo-slider-track" id="sliderTrack">
-                    <div class="photo-slide"><img src="1.jpg" alt="1"></div>
-                    <div class="photo-slide"><img src="2.jpg" alt="2"></div>
-                    <div class="photo-slide"><img src="3.jpg" alt="3"></div>
-                    <div class="photo-slide"><img src="4.jpg" alt="4"></div>
-                    <div class="photo-slide"><img src="5.jpg" alt="5"></div>
-                    <div class="photo-slide"><img src="6.jpg" alt="6"></div>
-                    <div class="photo-slide"><img src="7.jpg" alt="7"></div>
-                    <div class="photo-slide"><img src="8.jpg" alt="8"></div>
-                    <div class="photo-slide"><img src="9.jpg" alt="9"></div>
-                    <div class="photo-slide"><img src="10.jpg" alt="10"></div>
-                    <div class="photo-slide"><img src="11.jpg" alt="11"></div>
+                    <div class="photo-slide"><img src="1.jpg" alt="1" onerror="this.src='1.png'"></div>
+                    <div class="photo-slide"><img src="2.jpg" alt="2" onerror="this.src='2.png'"></div>
+                    <div class="photo-slide"><img src="3.jpg" alt="3" onerror="this.src='3.png'"></div>
+                    <div class="photo-slide"><img src="4.jpg" alt="4" onerror="this.src='4.png'"></div>
+                    <div class="photo-slide"><img src="5.jpg" alt="5" onerror="this.src='5.png'"></div>
+                    <div class="photo-slide"><img src="6.jpg" alt="6" onerror="this.src='6.png'"></div>
+                    <div class="photo-slide"><img src="7.jpg" alt="7" onerror="this.src='7.png'"></div>
+                    <div class="photo-slide"><img src="8.jpg" alt="8" onerror="this.src='8.png'"></div>
+                    <div class="photo-slide"><img src="9.jpg" alt="9" onerror="this.src='9.png'"></div>
+                    <div class="photo-slide"><img src="10.jpg" alt="10" onerror="this.src='10.png'"></div>
+                    <div class="photo-slide"><img src="11.jpg" alt="11" onerror="this.src='11.png'"></div>
                 </div>
             </div>
         </div>
@@ -605,7 +605,7 @@
 
         window.addEventListener('DOMContentLoaded', renderProducts);
 
-        // Бесконечный слайдер для 11 фотографий
+        // Бесконечный слайдер для 11 фотографий с защитой от битых расширений (jpg/png)
         let currentSlide = 0;
         const totalSlides = 11;
         const track = document.getElementById('sliderTrack');
