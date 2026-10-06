@@ -109,17 +109,17 @@
             animation: move3 20s infinite alternate ease-in-out;
         }
 
-.footer-socials a {
+        .footer-socials a {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 10px 22px;
             border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
             color: #86868b;
             font-size: 13px;
             font-weight: 500;
@@ -127,13 +127,11 @@
         }
 
         .footer-socials a:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.15);
+            color: #1d1d1f;
+            background: rgba(255, 255, 255, 0.8);
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 113, 227, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-        
+            box-shadow: 0 8px 25px rgba(0, 113, 227, 0.15);
+            border-color: rgba(255, 255, 255, 1);
         }
 
         .bg-glass-overlay {
@@ -323,34 +321,6 @@
         @keyframes typing {
             0%, 80%, 100% { transform: scale(0); }
             40% { transform: scale(1); }
-        }
-
-        .footer-socials {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: 32px;
-            margin-top: 20px;
-            padding-bottom: 10px;
-        }
-
-        .footer-socials a {
-            display: inline-flex !important;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .social-icon {
-            width: 24px;
-            height: 24px;
-            fill: #86868b;
-            transition: fill 0.3s ease, transform 0.3s ease;
-        }
-
-        .social-icon:hover {
-            fill: #1d1d1f;
-            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -625,15 +595,14 @@
                 <p class="mt-2 text-xs tracking-[0.3em] text-gray-400 font-bold uppercase select-none pointer-events-none">улица Темерницкая, 74 | Ростов-на-Дону</p>
             </div>
 
-<!-- Ссылки на соцсети магазина -->
-            <div class="footer-socials" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px; margin-top: 24px;">
+            <!-- Ссылки на соцсети магазина -->
+            <div class="footer-socials" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 16px; margin-top: 24px;">
                 <a href="https://instagram.com/remarketapple" target="_blank" rel="noopener noreferrer">Instagram</a>
                 <a href="https://t.me/remarketapple" target="_blank" rel="noopener noreferrer">Telegram</a>
                 <a href="https://vk.ru/remarketapple" target="_blank" rel="noopener noreferrer">VK</a>
                 <a href="https://wa.me/79043422202" target="_blank" rel="noopener noreferrer">WhatsApp</a>
                 <a href="https://web.max.ru/79043422202" target="_blank" rel="noopener noreferrer">MAX</a>
             </div>
-            
         </div>
     </footer>
 
@@ -956,4 +925,144 @@
             if (isAuth) {
                 container.innerHTML = `
                     <button onclick="openProfileModal()" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark transition-all shadow-sm flex items-center gap-2">
-                        <
+                        <i class="ph ph-user text-base"></i> ${name}
+                    </button>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button onclick="openAuthModal('login')" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark transition-all shadow-sm flex items-center gap-2">
+                        <i class="ph ph-user text-base"></i> Войти
+                    </button>
+                `;
+            }
+        }
+
+        window.openProfileModal = function() {
+            if (!currentUser) return;
+            const modal = document.getElementById('profile-modal');
+            const overlay = document.getElementById('profile-modal-overlay');
+            
+            document.getElementById('profile-name').textContent = currentUser.displayName || 'Пользователь';
+            document.getElementById('profile-email').textContent = currentUser.email || 'Анонимный вход';
+            document.getElementById('profile-avatar').textContent = (currentUser.displayName || 'U').charAt(0).toUpperCase();
+
+            modal.classList.remove('hidden');
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0', 'scale-95');
+                overlay.classList.remove('opacity-0');
+            }, 10);
+        };
+
+        window.closeProfileModal = function() {
+            const modal = document.getElementById('profile-modal');
+            const overlay = document.getElementById('profile-modal-overlay');
+            modal.classList.add('opacity-0', 'scale-95');
+            overlay.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                overlay.classList.add('hidden');
+            }, 300);
+        };
+
+        window.logoutUser = async function() {
+            try {
+                await signOut(auth);
+                closeProfileModal();
+                showToast("Вы вышли из аккаунта");
+            } catch (e) {
+                console.error("Logout error", e);
+            }
+        };
+
+        function loadUserOrders(uid) {
+            const ordersContainer = document.getElementById('profile-orders');
+            if (!db) return;
+            
+            onSnapshot(collection(db, 'artifacts', appId, 'users', uid, 'orders'), (snapshot) => {
+                userOrders = [];
+                snapshot.forEach(doc => {
+                    userOrders.push(doc.data());
+                });
+                
+                if (userOrders.length === 0) {
+                    ordersContainer.innerHTML = '<p class="text-xs text-gray-400 text-center py-4">У вас пока нет оформленных заказов</p>';
+                } else {
+                    ordersContainer.innerHTML = '';
+                    userOrders.sort((a, b) => b.timestamp - a.timestamp).forEach(order => {
+                        ordersContainer.innerHTML += `
+                            <div class="bg-white/60 p-3 rounded-2xl border border-white text-xs">
+                                <div class="flex justify-between font-semibold text-apple-dark mb-1">
+                                    <span>Заказ от ${order.date}</span>
+                                    <span class="text-apple-blue">${formatPrice(order.total)}</span>
+                                </div>
+                                <div class="text-gray-500 truncate">${order.items.map(i => `${i.name} (${i.quantity} шт.)`).join(', ')}</div>
+                            </div>
+                        `;
+                    });
+                }
+            });
+        }
+
+        window.showToast = function(msg) {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-msg');
+            msgEl.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+
+        window.copyPromo = function() {
+            navigator.clipboard.writeText("REMARKET10");
+            showToast("Промокод REMARKET10 скопирован!");
+        };
+
+        window.toggleChat = function() {
+            const panel = document.getElementById('chat-panel');
+            panel.classList.toggle('open');
+        };
+
+        window.handleChatSubmit = async function(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const messages = document.getElementById('chat-messages');
+            const text = input.value.trim();
+            if (!text) return;
+
+            messages.innerHTML += `
+                <div class="chat-message self-end max-w-[85%] bg-apple-blue text-white rounded-2xl rounded-tr-sm px-4 py-3 shadow-sm">
+                    <p class="text-sm">${text}</p>
+                </div>
+            `;
+            input.value = '';
+            messages.scrollTop = messages.scrollHeight;
+
+            const typingId = 'typing-' + Date.now();
+            messages.innerHTML += `
+                <div id="${typingId}" class="chat-message self-start max-w-[85%] bg-white border border-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
+                    <div class="typing-indicator flex gap-1 items-center h-4">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            `;
+            messages.scrollTop = messages.scrollHeight;
+
+            setTimeout(() => {
+                document.getElementById(typingId)?.remove();
+                let reply = "Отличный выбор! В нашем магазине на Темерницкой, 74 вы можете посмотреть эту и другие модели вживую, оценить дизайн и получить консультацию.";
+                const lower = text.toLowerCase();
+                if (lower.includes('айфон') || lower.includes('iphone')) reply = "У нас в наличии представлены актуальные модели iPhone в премиальных цветах и титановых корпусах. Оформить заказ можно прямо на сайте!";
+                else if (lower.includes('адрес') || lower.includes('где')) reply = "Мы находимся по адресу: г. Ростов-на-Дону, ул. Темерницкая, 74.";
+                else if (lower.includes('цена') || lower.includes('скидк')) reply = "Для всех покупателей действует специальная скидка 10% по промокоду REMARKET10!";
+
+                messages.innerHTML += `
+                    <div class="chat-message self-start max-w-[85%] bg-white border border-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm">
+                        <p class="text-sm text-apple-dark">${reply}</p>
+                    </div>
+                `;
+                messages.scrollTop = messages.scrollHeight;
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
