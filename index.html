@@ -193,13 +193,14 @@
             box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
         }
 
-        /* 3D эффект для главной картинки без рамки и фона */
+        /* 3D эффект для главной картинки без рамки и фона с отступами */
         .hero-3d-container {
             perspective: 1200px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 3rem;
+            margin-top: 3.5rem;
+            margin-bottom: 5rem;
         }
 
         .hero-3d-image {
@@ -332,16 +333,17 @@
                 Гипнотическая эстетика и ультимативная мощь.
             </p>
 
-            <!-- 3D изображение без рамки и фона -->
+            <!-- 3D изображение без рамки и фона с защитным отступом снизу -->
             <div class="hero-3d-container">
                 <img src="iphone-18-pro-max.jpg" alt="iPhone 18 Pro Max Burgundy" class="hero-3d-image" onerror="this.onerror=null; this.src='iPhone 18 Pro Max.jpg';">
             </div>
         </div>
     </main>
 
-    <section id="products" class="py-24 relative z-10">
+    <!-- Модельный ряд сдвинут ниже -->
+    <section id="products" class="py-24 pt-12 relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-10 text-center">Модельный ряд</h2>
+            <h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-12 text-center">Модельный ряд</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid"></div>
         </div>
     </section>
@@ -838,10 +840,9 @@
             document.getElementById('profile-email').textContent = window.currentUser.email;
             document.getElementById('profile-avatar').textContent = username.charAt(0).toUpperCase();
             
-            modal.classList.add('hidden'); // fix reset
             modal.classList.remove('hidden'); 
             overlay.classList.remove('hidden');
-            setTimeout(() => { modal.classList.remove('opacity-0', 'scale-95'); overlay.classList.remove('opacity-0'); }, 10);
+            setTimeout(() => { modal.classList.remove('opacity-0', 'scale-95'); overlay.classList.0 = ''; overlay.classList.remove('opacity-0'); }, 10);
         };
 
         window.closeProfileModal = function() {
