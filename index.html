@@ -50,6 +50,7 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
         }
 
         body.splash-active {
@@ -289,6 +290,7 @@
 </head>
 <body class="splash-active antialiased selection:bg-apple-blue selection:text-white">
 
+    <!-- Заставка -->
     <div id="splash-screen">
         <canvas id="liquid-canvas"></canvas>
         <div class="splash-content">
@@ -306,6 +308,7 @@
     </div>
     <div class="bg-glass-overlay"></div>
 
+    <!-- Навигация с категориями -->
     <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
@@ -315,7 +318,13 @@
                 
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-2 text-sm font-medium">
-                        <a href="#products" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">Каталог</a>
+                        <!-- Кнопки фильтрации категорий -->
+                        <a href="#products" onclick="window.filterCategory('Все', event)" data-cat="Все" class="nav-cat-btn bg-white/60 text-apple-blue shadow-sm transition-all px-4 py-2 rounded-full">Все</a>
+                        <a href="#products" onclick="window.filterCategory('iPhone', event)" data-cat="iPhone" class="nav-cat-btn hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">iPhone</a>
+                        <a href="#products" onclick="window.filterCategory('MacBook', event)" data-cat="MacBook" class="nav-cat-btn hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">MacBook</a>
+                        <a href="#products" onclick="window.filterCategory('Watch', event)" data-cat="Watch" class="nav-cat-btn hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">Watch</a>
+                        <a href="#products" onclick="window.filterCategory('iPad', event)" data-cat="iPad" class="nav-cat-btn hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">iPad</a>
+                        <a href="#products" onclick="window.filterCategory('AirPods', event)" data-cat="AirPods" class="nav-cat-btn hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">AirPods</a>
                     </div>
                 </div>
 
@@ -347,13 +356,21 @@
         </div>
     </main>
 
-    <!-- Секция товаров -->
-    <section id="products" class="py-20 relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="products-container">
-            <h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-12 text-center">Загрузка каталога...</h2>
+    <!-- Секция товаров с пагинацией -->
+    <section id="products" class="py-20 relative z-10 scroll-mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 id="category-title-display" class="text-3xl md:text-4xl font-bold text-apple-dark mb-12 text-center">Все модели</h2>
+            
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Сюда вставляются карточки товаров -->
+            </div>
+
+            <!-- Контейнер для кнопок страниц -->
+            <div id="pagination-container" class="mt-16 pb-8"></div>
         </div>
     </section>
 
+    <!-- Корзина -->
     <div id="cart-overlay" class="fixed inset-0 bg-white/30 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
     
     <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-[420px] glass-heavy z-50 transform translate-x-full transition-transform duration-500 ease-in-out border-l border-white shadow-2xl flex flex-col">
@@ -702,18 +719,24 @@
         };
     </script>
 
-    <!-- Основная логика: Загрузка CSV, Корзина и Модалки -->
+    <!-- Основная логика каталога (Фильтры, Пагинация, Корзина) -->
     <script>
         let cart = [];
         let isCartOpen = false;
         window.isRegisterMode = false;
 
-        // Форматирование цен с пробелами и знаком рубля
+        // Данные каталога
+        let allProducts = [];
+        let filteredProducts = [];
+        let currentPage = 1;
+        const itemsPerPage = 15;
+        let currentActiveCategory = 'Все';
+
+        // Форматирование с неразрывным пробелом перед ₽
         const formatPrice = (price) => {
-            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽";
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + "&nbsp;₽";
         };
 
-        // Загрузка товаров из CSV
         async function loadCatalog() {
             try {
                 const response = await fetch('catalog.csv');
@@ -721,9 +744,8 @@
                 const data = await response.text();
                 
                 const rows = data.split('\n').filter(row => row.trim() !== '');
-                const products = [];
-
-                // Пропускаем первую строку с заголовками (i = 1)
+                
+                // Считываем товары
                 for (let i = 1; i < rows.length; i++) {
                     const values = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
                     
@@ -731,72 +753,166 @@
                         const name = values[0].replace(/"/g, '').trim();
                         const category = values[1].replace(/"/g, '').trim();
                         
-                        // Вытаскиваем любые цифры из столбца с ценой
                         let rawPriceText = values[3].replace(/"/g, '').trim();
                         let numericPrice = parseInt(rawPriceText.replace(/[^0-9]/g, ''), 10) || 0;
                         
-                        // Логика красивых цен: если оканчивается на 000 или 500, делаем 990 или 490
                         if (numericPrice > 0 && numericPrice % 500 === 0) {
                             numericPrice -= 10;
                         }
                         
-                        // Формируем красивую строку для карточки товара
                         const priceString = "от " + formatPrice(numericPrice);
-                        
                         const id = 'prod_' + i; 
 
-                        products.push({ id, name, category, priceString, numericPrice });
+                        allProducts.push({ id, name, category, priceString, numericPrice });
                     }
                 }
 
-                // Группируем по категориям
-                const grouped = products.reduce((acc, product) => {
-                    if (!acc[product.category]) acc[product.category] = [];
-                    acc[product.category].push(product);
-                    return acc;
-                }, {});
-
-                const sectionContainer = document.querySelector('#products-container');
-                sectionContainer.innerHTML = '<h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-12 text-center">Модельный ряд</h2>';
-
-                // Отрисовываем каждую категорию
-                for (const [category, items] of Object.entries(grouped)) {
-                    const title = document.createElement('h3');
-                    title.className = 'text-2xl font-bold text-apple-dark mb-6 mt-16 border-b border-gray-200/60 pb-3 text-left';
-                    title.textContent = category;
-                    sectionContainer.appendChild(title);
-
-                    const grid = document.createElement('div');
-                    grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8';
-
-                    items.forEach(product => {
-                        const safeName = product.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                        
-                        grid.innerHTML += `
-                            <div class="product-card glass rounded-[2rem] p-8 flex flex-col justify-between h-[320px] text-left">
-                                <div>
-                                    <h3 class="text-2xl font-semibold text-apple-dark">${product.name}</h3>
-                                </div>
-                                <div>
-                                    <p class="text-xl font-medium text-apple-dark mb-4">${product.priceString}</p>
-                                    <button onclick="window.addToCart('${product.id}', '${safeName}', ${product.numericPrice})" class="w-full py-3.5 liquid-btn-dark rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-md">
-                                        В корзину
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    sectionContainer.appendChild(grid);
-                }
+                // Изначально показываем все товары
+                window.filterCategory('Все');
+                
             } catch (error) {
                 console.error('Ошибка загрузки каталога:', error);
-                document.querySelector('#products-container').innerHTML = '<h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-12 text-center">Модельный ряд</h2><p class="text-center text-red-500">Не удалось загрузить товары. Убедитесь, что файл catalog.csv загружен в корень сайта.</p>';
+                document.getElementById('products-grid').innerHTML = '<p class="text-center text-red-500 w-full col-span-full">Не удалось загрузить товары из файла catalog.csv.</p>';
             }
         }
 
         window.addEventListener('DOMContentLoaded', loadCatalog);
 
-        // Логика корзины
+        // Фильтрация при клике по меню
+        window.filterCategory = function(categoryName, event) {
+            if(event) event.preventDefault();
+            currentActiveCategory = categoryName;
+            currentPage = 1; // Сбрасываем на 1 страницу
+            
+            // Обновление дизайна кнопок меню
+            document.querySelectorAll('.nav-cat-btn').forEach(btn => {
+                if (btn.dataset.cat === categoryName) {
+                    btn.classList.add('bg-white/60', 'text-apple-blue', 'shadow-sm');
+                    btn.classList.remove('text-apple-dark', 'hover:bg-white/40');
+                } else {
+                    btn.classList.remove('bg-white/60', 'text-apple-blue', 'shadow-sm');
+                    btn.classList.add('text-apple-dark', 'hover:bg-white/40');
+                }
+            });
+
+            // Обновление заголовка
+            const titleDisplay = document.getElementById('category-title-display');
+            titleDisplay.textContent = categoryName === 'Все' ? 'Модельный ряд' : categoryName;
+
+            // Фильтруем массив
+            if (categoryName === 'Все') {
+                filteredProducts = allProducts;
+            } else {
+                const lowerCat = categoryName.toLowerCase();
+                filteredProducts = allProducts.filter(p => 
+                    p.category.toLowerCase().includes(lowerCat) || 
+                    p.name.toLowerCase().includes(lowerCat)
+                );
+            }
+
+            renderPage();
+        };
+
+        // Отрисовка конкретной страницы (15 товаров)
+        function renderPage() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+            
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const productsToShow = filteredProducts.slice(startIndex, endIndex);
+
+            if (productsToShow.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">В этой категории пока нет товаров.</p>`;
+            }
+
+            productsToShow.forEach(product => {
+                const safeName = product.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                
+                grid.innerHTML += `
+                    <div class="product-card glass rounded-[2rem] p-8 flex flex-col justify-between h-[320px] text-left relative group">
+                        <div class="absolute top-4 right-4 bg-white/50 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-gray-500 uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
+                            ${product.category}
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-semibold text-apple-dark">${product.name}</h3>
+                        </div>
+                        <div>
+                            <p class="text-xl font-medium text-apple-dark mb-4">${product.priceString}</p>
+                            <button onclick="window.addToCart('${product.id}', '${safeName}', ${product.numericPrice})" class="w-full py-3.5 liquid-btn-dark rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-md">
+                                В корзину
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            renderPagination();
+        }
+
+        // Отрисовка крутых кнопок пагинации (Apple Style)
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+            const pagContainer = document.getElementById('pagination-container');
+            
+            if (totalPages <= 1) {
+                pagContainer.innerHTML = '';
+                return;
+            }
+            
+            let html = '<div class="flex items-center justify-center gap-3">';
+            const btnBase = "w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-300 shadow-sm ";
+            
+            // Кнопка Назад
+            html += `<button onclick="window.changePage(${currentPage - 1})" class="${btnBase} glass ${currentPage === 1 ? 'opacity-40 cursor-not-allowed' : 'hover:scale-110 hover:bg-white'}"><i class="ph ph-caret-left text-lg"></i></button>`;
+            
+            let startPage = Math.max(1, currentPage - 2);
+            let endPage = Math.min(totalPages, currentPage + 2);
+            
+            if (startPage > 1) {
+                html += `<button onclick="window.changePage(1)" class="${btnBase} glass hover:scale-110 hover:bg-white text-apple-dark">1</button>`;
+                if (startPage > 2) html += `<span class="px-1 text-gray-400">...</span>`;
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                if (i === currentPage) {
+                    html += `<button class="${btnBase} bg-apple-dark text-white font-bold scale-110 shadow-lg cursor-default">${i}</button>`;
+                } else {
+                    html += `<button onclick="window.changePage(${i})" class="${btnBase} glass hover:scale-110 hover:bg-white text-apple-dark">${i}</button>`;
+                }
+            }
+            
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) html += `<span class="px-1 text-gray-400">...</span>`;
+                html += `<button onclick="window.changePage(${totalPages})" class="${btnBase} glass hover:scale-110 hover:bg-white text-apple-dark">${totalPages}</button>`;
+            }
+            
+            // Кнопка Вперед
+            html += `<button onclick="window.changePage(${currentPage + 1})" class="${btnBase} glass ${currentPage === totalPages ? 'opacity-40 cursor-not-allowed' : 'hover:scale-110 hover:bg-white'}"><i class="ph ph-caret-right text-lg"></i></button>`;
+            
+            html += '</div>';
+            pagContainer.innerHTML = html;
+        }
+
+        // Плавный переход на нужную страницу
+        window.changePage = function(page) {
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            renderPage();
+            
+            // Плавный скролл наверх к заголовку товаров
+            const productsSection = document.getElementById('products');
+            const offset = 80;
+            const elementPosition = productsSection.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({
+                top: elementPosition - offset,
+                behavior: "smooth"
+            });
+        };
+
+        // Корзина и UI
         window.addToCart = function(id, name, price) {
             const existingItem = cart.find(item => item.id === id);
             if (existingItem) {
@@ -845,7 +961,7 @@
                 cartBadge.classList.add('opacity-0');
             }
 
-            cartTotal.textContent = formatPrice(totalPrice);
+            cartTotal.textContent = formatPrice(totalPrice).replace('&nbsp;', ' ');
 
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = `
@@ -901,7 +1017,6 @@
             showToast("Заказ успешно оформлен!");
         };
 
-        // Функции модальных окон
         window.openAuthModal = function(mode = 'login') {
             window.isRegisterMode = (mode === 'register');
             const modal = document.getElementById('auth-modal');
