@@ -525,7 +525,131 @@
         </div>
     </div>
 
-    <!-- Скрипты сайта -->
+    <!-- Подключение Firebase и логика работы с Realtime Database -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhIvVmBJ4Ki2wD-_a8CMfaqUCwZI5gLd0",
+            authDomain: "remarketapple.firebaseapp.com",
+            databaseURL: "https://remarketapple-default-rtdb.firebaseio.com",
+            projectId: "remarketapple",
+            storageBucket: "remarketapple.firebasestorage.app",
+            messagingSenderId: "338021987461",
+            appId: "1:338021987461:web:455b153abcf36c5b91a5ec"
+        };
+
+        let app, auth, rtdb;
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            rtdb = getDatabase(app);
+        } catch (e) {
+            console.log("Firebase Init Error:", e);
+        }
+
+        window.currentUser = null;
+        window.userProfileData = null;
+
+        if (auth) {
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    window.currentUser = user;
+                    try {
+                        const dbRef = ref(rtdb);
+                        const snapshot = await get(child(dbRef, `users/${user.uid}`));
+                        if (snapshot.exists()) {
+                            window.userProfileData = snapshot.val();
+                            updateAuthNav(true, window.userProfileData.username);
+                        }
+                    } catch (err) {
+                        updateAuthNav(true, user.email.split('@')[0]);
+                    }
+                } else {
+                    window.currentUser = null;
+                    window.userProfileData = null;
+                    updateAuthNav(false);
+                }
+            });
+        }
+
+        window.handleAuthSubmit = async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-password').value;
+
+            try {
+                if (window.isRegisterMode) {
+                    const usernameInput = document.getElementById('auth-username').value.trim().replace('@', '');
+                    const nameInput = document.getElementById('auth-name').value.trim();
+                    const phoneInput = document.getElementById('auth-phone').value.trim();
+
+                    if (!usernameInput) {
+                        showToast("Введите Username");
+                        return;
+                    }
+
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+
+                    const userData = {
+                        uid: user.uid,
+                        email: email,
+                        username: usernameInput,
+                        displayName: nameInput || usernameInput,
+                        phone: phoneInput
+                    };
+
+                    await set(ref(rtdb, 'users/' + user.uid), userData);
+
+                    window.currentUser = user;
+                    window.userProfileData = userData;
+                    updateAuthNav(true, usernameInput);
+                    closeAuthModal();
+                    showToast("Регистрация успешна!");
+
+                } else {
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+
+                    const snapshot = await get(child(ref(rtdb), `users/${user.uid}`));
+                    if (snapshot.exists()) {
+                        window.userProfileData = snapshot.val();
+                        updateAuthNav(true, window.userProfileData.username);
+                    } else {
+                        updateAuthNav(true, user.email.split('@')[0]);
+                    }
+
+                    closeAuthModal();
+                    showToast("Успешный вход!");
+                }
+            } catch (error) {
+                console.error("Auth Error:", error);
+                if (error.code === 'auth/email-already-in-use') {
+                    showToast("Этот email уже зарегистрирован!");
+                } else if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                    showToast("Неверный email или пароль!");
+                } else {
+                    showToast("Ошибка: " + error.message);
+                }
+            }
+        };
+
+        window.logoutUser = async function() {
+            if (auth) {
+                await signOut(auth);
+            }
+            window.currentUser = null;
+            window.userProfileData = null;
+            updateAuthNav(false);
+            closeProfileModal();
+            showToast("Вы вышли из аккаунта");
+        };
+    </script>
+
+    <!-- Остальные скрипты сайта -->
     <script>
         const products = [
             { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: '1.jpg', width: 'w-48' },
@@ -535,7 +659,7 @@
 
         let cart = [];
         let isCartOpen = false;
-        let isRegisterMode = false;
+        window.isRegisterMode = false;
 
         const formatPrice = (price) => {
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽";
@@ -568,7 +692,6 @@
 
         window.addEventListener('DOMContentLoaded', renderProducts);
 
-        // Смена фотографий на главном экране
         let currentIndex = 0;
         let fadeItems = [];
         window.addEventListener('DOMContentLoaded', () => {
@@ -693,7 +816,7 @@
         };
 
         window.openAuthModal = function(mode = 'login') {
-            isRegisterMode = (mode === 'register');
+            window.isRegisterMode = (mode === 'register');
             const modal = document.getElementById('auth-modal');
             const overlay = document.getElementById('auth-modal-overlay');
             const title = document.getElementById('auth-title');
@@ -701,7 +824,7 @@
             const registerFields = document.getElementById('register-fields');
             const switchText = document.getElementById('auth-switch-text');
 
-            if (isRegisterMode) {
+            if (window.isRegisterMode) {
                 title.textContent = 'Регистрация';
                 submitBtn.textContent = 'Зарегистрироваться';
                 registerFields.classList.remove('hidden');
@@ -726,80 +849,8 @@
         };
 
         window.switchAuthMode = function() { 
-            openAuthModal(isRegisterMode ? 'login' : 'register'); 
+            openAuthModal(window.isRegisterMode ? 'login' : 'register'); 
         };
-
-     window.handleAuthSubmit = function(e) {
-            e.preventDefault();
-            const email = document.getElementById('auth-email').value.trim();
-            const password = document.getElementById('auth-password').value;
-
-            let users = JSON.parse(localStorage.getItem('remarket_db_users') || '[]');
-
-            if (isRegisterMode) {
-                const usernameInput = document.getElementById('auth-username').value.trim().replace('@', '');
-                const nameInput = document.getElementById('auth-name').value.trim();
-                const phoneInput = document.getElementById('auth-phone').value.trim();
-
-                if (!usernameInput) {
-                    showToast("Введите Username");
-                    return;
-                }
-
-                // Проверка: существует ли уже пользователь с таким email или username
-                const emailExists = users.some(u => u.email.toLowerCase() === email.toLowerCase());
-                const usernameExists = users.some(u => u.username.toLowerCase() === usernameInput.toLowerCase());
-
-                if (emailExists) {
-                    showToast("Этот email уже зарегистрирован!");
-                    return;
-                }
-
-                if (usernameExists) {
-                    showToast("Этот Username уже занят!");
-                    return;
-                }
-
-                const newUser = {
-                    email: email,
-                    password: password,
-                    username: usernameInput,
-                    displayName: nameInput || usernameInput,
-                    phone: phoneInput
-                };
-
-                users.push(newUser);
-                localStorage.setItem('remarket_db_users', JSON.stringify(users));
-                localStorage.setItem('remarket_current_user', JSON.stringify(newUser));
-
-                window.currentUser = newUser;
-                window.userProfileData = newUser;
-                updateAuthNav(true, newUser.username);
-                closeAuthModal();
-                showToast("Регистрация успешна!");
-            } else {
-                const found = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
-                if (found) {
-                    window.currentUser = found;
-                    window.userProfileData = found;
-                    localStorage.setItem('remarket_current_user', JSON.stringify(found));
-                    updateAuthNav(true, found.username);
-                    closeAuthModal();
-                    showToast("Успешный вход!");
-                } else {
-                    showToast("Неверный email или пароль!");
-                }
-            }
-        };
-
-        window.addEventListener('DOMContentLoaded', () => {
-            let saved = localStorage.getItem('remarket_current_user');
-            if (saved) {
-                window.currentUser = JSON.parse(saved);
-                window.userProfileData = window.currentUser;
-                updateAuthNav(true, window.currentUser.username || window.currentUser.displayName);
-            }
-        });
 
         function updateAuthNav(isAuth, name = '') {
             const container = document.getElementById('auth-nav-container');
@@ -816,12 +867,12 @@
             const modal = document.getElementById('profile-modal');
             const overlay = document.getElementById('profile-modal-overlay');
             
-            const uData = window.userProfileData || window.currentUser;
-            const username = uData.username || uData.displayName || uData.email.split('@')[0];
+            const uData = window.userProfileData || {};
+            const username = uData.username || window.currentUser.email.split('@')[0];
             
             document.getElementById('profile-name').textContent = username;
             document.getElementById('profile-username').textContent = `@${username}`;
-            document.getElementById('profile-email').textContent = uData.email;
+            document.getElementById('profile-email').textContent = window.currentUser.email;
             document.getElementById('profile-avatar').textContent = username.charAt(0).toUpperCase();
             
             modal.classList.remove('hidden'); 
@@ -834,15 +885,6 @@
             const overlay = document.getElementById('profile-modal-overlay');
             modal.classList.add('opacity-0', 'scale-95'); overlay.classList.add('opacity-0');
             setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 300);
-        };
-
-        window.logoutUser = function() {
-            window.currentUser = null;
-            window.userProfileData = null;
-            localStorage.removeItem('remarket_current_user');
-            updateAuthNav(false);
-            closeProfileModal();
-            showToast("Вы вышли из аккаунта");
         };
 
         window.showToast = function(msg) {
