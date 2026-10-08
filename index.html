@@ -52,7 +52,6 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Блокировка скролла и прыжков высоты во время работы заставки */
         body.splash-active {
             overflow: hidden !important;
             height: 100vh;
@@ -60,7 +59,6 @@
             touch-action: none;
         }
 
-        /* === ИНТРО СПЛЭШ-СКРИН (SPLASH SCREEN) === */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -137,7 +135,6 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* === БАЗОВЫЕ СТИЛИ САЙТА === */
         a, button, input, select, .product-card {
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -318,11 +315,7 @@
                 
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-2 text-sm font-medium">
-                        <a href="#products" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">iPhone</a>
-                        <a href="#products" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">MacBook</a>
-                        <a href="#products" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">Watch</a>
-                        <a href="#products" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">iPad</a>
-                        <a href="#products" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">AirPods</a>
+                        <a href="#products" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">Каталог</a>
                     </div>
                 </div>
 
@@ -354,10 +347,10 @@
         </div>
     </main>
 
+    <!-- Секция товаров -->
     <section id="products" class="py-20 relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-12 text-center">Модельный ряд</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="products-container">
+            <h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-12 text-center">Загрузка каталога...</h2>
         </div>
     </section>
 
@@ -390,6 +383,7 @@
         </div>
     </div>
 
+    <!-- Модалки Auth, Profile, Links -->
     <div id="auth-modal-overlay" class="fixed inset-0 bg-white/30 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeAuthModal()"></div>
     
     <div id="auth-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md glass-heavy rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-white">
@@ -426,7 +420,7 @@
 
         <div class="mt-6 text-center">
             <p id="auth-switch-text" class="text-sm text-gray-500">
-                Нет аккаунта? <button onclick="switchAuthMode()" class="text-apple-blue font-semibold hover:underline">Зарегистрироваться</button>
+                Нет аккаунта? <button onclick="switchAuthMode()" type="button" class="text-apple-blue font-semibold hover:underline">Зарегистрироваться</button>
             </p>
         </div>
     </div>
@@ -496,22 +490,18 @@
                 <div class="font-bold text-base">Telegram</div>
                 <div class="text-xs text-gray-400 group-hover:text-gray-300">@remarketapple</div>
             </a>
-
             <a href="https://wa.me/79043422202" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
                 <div class="font-bold text-base">WhatsApp</div>
                 <div class="text-xs text-gray-400 group-hover:text-gray-300">+7 (904) 342-22-02</div>
             </a>
-
             <a href="https://instagram.com/remarketapple" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
                 <div class="font-bold text-base">Instagram</div>
                 <div class="text-xs text-gray-400 group-hover:text-gray-300">@remarketapple</div>
             </a>
-
             <a href="https://vk.ru/remarketapple" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
                 <div class="font-bold text-base">VK</div>
                 <div class="text-xs text-gray-400 group-hover:text-gray-300">vk.ru/remarketapple</div>
             </a>
-
             <a href="https://web.max.ru/79043422202" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
                 <div class="font-bold text-base">MAX</div>
                 <div class="text-xs text-gray-400 group-hover:text-gray-300">+7 (904) 342-22-02</div>
@@ -519,6 +509,7 @@
         </div>
     </div>
 
+    <!-- Заставка и анимации -->
     <script>
         (function() {
             const canvas = document.getElementById('liquid-canvas');
@@ -587,6 +578,7 @@
         })();
     </script>
 
+    <!-- Firebase Auth -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -710,47 +702,101 @@
         };
     </script>
 
+    <!-- Основная логика: Загрузка CSV, Корзина и Модалки -->
     <script>
-        const products = [
-            { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от' },
-            { id: 'macbookpro16', name: 'MacBook Pro 16"', desc: 'M3 Max. Невероятная мощь.', price: 349990, prefix: 'от' },
-            { id: 'ipadpro', name: 'iPad Pro', desc: 'Тонкий. Легкий. Эпичный.', price: 99990, prefix: 'от' }
-        ];
-
         let cart = [];
         let isCartOpen = false;
         window.isRegisterMode = false;
 
+        // Форматирование цен с пробелами и знаком рубля
         const formatPrice = (price) => {
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽";
         };
 
-        function renderProducts() {
-            const grid = document.getElementById('products-grid');
-            if (!grid) return;
-            grid.innerHTML = '';
-            
-            products.forEach(product => {
-                const cardHTML = `
-                    <div class="product-card glass rounded-[2rem] p-8 flex flex-col justify-between h-[320px] text-left">
-                        <div>
-                            <h3 class="text-2xl font-semibold text-apple-dark">${product.name}</h3>
-                            <p class="text-sm text-gray-500 mt-2">${product.desc}</p>
-                        </div>
-                        <div>
-                            <p class="text-xl font-medium text-apple-dark mb-4">${product.prefix} ${formatPrice(product.price)}</p>
-                            <button onclick="window.addToCart('${product.id}', '${product.name}', ${product.price})" class="w-full py-3.5 liquid-btn-dark rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-md">
-                                В корзину
-                            </button>
-                        </div>
-                    </div>
-                `;
-                grid.insertAdjacentHTML('beforeend', cardHTML);
-            });
+        // Загрузка товаров из CSV
+        async function loadCatalog() {
+            try {
+                const response = await fetch('catalog.csv');
+                if (!response.ok) throw new Error('Файл не найден');
+                const data = await response.text();
+                
+                const rows = data.split('\n').filter(row => row.trim() !== '');
+                const products = [];
+
+                // Пропускаем первую строку с заголовками (i = 1)
+                for (let i = 1; i < rows.length; i++) {
+                    const values = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
+                    
+                    if (values.length >= 4) {
+                        const name = values[0].replace(/"/g, '').trim();
+                        const category = values[1].replace(/"/g, '').trim();
+                        
+                        // Вытаскиваем любые цифры из столбца с ценой
+                        let rawPriceText = values[3].replace(/"/g, '').trim();
+                        let numericPrice = parseInt(rawPriceText.replace(/[^0-9]/g, ''), 10) || 0;
+                        
+                        // Логика красивых цен: если оканчивается на 000 или 500, делаем 990 или 490
+                        if (numericPrice > 0 && numericPrice % 500 === 0) {
+                            numericPrice -= 10;
+                        }
+                        
+                        // Формируем красивую строку для карточки товара
+                        const priceString = "от " + formatPrice(numericPrice);
+                        
+                        const id = 'prod_' + i; 
+
+                        products.push({ id, name, category, priceString, numericPrice });
+                    }
+                }
+
+                // Группируем по категориям
+                const grouped = products.reduce((acc, product) => {
+                    if (!acc[product.category]) acc[product.category] = [];
+                    acc[product.category].push(product);
+                    return acc;
+                }, {});
+
+                const sectionContainer = document.querySelector('#products-container');
+                sectionContainer.innerHTML = '<h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-12 text-center">Модельный ряд</h2>';
+
+                // Отрисовываем каждую категорию
+                for (const [category, items] of Object.entries(grouped)) {
+                    const title = document.createElement('h3');
+                    title.className = 'text-2xl font-bold text-apple-dark mb-6 mt-16 border-b border-gray-200/60 pb-3 text-left';
+                    title.textContent = category;
+                    sectionContainer.appendChild(title);
+
+                    const grid = document.createElement('div');
+                    grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8';
+
+                    items.forEach(product => {
+                        const safeName = product.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                        
+                        grid.innerHTML += `
+                            <div class="product-card glass rounded-[2rem] p-8 flex flex-col justify-between h-[320px] text-left">
+                                <div>
+                                    <h3 class="text-2xl font-semibold text-apple-dark">${product.name}</h3>
+                                </div>
+                                <div>
+                                    <p class="text-xl font-medium text-apple-dark mb-4">${product.priceString}</p>
+                                    <button onclick="window.addToCart('${product.id}', '${safeName}', ${product.numericPrice})" class="w-full py-3.5 liquid-btn-dark rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-md">
+                                        В корзину
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    sectionContainer.appendChild(grid);
+                }
+            } catch (error) {
+                console.error('Ошибка загрузки каталога:', error);
+                document.querySelector('#products-container').innerHTML = '<h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-12 text-center">Модельный ряд</h2><p class="text-center text-red-500">Не удалось загрузить товары. Убедитесь, что файл catalog.csv загружен в корень сайта.</p>';
+            }
         }
 
-        window.addEventListener('DOMContentLoaded', renderProducts);
+        window.addEventListener('DOMContentLoaded', loadCatalog);
 
+        // Логика корзины
         window.addToCart = function(id, name, price) {
             const existingItem = cart.find(item => item.id === id);
             if (existingItem) {
@@ -759,7 +805,7 @@
                 cart.push({ id, name, price, quantity: 1 });
             }
             updateCartUI();
-            showToast(`${name} добавлен в корзину`);
+            showToast(`Добавлено в корзину`);
         };
 
         window.removeFromCart = function(id) {
@@ -815,7 +861,7 @@
                     cartItemsContainer.innerHTML += `
                         <div class="flex items-center justify-between gap-4 bg-white/60 p-4 rounded-2xl border border-white shadow-sm">
                             <div>
-                                <h4 class="text-apple-dark font-semibold text-sm">${item.name}</h4>
+                                <h4 class="text-apple-dark font-semibold text-sm pr-2">${item.name}</h4>
                                 <div class="text-apple-blue font-medium text-sm mt-1">${formatPrice(item.price)}</div>
                                 <div class="flex items-center gap-3 mt-2 bg-gray-100 rounded-full w-fit px-2 py-1">
                                     <button onclick="changeQuantity('${item.id}', -1)" class="w-5 h-5 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200">-</button>
@@ -855,6 +901,7 @@
             showToast("Заказ успешно оформлен!");
         };
 
+        // Функции модальных окон
         window.openAuthModal = function(mode = 'login') {
             window.isRegisterMode = (mode === 'register');
             const modal = document.getElementById('auth-modal');
@@ -868,12 +915,12 @@
                 title.textContent = 'Регистрация';
                 submitBtn.textContent = 'Зарегистрироваться';
                 registerFields.classList.remove('hidden');
-                switchText.innerHTML = 'Уже есть аккаунт? <button onclick="openAuthModal(\'login\')" class="text-apple-blue font-semibold hover:underline">Войти</button>';
+                switchText.innerHTML = 'Уже есть аккаунт? <button type="button" onclick="openAuthModal(\'login\')" class="text-apple-blue font-semibold hover:underline">Войти</button>';
             } else {
                 title.textContent = 'Вход в систему';
                 submitBtn.textContent = 'Войти';
                 registerFields.classList.add('hidden');
-                switchText.innerHTML = 'Нет аккаунта? <button onclick="openAuthModal(\'register\')" class="text-apple-blue font-semibold hover:underline">Зарегистрироваться</button>';
+                switchText.innerHTML = 'Нет аккаунта? <button type="button" onclick="openAuthModal(\'register\')" class="text-apple-blue font-semibold hover:underline">Зарегистрироваться</button>';
             }
             modal.classList.remove('hidden');
             overlay.classList.remove('hidden');
