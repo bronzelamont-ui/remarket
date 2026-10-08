@@ -2,28 +2,24 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>re:market</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>re:market — Breathtaking Liquid Glass And Aluminium</title>
 
     <link rel="manifest" href="/manifest.json">
     <link rel="yandex-tableau-widget" href="/manifest.json">
     <meta name="yandex-verification" content="e6d0228e1ea339eb"/>
 
-    <!-- Иконки и манифест для поисковиков и браузеров -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     
-    <!-- Подключение Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Подключение шрифтов -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Подключение иконок -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <script>
@@ -47,55 +43,110 @@
     </script>
 
     <style>
-        body {
+        html, body {
             background-color: #fbfbfd;
             color: #1d1d1f;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             overflow-x: hidden;
-            font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Заставка (белый экран) */
+        /* Блокировка скролла и прыжков высоты во время работы заставки */
+        body.splash-active {
+            overflow: hidden !important;
+            height: 100vh;
+            height: 100dvh;
+            touch-action: none;
+        }
+
+        /* === ИНТРО СПЛЭШ-СКРИН (SPLASH SCREEN) === */
         #splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
+            height: 100dvh; /* Защита от прыжка адресной строки iOS и Android */
             background: #ffffff;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 99999;
-            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.8s ease;
-            transform-origin: top left;
+            text-align: center;
+            padding: 0 24px;
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform, filter;
+            pointer-events: all;
         }
 
-        .splash-inner {
+        #splash-screen.fade-out {
+            opacity: 0;
+            transform: scale(1.04);
+            filter: blur(10px);
+            pointer-events: none;
+        }
+
+        canvas#liquid-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .splash-content {
+            position: relative;
+            z-index: 2;
+            animation: splashAppear 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 12px;
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .splash-brand-title {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.8rem, 7.5vw, 5.8rem);
+            letter-spacing: -0.04em;
+            color: #1d1d1f;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 12px;
+            background: linear-gradient(180deg, #111112 0%, #4a4a4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .splash-logo-img {
-            width: 42px;
-            height: 42px;
+            width: clamp(32px, 6vw, 54px);
+            height: clamp(32px, 6vw, 54px);
             object-fit: contain;
             border-radius: 50%;
+            display: inline-block;
+            vertical-align: middle;
         }
 
-        .splash-brand-text {
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
-            font-size: 2.2rem;
-            letter-spacing: -0.04em;
-            color: #1d1d1f;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+        .splash-brand-subtitle {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: clamp(0.95rem, 2.2vw, 1.35rem);
+            font-weight: 400;
+            color: #86868b;
+            letter-spacing: -0.015em;
         }
 
+        @keyframes splashAppear {
+            0% { opacity: 0; transform: translateY(22px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === БАЗОВЫЕ СТИЛИ САЙТА === */
         a, button, input, select, .product-card {
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -260,47 +311,17 @@
         }
     </style>
 </head>
-<body class="antialiased selection:bg-apple-blue selection:text-white">
+<body class="splash-active antialiased selection:bg-apple-blue selection:text-white">
 
-    <!-- Заставка (Splash Screen) с анимацией перемещения в шапку -->
     <div id="splash-screen">
-        <div class="splash-inner" id="splash-inner">
-            <span class="splash-brand-text">
+        <canvas id="liquid-canvas"></canvas>
+        <div class="splash-content">
+            <h1 class="splash-brand-title">
                 re<img src="apple-logo.png" alt="logo" class="splash-logo-img">market
-            </span>
+            </h1>
+            <p class="splash-brand-subtitle">Breathtaking Liquid Glass And Aluminium</p>
         </div>
     </div>
-
-    <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                const splashInner = document.getElementById('splash-inner');
-                const navLogoContainer = document.getElementById('nav-logo-container');
-
-                if (splash && splashInner && navLogoContainer) {
-                    // Получаем конечные координаты логотипа в шапке
-                    const targetRect = navLogoContainer.getBoundingClientRect();
-                    const startRect = splashInner.getBoundingClientRect();
-
-                    const scaleX = targetRect.width / startRect.width;
-                    const scaleY = targetRect.height / startRect.height;
-                    const translateX = targetRect.left - startRect.left;
-                    const translateY = targetRect.top - startRect.top;
-
-                    // Запускаем плавную анимацию перемещения
-                    splashInner.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
-                    splash.style.backgroundColor = 'transparent';
-                    splash.style.pointerEvents = 'none';
-
-                    setTimeout(() => {
-                        splash.remove();
-                        navLogoContainer.style.opacity = '1';
-                    }, 1000);
-                }
-            }, 800);
-        });
-    </script>
 
     <div class="animated-bg">
         <div class="fluid-shape shape-1"></div>
@@ -328,22 +349,20 @@
         </div>
     </div>
 
-    <!-- Навигация -->
     <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <!-- Логотип в шапке (сюда прилетает анимация) -->
-                <div id="nav-logo-container" class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none opacity-0" style="gap: 4px; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.04em;">
+                <div id="nav-logo-container" class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none transition-opacity duration-500 opacity-100" style="gap: 4px; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.04em;">
                     re<img src="apple-logo.png" alt="logo" style="width: 28px; height: 28px; object-fit: contain; border-radius: 50%;">market
                 </div>
                 
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-2 text-sm font-medium">
-                        <a href="#" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">iPhone</a>
-                        <a href="#" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">MacBook</a>
-                        <a href="#" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">Watch</a>
-                        <a href="#" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">iPad</a>
-                        <a href="#" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">AirPods</a>
+                        <a href="#products" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">iPhone</a>
+                        <a href="#products" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">MacBook</a>
+                        <a href="#products" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">Watch</a>
+                        <a href="#products" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">iPad</a>
+                        <a href="#products" class="hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">AirPods</a>
                     </div>
                 </div>
 
@@ -363,7 +382,6 @@
         </div>
     </nav>
 
-    <!-- Главный экран -->
     <main class="pt-48 sm:pt-56 pb-12 overflow-hidden text-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-apple-dark mb-4">
@@ -375,7 +393,6 @@
         </div>
     </main>
 
-    <!-- Модельный ряд -->
     <section id="products" class="py-20 relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-12 text-center">Модельный ряд</h2>
@@ -412,7 +429,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно авторизации/регистрации -->
     <div id="auth-modal-overlay" class="fixed inset-0 bg-white/30 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeAuthModal()"></div>
     
     <div id="auth-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md glass-heavy rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-white">
@@ -454,7 +470,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно профиля -->
     <div id="profile-modal-overlay" class="fixed inset-0 bg-white/30 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeProfileModal()"></div>
     
     <div id="profile-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg glass-heavy rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-white">
@@ -483,7 +498,6 @@
         <span class="text-apple-dark font-medium" id="toast-msg">Товар добавлен</span>
     </div>
 
-    <!-- Футер -->
     <footer class="border-t border-gray-200/50 mt-20 py-20 text-center glass relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
             <div class="flex flex-col items-center justify-center mb-6">
@@ -502,7 +516,6 @@
         </div>
     </footer>
 
-    <!-- Модальное окно со ссылками -->
     <div id="links-modal-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeLinksModal()"></div>
     
     <div id="links-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-gray-100">
@@ -545,7 +558,78 @@
         </div>
     </div>
 
-    <!-- Подключение Firebase и логика -->
+    <script>
+        (function() {
+            const canvas = document.getElementById('liquid-canvas');
+            const ctx = canvas.getContext('2d');
+            const splash = document.getElementById('splash-screen');
+
+            let width, height;
+            let time = 0;
+            let animId = null;
+
+            function resizeCanvas() {
+                if (!splash) return;
+                // Ограничиваем DPR до 2 для устранения просадок FPS на Retina-экранах
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                width = splash.clientWidth;
+                height = splash.clientHeight;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.scale(dpr, dpr);
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            function renderWaves() {
+                time += 0.01;
+                ctx.clearRect(0, 0, width, height);
+
+                // Рендерим 4 слоя шелковистого белого стекла и полированного алюминия
+                for (let i = 0; i < 4; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, height);
+
+                    for (let x = 0; x <= width; x += 26) {
+                        const wave1 = Math.sin(x * 0.0022 + time + i * 1.3) * 65;
+                        const wave2 = Math.cos(x * 0.0034 - time * 0.85 + i) * 50;
+                        const y = height * 0.58 + wave1 + wave2 + (i * 42);
+                        ctx.lineTo(x, y);
+                    }
+
+                    ctx.lineTo(width, height);
+                    ctx.closePath();
+
+                    const grad = ctx.createLinearGradient(0, height * 0.35, width, height);
+                    grad.addColorStop(0, `rgba(240, 243, 248, ${0.45 - i * 0.08})`);
+                    grad.addColorStop(1, `rgba(224, 229, 237, ${0.52 - i * 0.09})`);
+
+                    ctx.fillStyle = grad;
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.02)';
+                    ctx.shadowBlur = 30;
+                    ctx.fill();
+                }
+
+                animId = requestAnimationFrame(renderWaves);
+            }
+            renderWaves();
+
+            // Ровно 1.8 с показ волн -> плавное растворение
+            setTimeout(() => {
+                splash.classList.add('fade-out');
+                document.body.classList.remove('splash-active');
+
+                // Полная очистка ресурсов через 900мс (по окончании CSS-анимации)
+                setTimeout(() => {
+                    if (animId) cancelAnimationFrame(animId);
+                    window.removeEventListener('resize', resizeCanvas);
+                    splash.remove();
+                }, 900);
+            }, 1800);
+        })();
+    </script>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -669,7 +753,6 @@
         };
     </script>
 
-    <!-- Скрипты каталога и корзины -->
     <script>
         const products = [
             { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от' },
