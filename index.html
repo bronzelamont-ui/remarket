@@ -21,7 +21,7 @@
     <!-- Подключение шрифтов -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Подключение иконок -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -53,6 +53,50 @@
             overflow-x: hidden;
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
+        }
+
+        /* Заставка (белый экран) */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
+        }
+
+        .splash-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: splashFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .splash-logo-img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 24px;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.1));
+        }
+
+        .splash-brand {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            font-size: 2.5rem;
+            letter-spacing: -0.04em;
+            color: #1d1d1f;
+        }
+
+        @keyframes splashFadeIn {
+            0% { opacity: 0; transform: translateY(15px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         a, button, input, select, .product-card {
@@ -221,6 +265,26 @@
 </head>
 <body class="antialiased selection:bg-apple-blue selection:text-white">
 
+    <!-- Заставка с белым экраном -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <img src="Фото Главного Профиля.jpg" alt="re:market logo" class="splash-logo-img">
+            <div class="splash-brand">re:market</div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                if (splash) {
+                    splash.style.opacity = '0';
+                    setTimeout(() => splash.remove(), 800);
+                }
+            }, 1000);
+        });
+    </script>
+
     <div class="animated-bg">
         <div class="fluid-shape shape-1"></div>
         <div class="fluid-shape shape-2"></div>
@@ -252,8 +316,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none">
-                    <i class="ph-fill ph-apple text-3xl"></i>
-                    <span class="ml-2 font-sans font-extrabold text-2xl tracking-tighter">re:market</span>
+                    <img src="Фото Главного Профиля.jpg" alt="Logo" class="w-8 h-8 rounded-full object-cover mr-2">
+                    <span class="font-sans font-extrabold text-2xl tracking-tighter">re:market</span>
                 </div>
                 
                 <div class="hidden md:block">
