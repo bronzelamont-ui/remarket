@@ -838,14 +838,12 @@
                 }
                 closeAuthModal();
                 showToast("Успешно!");
-            } catch (err) {
-                console.error("Auth error:", err);
-                let errorMsg = "Ошибка авторизации";
+          } catch (err) {
+                console.error("Auth error details:", err);
+                let errorMsg = "Ошибка: " + err.message;
                 
                 if (err.code === 'auth/email-already-in-use') {
                     errorMsg = "Этот email уже зарегистрирован.";
-                } else if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
-                    errorMsg = "Неверный email или пароль.";
                 } else if (err.code === 'auth/weak-password') {
                     errorMsg = "Пароль слишком слабый (минимум 6 символов).";
                 } else if (err.code === 'auth/invalid-email') {
