@@ -117,7 +117,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 0px;
             margin-bottom: 12px;
             background: linear-gradient(180deg, #111112 0%, #4a4a4e 100%);
             -webkit-background-clip: text;
@@ -125,12 +125,13 @@
         }
 
         .splash-logo-img {
-            width: clamp(32px, 6vw, 54px);
-            height: clamp(32px, 6vw, 54px);
+            width: clamp(28px, 5.5vw, 50px);
+            height: clamp(28px, 5.5vw, 50px);
             object-fit: contain;
             border-radius: 50%;
             display: inline-block;
             vertical-align: middle;
+            margin: 0 -2px;
         }
 
         .splash-brand-subtitle {
@@ -317,7 +318,7 @@
         <canvas id="liquid-canvas"></canvas>
         <div class="splash-content">
             <h1 class="splash-brand-title">
-                re:<img src="apple-logo.png" alt="logo" class="splash-logo-img">market
+                re<img src="apple-logo.png" alt="logo" class="splash-logo-img">market
             </h1>
             <p class="splash-brand-subtitle">Breathtaking Liquid Glass And Aluminium</p>
         </div>
@@ -352,8 +353,8 @@
     <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div id="nav-logo-container" class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none transition-opacity duration-500 opacity-100" style="gap: 4px; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.04em;">
-                    re<img src="apple-logo.png" alt="logo" style="width: 28px; height: 28px; object-fit: contain; border-radius: 50%;">market
+                <div id="nav-logo-container" class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none transition-opacity duration-500 opacity-100" style="gap: 0px; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.04em;">
+                    re<img src="apple-logo.png" alt="logo" style="width: 24px; height: 24px; object-fit: contain; border-radius: 50%; margin: 0 -2px;">market
                 </div>
                 
                 <div class="hidden md:block">
@@ -501,8 +502,8 @@
     <footer class="border-t border-gray-200/50 mt-20 py-20 text-center glass relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
             <div class="flex flex-col items-center justify-center mb-6">
-                <div class="flex items-center font-sans font-extrabold text-7xl text-apple-dark tracking-tighter cursor-default select-none transition-all duration-300 hover:scale-105" style="gap: 8px;">
-                    re:<img src="apple-logo.png" alt="logo" style="width: 55px; height: 55px; object-fit: contain; border-radius: 50%;">market
+                <div class="flex items-center font-sans font-extrabold text-7xl text-apple-dark tracking-tighter cursor-default select-none transition-all duration-300 hover:scale-105" style="gap: 0px;">
+                    re<img src="apple-logo.png" alt="logo" style="width: 48px; height: 48px; object-fit: contain; border-radius: 50%; margin: 0 -2px;">market
                 </div>
                 <p class="mt-4 text-sm tracking-[0.4em] text-gray-500 font-bold uppercase cursor-default select-none transition-all duration-300 hover:tracking-[0.5em] hover:scale-105">EST'D 2022</p>
                 <p class="mt-2 text-xs tracking-[0.3em] text-gray-400 font-bold uppercase select-none cursor-default transition-all duration-300 hover:tracking-[0.4em] hover:scale-105">улица Темерницкая, 74 | Ростов-на-Дону</p>
@@ -520,8 +521,8 @@
     
     <div id="links-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-gray-100">
         <div class="flex justify-between items-center mb-6">
-            <div class="flex items-center font-bold text-2xl text-apple-dark" style="gap: 4px;">
-                re:<img src="apple-logo.png" alt="logo" style="width: 22px; height: 22px; object-fit: contain; border-radius: 50%;">market
+            <div class="flex items-center font-bold text-2xl text-apple-dark" style="gap: 0px;">
+                re<img src="apple-logo.png" alt="logo" style="width: 20px; height: 20px; object-fit: contain; border-radius: 50%; margin: 0 -2px;">market
             </div>
             <button onclick="closeLinksModal()" class="text-gray-400 hover:text-black p-2 rounded-full bg-gray-100 transition-all">
                 <i class="ph ph-x text-xl"></i>
@@ -570,7 +571,6 @@
 
             function resizeCanvas() {
                 if (!splash) return;
-                // Ограничиваем DPR до 2 для устранения просадок FPS на Retina-экранах
                 const dpr = Math.min(window.devicePixelRatio || 1, 2);
                 width = splash.clientWidth;
                 height = splash.clientHeight;
@@ -586,7 +586,6 @@
                 time += 0.01;
                 ctx.clearRect(0, 0, width, height);
 
-                // Рендерим 4 слоя шелковистого белого стекла и полированного алюминия
                 for (let i = 0; i < 4; i++) {
                     ctx.beginPath();
                     ctx.moveTo(0, height);
@@ -615,12 +614,10 @@
             }
             renderWaves();
 
-            // Ровно 1.8 с показ волн -> плавное растворение
             setTimeout(() => {
                 splash.classList.add('fade-out');
                 document.body.classList.remove('splash-active');
 
-                // Полная очистка ресурсов через 900мс (по окончании CSS-анимации)
                 setTimeout(() => {
                     if (animId) cancelAnimationFrame(animId);
                     window.removeEventListener('resize', resizeCanvas);
