@@ -219,7 +219,6 @@
             transform: translateZ(80px) scale(1.05);
         }
 
-        /* Плавная бесконечная галерея картинок (fade-эффект) в центре */
         .photo-fade-stage {
             position: relative;
             width: 100%;
@@ -306,7 +305,6 @@
     <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <!-- Статичный левый логотип (без изменений и отклика) -->
                 <div class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none">
                     <i class="ph-fill ph-apple text-3xl"></i>
                     <span class="ml-2 font-sans font-extrabold text-2xl tracking-tighter">re:market</span>
@@ -348,7 +346,6 @@
                 Гипнотическая эстетика и ультимативная мощь.
             </p>
     
-            <!-- Центральная галерея из 11 картинок с бесконечной плавной анимацией -->
             <div class="photo-fade-stage mt-16" id="fadeStage">
                 <div class="photo-fade-item active"><img src="1.jpg" alt="1" onerror="this.src='1.png'"></div>
                 <div class="photo-fade-item"><img src="2.jpg" alt="2" onerror="this.src='2.png'"></div>
@@ -368,7 +365,6 @@
     <section id="products" class="py-24 relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-10 text-center">Модельный ряд</h2>
-            
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid"></div>
         </div>
     </section>
@@ -402,6 +398,7 @@
         </div>
     </div>
 
+    <!-- Модальное окно авторизации/регистрации -->
     <div id="auth-modal-overlay" class="fixed inset-0 bg-white/30 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeAuthModal()"></div>
     
     <div id="auth-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md glass-heavy rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-white">
@@ -411,9 +408,19 @@
         </div>
 
         <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
-            <div id="name-field-container" class="hidden">
-                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Имя</label>
-                <input type="text" id="auth-name" placeholder="Иван Иванов" class="w-full bg-white/80 border border-gray-200 rounded-2xl px-4 py-3.5 text-sm">
+            <div id="register-fields" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Имя</label>
+                    <input type="text" id="auth-name" placeholder="Иван Иванов" class="w-full bg-white/80 border border-gray-200 rounded-2xl px-4 py-3.5 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Username (никнейм)</label>
+                    <input type="text" id="auth-username" placeholder="ivanov" class="w-full bg-white/80 border border-gray-200 rounded-2xl px-4 py-3.5 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Номер телефона</label>
+                    <input type="tel" id="auth-phone" placeholder="+7 (999) 000-00-00" class="w-full bg-white/80 border border-gray-200 rounded-2xl px-4 py-3.5 text-sm">
+                </div>
             </div>
             <div>
                 <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Email</label>
@@ -433,6 +440,7 @@
         </div>
     </div>
 
+    <!-- Модальное окно профиля -->
     <div id="profile-modal-overlay" class="fixed inset-0 bg-white/30 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeProfileModal()"></div>
     
     <div id="profile-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg glass-heavy rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-white">
@@ -441,6 +449,7 @@
                 <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-apple-blue to-purple-500 text-white font-bold text-lg flex items-center justify-center shadow-md" id="profile-avatar">U</div>
                 <div>
                     <h3 id="profile-name" class="text-xl font-bold text-apple-dark">Пользователь</h3>
+                    <p id="profile-username" class="text-xs text-apple-blue font-medium">@username</p>
                     <p id="profile-email" class="text-xs text-gray-500">email@example.com</p>
                 </div>
             </div>
@@ -460,7 +469,7 @@
         <span class="text-apple-dark font-medium" id="toast-msg">Товар добавлен</span>
     </div>
 
-    <!-- Футер: у каждой из 3-х строк свой независимый индивидуальный отклик -->
+    <!-- Футер -->
     <footer class="border-t border-gray-200/50 mt-20 py-20 text-center glass relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
             <div class="flex flex-col items-center justify-center mb-6">
@@ -477,7 +486,7 @@
         </div>
     </footer>
 
-    <!-- Модальное окно со всеми ссылками -->
+    <!-- Модальное окно со ссылками -->
     <div id="links-modal-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeLinksModal()"></div>
     
     <div id="links-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-gray-100">
@@ -522,14 +531,14 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
 
         let app, db, auth;
         let currentUser = null;
-        let userOrders = [];
+        let userProfileData = null;
 
         try {
             app = initializeApp(firebaseConfig);
@@ -545,14 +554,25 @@
             };
             initAuth();
 
-            onAuthStateChanged(auth, (user) => {
+            onAuthStateChanged(auth, async (user) => {
                 if (user && !user.isAnonymous) {
                     currentUser = user;
-                    const fallbackName = user.email ? user.email.split('@')[0] : 'Пользователь';
-                    updateAuthNav(true, user.displayName || fallbackName);
+                    // Подгружаем доп. данные пользователя из Firestore (username, phone)
+                    try {
+                        const userDocRef = doc(db, 'artifacts', appId, 'public_users', user.uid);
+                        const userDoc = await getDoc(userDocRef);
+                        if (userDoc.exists()) {
+                            userProfileData = userDoc.data();
+                        }
+                    } catch (e) {
+                        console.log("Error loading profile", e);
+                    }
+                    const displayName = userProfileData?.username ? `@${userProfileData.username}` : (user.displayName || user.email.split('@')[0]);
+                    updateAuthNav(true, displayName);
                     loadUserOrders(user.uid);
                 } else {
                     currentUser = null;
+                    userProfileData = null;
                     updateAuthNav(false);
                 }
             });
@@ -561,9 +581,9 @@
         }
 
         const products = [
-            { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: '1.jpg', width: 'w-48', mixBlend: false, fullWidth: false },
-            { id: 'macbookpro16', name: 'MacBook Pro 16"', desc: 'M3 Max. Невероятная мощь.', price: 349990, prefix: 'от', img: '4.jpg', width: 'w-64', mixBlend: false, fullWidth: false },
-            { id: 'ipadpro', name: 'iPad Pro', desc: 'Тонкий. Легкий. Эпичный.', price: 99990, prefix: 'от', img: '5.jpg', width: 'w-56', mixBlend: false, fullWidth: false }
+            { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: '1.jpg', width: 'w-48' },
+            { id: 'macbookpro16', name: 'MacBook Pro 16"', desc: 'M3 Max. Невероятная мощь.', price: 349990, prefix: 'от', img: '4.jpg', width: 'w-64' },
+            { id: 'ipadpro', name: 'iPad Pro', desc: 'Тонкий. Легкий. Эпичный.', price: 99990, prefix: 'от', img: '5.jpg', width: 'w-56' }
         ];
 
         let cart = [];
@@ -601,7 +621,6 @@
 
         window.addEventListener('DOMContentLoaded', renderProducts);
 
-        // Плавная бесконечная смена 11 картинок по очереди (fade-эффект)
         let currentIndex = 0;
         const fadeItems = document.querySelectorAll('.photo-fade-item');
 
@@ -745,18 +764,18 @@
             const overlay = document.getElementById('auth-modal-overlay');
             const title = document.getElementById('auth-title');
             const submitBtn = document.getElementById('auth-submit-btn');
-            const nameContainer = document.getElementById('name-field-container');
+            const registerFields = document.getElementById('register-fields');
             const switchText = document.getElementById('auth-switch-text');
 
             if (isRegisterMode) {
                 title.textContent = 'Регистрация';
                 submitBtn.textContent = 'Зарегистрироваться';
-                nameContainer.classList.remove('hidden');
+                registerFields.classList.remove('hidden');
                 switchText.innerHTML = 'Уже есть аккаунт? <button onclick="openAuthModal(\'login\')" class="text-apple-blue font-semibold hover:underline">Войти</button>';
             } else {
                 title.textContent = 'Вход в систему';
                 submitBtn.textContent = 'Войти';
-                nameContainer.classList.add('hidden');
+                registerFields.classList.add('hidden');
                 switchText.innerHTML = 'Нет аккаунта? <button onclick="openAuthModal(\'register\')" class="text-apple-blue font-semibold hover:underline">Зарегистрироваться</button>';
             }
             modal.classList.remove('hidden');
@@ -778,21 +797,62 @@
             e.preventDefault();
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
-            const name = document.getElementById('auth-name').value;
+            
             try {
                 if (isRegisterMode) {
+                    const username = document.getElementById('auth-username').value.trim().toLowerCase();
+                    const name = document.getElementById('auth-name').value;
+                    const phone = document.getElementById('auth-phone').value;
+
+                    if (!username) {
+                        showToast("Введите Username");
+                        return;
+                    }
+
+                    // Проверка занятости Username в Firestore
+                    if (db) {
+                        const q = query(collection(db, 'artifacts', appId, 'public_users'), where('username', '==', username));
+                        const querySnapshot = await getDocs(q);
+                        if (!querySnapshot.empty) {
+                            showToast("Этот Username уже занят другим пользователем");
+                            return;
+                        }
+                    }
+
                     const uc = await createUserWithEmailAndPassword(auth, email, password);
-                    await updateProfile(uc.user, { displayName: name || email.split('@')[0] });
+                    await updateProfile(uc.user, { displayName: name || username });
                     currentUser = uc.user;
+
+                    // Сохраняем публичные данные пользователя (для проверки уникальности никнейма)
+                    if (db) {
+                        await setDoc(doc(db, 'artifacts', appId, 'public_users', uc.user.uid), {
+                            username: username,
+                            name: name || username,
+                            phone: phone || '',
+                            email: email
+                        });
+                    }
                 } else {
                     const uc = await signInWithEmailAndPassword(auth, email, password);
                     currentUser = uc.user;
                 }
                 closeAuthModal();
-                updateAuthNav(true, currentUser.displayName || currentUser.email.split('@')[0]);
                 showToast("Успешно!");
             } catch (err) {
-                showToast("Ошибка авторизации");
+                console.error("Auth error:", err);
+                let errorMsg = "Ошибка авторизации";
+                
+                if (err.code === 'auth/email-already-in-use') {
+                    errorMsg = "Этот email уже зарегистрирован.";
+                } else if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
+                    errorMsg = "Неверный email или пароль.";
+                } else if (err.code === 'auth/weak-password') {
+                    errorMsg = "Пароль слишком слабый (минимум 6 символов).";
+                } else if (err.code === 'auth/invalid-email') {
+                    errorMsg = "Некорректный формат email.";
+                }
+                
+                showToast(errorMsg);
             }
         };
 
@@ -809,7 +869,8 @@
             if (!currentUser) return;
             const modal = document.getElementById('profile-modal');
             const overlay = document.getElementById('profile-modal-overlay');
-            document.getElementById('profile-name').textContent = currentUser.displayName || 'Пользователь';
+            document.getElementById('profile-name').textContent = userProfileData?.name || currentUser.displayName || 'Пользователь';
+            document.getElementById('profile-username').textContent = userProfileData?.username ? `@${userProfileData.username}` : '';
             document.getElementById('profile-email').textContent = currentUser.email || 'Аноним';
             document.getElementById('profile-avatar').textContent = (currentUser.displayName || 'U').charAt(0).toUpperCase();
             modal.classList.remove('hidden'); overlay.classList.remove('hidden');
