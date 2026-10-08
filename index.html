@@ -471,7 +471,6 @@
     <footer class="border-t border-gray-200/50 mt-20 py-20 text-center glass relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
             <div class="flex flex-col items-center justify-center mb-6">
-               <div class="flex flex-col items-center justify-center mb-6">
                 <p class="font-sans font-extrabold text-7xl text-apple-dark tracking-tighter cursor-default select-none transition-all duration-300 hover:scale-105">re:market</p>
                 <p class="mt-4 text-sm tracking-[0.4em] text-gray-500 font-bold uppercase cursor-default select-none transition-all duration-300 hover:tracking-[0.5em] hover:scale-105">EST'D 2022</p>
                 <p class="mt-2 text-xs tracking-[0.3em] text-gray-400 font-bold uppercase select-none cursor-default transition-all duration-300 hover:tracking-[0.4em] hover:scale-105">улица Темерницкая, 74 | Ростов-на-Дону</p>
@@ -734,13 +733,27 @@
         window.handleAuthSubmit = function(e) {
             e.preventDefault();
             const email = document.getElementById('auth-email').value;
-            currentUser = { email: email, displayName: email.split('@')[0] };
-            updateAuthNav(true, currentUser.displayName);
+            
+            let username = email.split('@')[0];
+            if (isRegisterMode) {
+                const usernameInput = document.getElementById('auth-username').value.trim();
+                if (usernameInput) {
+                    username = usernameInput.replace('@', '');
+                }
+            }
+
+            currentUser = { 
+                email: email, 
+                displayName: username,
+                username: username
+            };
+            
+            updateAuthNav(true, `@${username}`);
             closeAuthModal();
-            showToast("Успешный вход!");
+            showToast("Успешно!");
         };
 
-     function updateAuthNav(isAuth, name = '') {
+        function updateAuthNav(isAuth, name = '') {
             const container = document.getElementById('auth-nav-container');
             if (isAuth) {
                 container.innerHTML = `<button onclick="openProfileModal()" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> ${name}</button>`;
@@ -753,10 +766,16 @@
             if (!currentUser) return;
             const modal = document.getElementById('profile-modal');
             const overlay = document.getElementById('profile-modal-overlay');
-            document.getElementById('profile-name').textContent = currentUser.displayName || 'Пользователь';
+            
+            const username = currentUser.username || currentUser.displayName || currentUser.email.split('@')[0];
+            
+            document.getElementById('profile-name').textContent = username;
+            document.getElementById('profile-username').textContent = `@${username}`;
             document.getElementById('profile-email').textContent = currentUser.email;
-            document.getElementById('profile-avatar').textContent = (currentUser.displayName || 'U').charAt(0).toUpperCase();
-            modal.classList.remove('hidden'); overlay.classList.remove('hidden');
+            document.getElementById('profile-avatar').textContent = username.charAt(0).toUpperCase();
+            
+            modal.classList.remove('hidden'); 
+            overlay.classList.remove('hidden');
             setTimeout(() => { modal.classList.remove('opacity-0', 'scale-95'); overlay.classList.remove('opacity-0'); }, 10);
         };
 
