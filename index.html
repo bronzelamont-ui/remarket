@@ -193,58 +193,15 @@
             box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
         }
 
-        /* 3D эффект для главной картинки без рамки и фона */
-        .hero-3d-container {
-            perspective: 1200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 4rem auto;
-            position: relative;
-            z-index: 10;
-        }
-
-        .hero-3d-image {
-            width: 100%;
-            max-width: 750px;
-            height: auto;
-            object-fit: contain;
-            transform: rotateX(10deg) rotateY(-5deg) scale(1);
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
-            filter: drop-shadow(0 35px 35px rgba(0, 0, 0, 0.22)) drop-shadow(0 10px 10px rgba(0, 113, 227, 0.1));
-            background: transparent !important;
-            border: none !important;
-            outline: none !important;
-            box-shadow: none !important;
-        }
-
-        .hero-3d-image:hover {
-            transform: rotateX(0deg) rotateY(0deg) scale(1.04) translateY(-10px);
-            filter: drop-shadow(0 45px 45px rgba(0, 0, 0, 0.28)) drop-shadow(0 15px 20px rgba(0, 113, 227, 0.15));
-        }
-
         .product-card {
-            transform-style: preserve-3d;
             transform: perspective(1000px);
-            transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.1s ease-out;
+            transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease;
         }
         
         .product-card:hover {
             border-color: rgba(255, 255, 255, 1);
             box-shadow: 0 30px 60px rgba(0,0,0,0.08), 0 0 40px rgba(0,113,227,0.05);
-        }
-
-        .card-content {
-            transform: translateZ(30px);
-        }
-        
-        .card-image {
-            transform: translateZ(60px);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .product-card:hover .card-image {
-            transform: translateZ(80px) scale(1.05);
+            transform: translateY(-5px);
         }
 
         .toast {
@@ -334,15 +291,10 @@
             <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto font-light">
                 Гипнотическая эстетика и ультимативная мощь.
             </p>
-
-            <!-- 3D изображение без фона и рамок -->
-            <div class="hero-3d-container">
-                <img src="iphone-18-pro-max.png" alt="iphone-18-pro-max.png" class="hero-3d-image" onerror="this.onerror=null; this.src='iphone-18-pro-max.png';">
-            </div>
         </div>
     </main>
 
-    <!-- Модельный ряд с надежным отступом ниже картинки -->
+    <!-- Модельный ряд -->
     <section id="products" class="py-20 relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl md:text-4xl font-bold text-apple-dark mb-12 text-center">Модельный ряд</h2>
@@ -508,7 +460,7 @@
         </div>
     </div>
 
-    <!-- Подключение Firebase и логика работы с Realtime Database -->
+    <!-- Подключение Firebase и логика -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -632,12 +584,12 @@
         };
     </script>
 
-    <!-- Остальные скрипты сайта -->
+    <!-- Скрипты сайта -->
     <script>
         const products = [
-            { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: '1.jpg', width: 'w-48' },
-            { id: 'macbookpro16', name: 'MacBook Pro 16"', desc: 'M3 Max. Невероятная мощь.', price: 349990, prefix: 'от', img: '4.jpg', width: 'w-64' },
-            { id: 'ipadpro', name: 'iPad Pro', desc: 'Тонкий. Легкий. Эпичный.', price: 99990, prefix: 'от', img: '5.jpg', width: 'w-56' }
+            { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от' },
+            { id: 'macbookpro16', name: 'MacBook Pro 16"', desc: 'M3 Max. Невероятная мощь.', price: 349990, prefix: 'от' },
+            { id: 'ipadpro', name: 'iPad Pro', desc: 'Тонкий. Легкий. Эпичный.', price: 99990, prefix: 'от' }
         ];
 
         let cart = [];
@@ -655,18 +607,17 @@
             
             products.forEach(product => {
                 const cardHTML = `
-                    <div class="product-card glass rounded-[2rem] p-8 flex flex-col justify-between h-[480px]">
-                        <div class="card-content text-center">
+                    <div class="product-card glass rounded-[2rem] p-8 flex flex-col justify-between h-[320px] text-left">
+                        <div>
                             <h3 class="text-2xl font-semibold text-apple-dark">${product.name}</h3>
                             <p class="text-sm text-gray-500 mt-2">${product.desc}</p>
-                            <p class="text-lg font-medium text-apple-dark mt-4">${product.prefix} ${formatPrice(product.price)}</p>
                         </div>
-                        <div class="flex-grow flex items-center justify-center relative mt-6">
-                            <img src="${product.img}" alt="${product.name}" class="card-image ${product.width} h-auto object-contain drop-shadow-xl rounded-2xl" onerror="this.src='https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&auto=format&fit=crop&q=60'">
+                        <div>
+                            <p class="text-xl font-medium text-apple-dark mb-4">${product.prefix} ${formatPrice(product.price)}</p>
+                            <button onclick="window.addToCart('${product.id}', '${product.name}', ${product.price})" class="w-full py-3.5 liquid-btn-dark rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-md">
+                                В корзину
+                            </button>
                         </div>
-                        <button onclick="window.addToCart('${product.id}', '${product.name}', ${product.price}, '${product.img}')" class="card-content w-full py-3.5 mt-6 liquid-btn-dark rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-md">
-                            В корзину
-                        </button>
                     </div>
                 `;
                 grid.insertAdjacentHTML('beforeend', cardHTML);
@@ -675,12 +626,12 @@
 
         window.addEventListener('DOMContentLoaded', renderProducts);
 
-        window.addToCart = function(id, name, price, img) {
+        window.addToCart = function(id, name, price) {
             const existingItem = cart.find(item => item.id === id);
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                cart.push({ id, name, price, img, quantity: 1 });
+                cart.push({ id, name, price, quantity: 1 });
             }
             updateCartUI();
             showToast(`${name} добавлен в корзину`);
@@ -737,11 +688,8 @@
                 cartItemsContainer.innerHTML = '';
                 cart.forEach(item => {
                     cartItemsContainer.innerHTML += `
-                        <div class="flex items-center gap-4 bg-white/60 p-3 rounded-2xl border border-white shadow-sm">
-                            <div class="w-20 h-20 bg-white rounded-xl flex items-center justify-center shadow-inner overflow-hidden shrink-0">
-                                <img src="${item.img}" alt="${item.name}" class="w-16 h-16 object-cover" onerror="this.src='https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500&auto=format&fit=crop&q=60'">
-                            </div>
-                            <div class="flex-grow">
+                        <div class="flex items-center justify-between gap-4 bg-white/60 p-4 rounded-2xl border border-white shadow-sm">
+                            <div>
                                 <h4 class="text-apple-dark font-semibold text-sm">${item.name}</h4>
                                 <div class="text-apple-blue font-medium text-sm mt-1">${formatPrice(item.price)}</div>
                                 <div class="flex items-center gap-3 mt-2 bg-gray-100 rounded-full w-fit px-2 py-1">
