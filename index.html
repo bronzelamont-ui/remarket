@@ -529,7 +529,7 @@
 
     <!-- Скрипты сайта и Firebase -->
     <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, doc, setDoc, getDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
@@ -548,7 +548,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
             console.log("Firebase init error:", e);
         }
 
-        // Если auth случайно не инициализировался, создаем заново
         if (!auth && app) {
             auth = getAuth(app);
         }
@@ -556,40 +555,39 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
             db = getFirestore(app);
         }
 
-            const initAuth = async () => {
+        const initAuth = async () => {
+            try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
                     await signInAnonymously(auth);
                 }
-            };
-            initAuth();
+            } catch (e) {
+                console.log("Auth token error:", e);
+            }
+        };
+        initAuth();
 
-            onAuthStateChanged(auth, async (user) => {
-                if (user && !user.isAnonymous) {
-                    currentUser = user;
-                    // Подгружаем доп. данные пользователя из Firestore (username, phone)
-                    try {
-                        const userDocRef = doc(db, 'artifacts', appId, 'public_users', user.uid);
-                        const userDoc = await getDoc(userDocRef);
-                        if (userDoc.exists()) {
-                            userProfileData = userDoc.data();
-                        }
-                    } catch (e) {
-                        console.log("Error loading profile", e);
+        onAuthStateChanged(auth, async (user) => {
+            if (user && !user.isAnonymous) {
+                currentUser = user;
+                try {
+                    const userDocRef = doc(db, 'artifacts', appId, 'public_users', user.uid);
+                    const userDoc = await getDoc(userDocRef);
+                    if (userDoc.exists()) {
+                        userProfileData = userDoc.data();
                     }
-                    const displayName = userProfileData?.username ? `@${userProfileData.username}` : (user.displayName || user.email.split('@')[0]);
-                    updateAuthNav(true, displayName);
-                    loadUserOrders(user.uid);
-                } else {
-                    currentUser = null;
-                    userProfileData = null;
-                    updateAuthNav(false);
+                } catch (e) {
+                    console.log("Error loading profile", e);
                 }
-            });
-        } catch (e) {
-            console.log("Firebase init fallback:", e);
-        }
+                const displayName = userProfileData?.username ? `@${userProfileData.username}` : (user.displayName || user.email.split('@')[0]);
+                updateAuthNav(true, displayName);
+            } else {
+                currentUser = null;
+                userProfileData = null;
+                updateAuthNav(false);
+            }
+        });
 
         const products = [
             { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: '1.jpg', width: 'w-48' },
@@ -820,7 +818,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
                         return;
                     }
 
-                    // Проверка занятости Username в Firestore
                     if (db) {
                         const q = query(collection(db, 'artifacts', appId, 'public_users'), where('username', '==', username));
                         const querySnapshot = await getDocs(q);
@@ -834,7 +831,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
                     await updateProfile(uc.user, { displayName: name || username });
                     currentUser = uc.user;
 
-                    // Сохраняем публичные данные пользователя (для проверки уникальности никнейма)
                     if (db) {
                         await setDoc(doc(db, 'artifacts', appId, 'public_users', uc.user.uid), {
                             username: username,
@@ -849,7 +845,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
                 }
                 closeAuthModal();
                 showToast("Успешно!");
-          } catch (err) {
+            } catch (err) {
                 console.error("Auth error details:", err);
                 let errorMsg = "Ошибка: " + err.message;
                 
