@@ -525,57 +525,7 @@
         </div>
     </div>
 
-    <!-- Скрипты сайта и Firebase Базы Данных -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Конфигурация Firebase (замените своими данными проекта из панели Firebase Console при необходимости)
-        const firebaseConfig = {
-            apiKey: "AIzaSyDummyKeyForStaticHosting",
-            authDomain: "remarketapple.firebaseapp.com",
-            projectId: "remarketapple",
-            storageBucket: "remarketapple.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123:web:abc"
-        };
-
-        // Инициализация (с защитой от сбоев)
-        let app, db, auth;
-        try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-        } catch (e) {
-            console.log("Firebase Init Notice:", e);
-        }
-
-        window.currentUser = null;
-        window.userProfileData = null;
-
-        if (auth) {
-            onAuthStateChanged(auth, async (user) => {
-                if (user) {
-                    currentUser = user;
-                    try {
-                        const userDoc = await getDoc(doc(db, "users", user.uid));
-                        if (userDoc.exists()) {
-                            userProfileData = userDoc.data();
-                            updateAuthNav(true, `@${userProfileData.username}`);
-                        }
-                    } catch (err) {
-                        updateAuthNav(true, `@${user.email.split('@')[0]}`);
-                    }
-                } else {
-                    currentUser = null;
-                    userProfileData = null;
-                    updateAuthNav(false);
-                }
-            });
-        }
-    </script>
-
+    <!-- Скрипты сайта -->
     <script>
         const products = [
             { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: '1.jpg', width: 'w-48' },
@@ -779,12 +729,11 @@
             openAuthModal(isRegisterMode ? 'login' : 'register'); 
         };
 
-        window.handleAuthSubmit = async function(e) {
+        window.handleAuthSubmit = function(e) {
             e.preventDefault();
             const email = document.getElementById('auth-email').value.trim();
             const password = document.getElementById('auth-password').value;
 
-            // Фолбек-проверка через localStorage на случай работы без интернета / облака
             let users = JSON.parse(localStorage.getItem('remarket_db_users') || '[]');
 
             if (isRegisterMode) {
@@ -821,7 +770,7 @@
 
                 window.currentUser = newUser;
                 window.userProfileData = newUser;
-                updateAuthNav(true, `@${newUser.username}`);
+                updateAuthNav(true, newUser.username);
                 closeAuthModal();
                 showToast("Регистрация успешна!");
             } else {
@@ -830,7 +779,7 @@
                     window.currentUser = found;
                     window.userProfileData = found;
                     localStorage.setItem('remarket_current_user', JSON.stringify(found));
-                    updateAuthNav(true, `@${found.username}`);
+                    updateAuthNav(true, found.username);
                     closeAuthModal();
                     showToast("Успешный вход!");
                 } else if (users.length === 0) {
@@ -839,7 +788,7 @@
                     window.currentUser = defUser;
                     window.userProfileData = defUser;
                     localStorage.setItem('remarket_current_user', JSON.stringify(defUser));
-                    updateAuthNav(true, `@${username}`);
+                    updateAuthNav(true, username);
                     closeAuthModal();
                     showToast("Успешный вход!");
                 } else {
@@ -853,14 +802,15 @@
             if (saved) {
                 window.currentUser = JSON.parse(saved);
                 window.userProfileData = window.currentUser;
-                updateAuthNav(true, `@${window.currentUser.username || window.currentUser.displayName}`);
+                updateAuthNav(true, window.currentUser.username || window.currentUser.displayName);
             }
         });
 
         function updateAuthNav(isAuth, name = '') {
             const container = document.getElementById('auth-nav-container');
+            const cleanName = name.replace('@', '');
             if (isAuth) {
-                container.innerHTML = `<button onclick="openProfileModal()" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> ${name}</button>`;
+                container.innerHTML = `<button onclick="openProfileModal()" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> ${cleanName}</button>`;
             } else {
                 container.innerHTML = `<button onclick="openAuthModal('login')" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> Войти</button>`;
             }
