@@ -375,7 +375,7 @@
         <div class="p-6 border-t border-gray-200/50 bg-white/50 backdrop-blur-md">
             <div class="flex justify-between items-center mb-6">
                 <span class="text-gray-500 text-lg">Итого:</span>
-                <span class="text-apple-dark text-3xl font-bold" id="cart-total">0 ₽ </span>
+                <span class="text-apple-dark text-3xl font-bold" id="cart-total">0 ₽</span>
             </div>
             <button onclick="checkout()" class="w-full liquid-btn-dark py-4 rounded-2xl font-semibold text-lg transition-all shadow-lg">
                 Оформить заказ
@@ -710,7 +710,7 @@
 
         // Форматирование цен с пробелами и знаком рубля
         const formatPrice = (price) => {
-            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽ ";
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽";
         };
 
         // Загрузка товаров из CSV
