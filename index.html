@@ -729,7 +729,7 @@
             openAuthModal(isRegisterMode ? 'login' : 'register'); 
         };
 
-        window.handleAuthSubmit = function(e) {
+     window.handleAuthSubmit = function(e) {
             e.preventDefault();
             const email = document.getElementById('auth-email').value.trim();
             const password = document.getElementById('auth-password').value;
@@ -746,13 +746,17 @@
                     return;
                 }
 
-                const existing = users.find(u => u.email === email || u.username === usernameInput);
-                if (existing) {
-                    if (existing.email === email) {
-                        showToast("Этот email уже зарегистрирован!");
-                    } else {
-                        showToast("Этот Username уже занят!");
-                    }
+                // Проверка: существует ли уже пользователь с таким email или username
+                const emailExists = users.some(u => u.email.toLowerCase() === email.toLowerCase());
+                const usernameExists = users.some(u => u.username.toLowerCase() === usernameInput.toLowerCase());
+
+                if (emailExists) {
+                    showToast("Этот email уже зарегистрирован!");
+                    return;
+                }
+
+                if (usernameExists) {
+                    showToast("Этот Username уже занят!");
                     return;
                 }
 
@@ -774,21 +778,12 @@
                 closeAuthModal();
                 showToast("Регистрация успешна!");
             } else {
-                const found = users.find(u => u.email === email && u.password === password);
+                const found = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
                 if (found) {
                     window.currentUser = found;
                     window.userProfileData = found;
                     localStorage.setItem('remarket_current_user', JSON.stringify(found));
                     updateAuthNav(true, found.username);
-                    closeAuthModal();
-                    showToast("Успешный вход!");
-                } else if (users.length === 0) {
-                    let username = email.split('@')[0];
-                    let defUser = { email, username, displayName: username };
-                    window.currentUser = defUser;
-                    window.userProfileData = defUser;
-                    localStorage.setItem('remarket_current_user', JSON.stringify(defUser));
-                    updateAuthNav(true, username);
                     closeAuthModal();
                     showToast("Успешный вход!");
                 } else {
