@@ -540,10 +540,21 @@
         let currentUser = null;
         let userProfileData = null;
 
-        try {
+      try {
             app = initializeApp(firebaseConfig);
             db = getFirestore(app);
             auth = getAuth(app);
+        } catch (e) {
+            console.log("Firebase init fallback:", e);
+        }
+
+        // Если auth случайно не инициализировался, создаем заново
+        if (!auth && app) {
+            auth = getAuth(app);
+        }
+        if (!db && app) {
+            db = getFirestore(app);
+        }
 
             const initAuth = async () => {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
