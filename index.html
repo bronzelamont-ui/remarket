@@ -525,7 +525,57 @@
         </div>
     </div>
 
-    <!-- Основной скрипт сайта -->
+    <!-- Скрипты сайта и Firebase Базы Данных -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Конфигурация Firebase (замените своими данными проекта из панели Firebase Console при необходимости)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDummyKeyForStaticHosting",
+            authDomain: "remarketapple.firebaseapp.com",
+            projectId: "remarketapple",
+            storageBucket: "remarketapple.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123:web:abc"
+        };
+
+        // Инициализация (с защитой от сбоев)
+        let app, db, auth;
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+        } catch (e) {
+            console.log("Firebase Init Notice:", e);
+        }
+
+        window.currentUser = null;
+        window.userProfileData = null;
+
+        if (auth) {
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    currentUser = user;
+                    try {
+                        const userDoc = await getDoc(doc(db, "users", user.uid));
+                        if (userDoc.exists()) {
+                            userProfileData = userDoc.data();
+                            updateAuthNav(true, `@${userProfileData.username}`);
+                        }
+                    } catch (err) {
+                        updateAuthNav(true, `@${user.email.split('@')[0]}`);
+                    }
+                } else {
+                    currentUser = null;
+                    userProfileData = null;
+                    updateAuthNav(false);
+                }
+            });
+        }
+    </script>
+
     <script>
         const products = [
             { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от', img: '1.jpg', width: 'w-48' },
@@ -536,7 +586,6 @@
         let cart = [];
         let isCartOpen = false;
         let isRegisterMode = false;
-        let currentUser = null;
 
         const formatPrice = (price) => {
             return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽";
@@ -730,28 +779,83 @@
             openAuthModal(isRegisterMode ? 'login' : 'register'); 
         };
 
-        window.handleAuthSubmit = function(e) {
+        window.handleAuthSubmit = async function(e) {
             e.preventDefault();
-            const email = document.getElementById('auth-email').value;
-            
-            let username = email.split('@')[0];
+            const email = document.getElementById('auth-email').value.trim();
+            const password = document.getElementById('auth-password').value;
+
+            // Фолбек-проверка через localStorage на случай работы без интернета / облака
+            let users = JSON.parse(localStorage.getItem('remarket_db_users') || '[]');
+
             if (isRegisterMode) {
-                const usernameInput = document.getElementById('auth-username').value.trim();
-                if (usernameInput) {
-                    username = usernameInput.replace('@', '');
+                const usernameInput = document.getElementById('auth-username').value.trim().replace('@', '');
+                const nameInput = document.getElementById('auth-name').value.trim();
+                const phoneInput = document.getElementById('auth-phone').value.trim();
+
+                if (!usernameInput) {
+                    showToast("Введите Username");
+                    return;
+                }
+
+                const existing = users.find(u => u.email === email || u.username === usernameInput);
+                if (existing) {
+                    if (existing.email === email) {
+                        showToast("Этот email уже зарегистрирован!");
+                    } else {
+                        showToast("Этот Username уже занят!");
+                    }
+                    return;
+                }
+
+                const newUser = {
+                    email: email,
+                    password: password,
+                    username: usernameInput,
+                    displayName: nameInput || usernameInput,
+                    phone: phoneInput
+                };
+
+                users.push(newUser);
+                localStorage.setItem('remarket_db_users', JSON.stringify(users));
+                localStorage.setItem('remarket_current_user', JSON.stringify(newUser));
+
+                window.currentUser = newUser;
+                window.userProfileData = newUser;
+                updateAuthNav(true, `@${newUser.username}`);
+                closeAuthModal();
+                showToast("Регистрация успешна!");
+            } else {
+                const found = users.find(u => u.email === email && u.password === password);
+                if (found) {
+                    window.currentUser = found;
+                    window.userProfileData = found;
+                    localStorage.setItem('remarket_current_user', JSON.stringify(found));
+                    updateAuthNav(true, `@${found.username}`);
+                    closeAuthModal();
+                    showToast("Успешный вход!");
+                } else if (users.length === 0) {
+                    let username = email.split('@')[0];
+                    let defUser = { email, username, displayName: username };
+                    window.currentUser = defUser;
+                    window.userProfileData = defUser;
+                    localStorage.setItem('remarket_current_user', JSON.stringify(defUser));
+                    updateAuthNav(true, `@${username}`);
+                    closeAuthModal();
+                    showToast("Успешный вход!");
+                } else {
+                    showToast("Неверный email или пароль!");
                 }
             }
-
-            currentUser = { 
-                email: email, 
-                displayName: username,
-                username: username
-            };
-            
-            updateAuthNav(true, `@${username}`);
-            closeAuthModal();
-            showToast("Успешно!");
         };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            let saved = localStorage.getItem('remarket_current_user');
+            if (saved) {
+                window.currentUser = JSON.parse(saved);
+                window.userProfileData = window.currentUser;
+                updateAuthNav(true, `@${window.currentUser.username || window.currentUser.displayName}`);
+            }
+        });
 
         function updateAuthNav(isAuth, name = '') {
             const container = document.getElementById('auth-nav-container');
@@ -763,15 +867,16 @@
         }
 
         window.openProfileModal = function() {
-            if (!currentUser) return;
+            if (!window.currentUser) return;
             const modal = document.getElementById('profile-modal');
             const overlay = document.getElementById('profile-modal-overlay');
             
-            const username = currentUser.username || currentUser.displayName || currentUser.email.split('@')[0];
+            const uData = window.userProfileData || window.currentUser;
+            const username = uData.username || uData.displayName || uData.email.split('@')[0];
             
             document.getElementById('profile-name').textContent = username;
             document.getElementById('profile-username').textContent = `@${username}`;
-            document.getElementById('profile-email').textContent = currentUser.email;
+            document.getElementById('profile-email').textContent = uData.email;
             document.getElementById('profile-avatar').textContent = username.charAt(0).toUpperCase();
             
             modal.classList.remove('hidden'); 
@@ -787,7 +892,9 @@
         };
 
         window.logoutUser = function() {
-            currentUser = null;
+            window.currentUser = null;
+            window.userProfileData = null;
+            localStorage.removeItem('remarket_current_user');
             updateAuthNav(false);
             closeProfileModal();
             showToast("Вы вышли из аккаунта");
