@@ -64,39 +64,36 @@
             height: 100vh;
             background: #ffffff;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 99999;
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
+            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.8s ease;
+            transform-origin: top left;
         }
 
-        .splash-content {
+        .splash-inner {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            animation: splashFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            gap: 12px;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .splash-logo-img {
-            width: 120px;
-            height: 120px;
+            width: 42px;
+            height: 42px;
             object-fit: contain;
-            margin-bottom: 24px;
-            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.1));
+            border-radius: 50%;
         }
 
-        .splash-brand {
+        .splash-brand-text {
             font-family: 'Inter', sans-serif;
             font-weight: 800;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             letter-spacing: -0.04em;
             color: #1d1d1f;
-        }
-
-        @keyframes splashFadeIn {
-            0% { opacity: 0; transform: translateY(15px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         a, button, input, select, .product-card {
@@ -265,11 +262,12 @@
 </head>
 <body class="antialiased selection:bg-apple-blue selection:text-white">
 
-    <!-- Заставка с белым экраном -->
+    <!-- Заставка (Splash Screen) с анимацией перемещения в шапку -->
     <div id="splash-screen">
-        <div class="splash-content">
-            <img src="Фото Главного Профиля.jpg" alt="re:market logo" class="splash-logo-img">
-            <div class="splash-brand">re:market</div>
+        <div class="splash-inner" id="splash-inner">
+            <span class="splash-brand-text">
+                re<img src="apple-logo.png" alt="logo" class="splash-logo-img">market
+            </span>
         </div>
     </div>
 
@@ -277,11 +275,30 @@
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
-                if (splash) {
-                    splash.style.opacity = '0';
-                    setTimeout(() => splash.remove(), 800);
+                const splashInner = document.getElementById('splash-inner');
+                const navLogoContainer = document.getElementById('nav-logo-container');
+
+                if (splash && splashInner && navLogoContainer) {
+                    // Получаем конечные координаты логотипа в шапке
+                    const targetRect = navLogoContainer.getBoundingClientRect();
+                    const startRect = splashInner.getBoundingClientRect();
+
+                    const scaleX = targetRect.width / startRect.width;
+                    const scaleY = targetRect.height / startRect.height;
+                    const translateX = targetRect.left - startRect.left;
+                    const translateY = targetRect.top - startRect.top;
+
+                    // Запускаем плавную анимацию перемещения
+                    splashInner.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
+                    splash.style.backgroundColor = 'transparent';
+                    splash.style.pointerEvents = 'none';
+
+                    setTimeout(() => {
+                        splash.remove();
+                        navLogoContainer.style.opacity = '1';
+                    }, 1000);
                 }
-            }, 1000);
+            }, 800);
         });
     </script>
 
@@ -315,9 +332,9 @@
     <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none">
-                    <img src="Фото Главного Профиля.jpg" alt="Logo" class="w-8 h-8 rounded-full object-cover mr-2">
-                    <span class="font-sans font-extrabold text-2xl tracking-tighter">re:market</span>
+                <!-- Логотип в шапке (сюда прилетает анимация) -->
+                <div id="nav-logo-container" class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none opacity-0" style="gap: 4px; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.04em;">
+                    re<img src="apple-logo.png" alt="logo" style="width: 28px; height: 28px; object-fit: contain; border-radius: 50%;">market
                 </div>
                 
                 <div class="hidden md:block">
@@ -470,7 +487,9 @@
     <footer class="border-t border-gray-200/50 mt-20 py-20 text-center glass relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
             <div class="flex flex-col items-center justify-center mb-6">
-                <p class="font-sans font-extrabold text-7xl text-apple-dark tracking-tighter cursor-default select-none transition-all duration-300 hover:scale-105">re:market</p>
+                <div class="flex items-center font-sans font-extrabold text-7xl text-apple-dark tracking-tighter cursor-default select-none transition-all duration-300 hover:scale-105" style="gap: 8px;">
+                    re<img src="apple-logo.png" alt="logo" style="width: 55px; height: 55px; object-fit: contain; border-radius: 50%;">market
+                </div>
                 <p class="mt-4 text-sm tracking-[0.4em] text-gray-500 font-bold uppercase cursor-default select-none transition-all duration-300 hover:tracking-[0.5em] hover:scale-105">EST'D 2022</p>
                 <p class="mt-2 text-xs tracking-[0.3em] text-gray-400 font-bold uppercase select-none cursor-default transition-all duration-300 hover:tracking-[0.4em] hover:scale-105">улица Темерницкая, 74 | Ростов-на-Дону</p>
             </div>
@@ -488,7 +507,9 @@
     
     <div id="links-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-gray-100">
         <div class="flex justify-between items-center mb-6">
-            <h3 class="text-2xl font-bold text-apple-dark">re:market</h3>
+            <div class="flex items-center font-bold text-2xl text-apple-dark" style="gap: 4px;">
+                re<img src="apple-logo.png" alt="logo" style="width: 22px; height: 22px; object-fit: contain; border-radius: 50%;">market
+            </div>
             <button onclick="closeLinksModal()" class="text-gray-400 hover:text-black p-2 rounded-full bg-gray-100 transition-all">
                 <i class="ph ph-x text-xl"></i>
             </button>
@@ -648,7 +669,7 @@
         };
     </script>
 
-    <!-- Скрипты сайта -->
+    <!-- Скрипты каталога и корзины -->
     <script>
         const products = [
             { id: 'iphone18promax', name: 'iPhone 18 Pro Max Burgundy', desc: 'Титановый корпус. Эксклюзивный цвет.', price: 139990, prefix: 'от' },
