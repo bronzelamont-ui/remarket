@@ -67,7 +67,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            height: 100dvh; /* Защита от прыжка адресной строки iOS и Android */
+            height: 100dvh;
             background: #ffffff;
             display: flex;
             flex-direction: column;
@@ -219,18 +219,6 @@
             0% { top: 30%; left: 30%; }
             100% { top: 45%; left: 45%; }
         }
-        
-        @keyframes shine {
-            100% { left: 200%; }
-        }
-
-        .glass-pill {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: saturate(220%) blur(30px);
-            -webkit-backdrop-filter: saturate(220%) blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 15px 35px -10px rgba(0,113,227,0.12), inset 0 1px 1px rgba(255, 255, 255, 0.8);
-        }
 
         .liquid-btn {
             background: rgba(255, 255, 255, 0.45);
@@ -354,7 +342,6 @@
         </div>
     </nav>
 
-    <!-- ИЗМЕНЕННЫЙ БЛОК: Типографика под Apple-стиль с серым подзаголовком -->
     <main class="pt-48 sm:pt-56 pb-12 overflow-hidden text-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex flex-col items-center">
             <h1 class="text-[2.8rem] sm:text-6xl md:text-[5.5rem] leading-[1.05] font-bold text-[#1d1d1f] mb-4" style="letter-spacing: -0.035em;">
@@ -366,7 +353,6 @@
             </p>
         </div>
     </main>
-    <!-- КОНЕЦ ИЗМЕНЕННОГО БЛОКА -->
 
     <section id="products" class="py-20 relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
