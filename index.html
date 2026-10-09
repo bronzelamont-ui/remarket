@@ -489,16 +489,23 @@
                     let name = values[0] || '';
                     name = name.replace(/^Apple\s+/i, '').trim();
                     
-                    // Пытаемся найти цену в разных колонках
-                    let rawPriceText = values[values.length - 1] || ''; 
-                    if (values.length >= 4) rawPriceText = values[3];
-                    else if (values.length === 3) rawPriceText = values[2];
+       let numericPrice = 0;
 
-                    let numericPrice = parseInt(rawPriceText.replace(/[^0-9]/g, ''), 10) || 0;
+                    // Если данные разбиты на несколько колонок
+                    if (values.length > 1) {
+                        let rawPriceText = values[values.length - 1] || ''; 
+                        if (values.length >= 4) rawPriceText = values[3];
+                        else if (values.length === 3) rawPriceText = values[2];
+                        
+                        numericPrice = parseInt(rawPriceText.replace(/[^0-9]/g, ''), 10) || 0;
+                    }
 
-                    const priceInNameMatch = name.match(/(?:\s*-\s*)?([\d\s.,]{4,})(?:₽|р|P|p)?\s*$/i);
-                    if (priceInNameMatch && numericPrice === 0) {
+                    // Ищем цену в конце названия товара (с дефисом или просто через пробел)
+                    const priceInNameMatch = name.match(/(?:\s*-\s*|\s+)([\d\s.,]{4,})(?:₽|р|P|p)?\s*$/i);
+                    if (priceInNameMatch) {
+                        // Берём цену из регулярного выражения
                         numericPrice = parseInt(priceInNameMatch[1].replace(/[^0-9]/g, ''), 10);
+                        // Отрезаем цену от названия
                         name = name.replace(priceInNameMatch[0], '').trim();
                     }
 
