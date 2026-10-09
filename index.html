@@ -182,16 +182,24 @@
         </div>
     </nav>
 
-    <main class="pt-32 pb-8"></main>
+    <main class="pt-28 pb-4">
+        <!-- Заголовок iPhone 18 Pro Max Burgundy -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
+            <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-apple-dark uppercase bg-gradient-to-r from-[#111112] via-[#4a4a4e] to-[#7a1c35] bg-clip-text text-transparent drop-shadow-sm select-none">
+                iPhone 18 Pro Max Burgundy
+            </h2>
+            <p class="text-sm sm:text-base text-gray-500 mt-2 font-medium tracking-wide">Флагманская коллекция в эксклюзивном исполнении</p>
+        </div>
+    </main>
 
-    <section id="products" class="py-12 relative z-10 scroll-mt-16">
+    <section id="products" class="py-4 relative z-10 scroll-mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             <div class="max-w-2xl mx-auto mb-6 relative group z-20">
                 <div class="absolute -inset-1 bg-gradient-to-r from-[#0071e3] via-[#ff2d55] to-[#af52de] rounded-full blur-xl opacity-0 group-hover:opacity-25 transition duration-700 pointer-events-none"></div>
                 <div class="relative flex items-center w-full glass-heavy rounded-full p-2 transition-all duration-500 focus-within:scale-[1.02] focus-within:bg-white/90">
                     <i class="ph ph-magnifying-glass text-2xl text-gray-400 ml-5 group-hover:text-apple-blue transition-colors duration-300"></i>
-                    <input type="text" id="catalog-search" placeholder="Найти iPhone 15 Pro, MacBook Air..." class="w-full bg-transparent border-none outline-none text-apple-dark px-4 py-3 text-lg placeholder-gray-400 font-medium" oninput="window.handleSearch(event)">
+                    <input type="text" id="catalog-search" placeholder="Найти iPhone 18 Pro Max, MacBook Air..." class="w-full bg-transparent border-none outline-none text-apple-dark px-4 py-3 text-lg placeholder-gray-400 font-medium" oninput="window.handleSearch(event)">
                     <button id="clear-search" onclick="window.clearSearch()" class="p-2 text-gray-400 hover:text-red-500 transition-all duration-300 transform scale-0 opacity-0 absolute right-4 liquid-btn rounded-full w-10 h-10 flex items-center justify-center shadow-sm">
                         <i class="ph ph-x text-lg font-bold"></i>
                     </button>
@@ -464,24 +472,40 @@
 
     <script>
         let cart = [], isCartOpen = false, isRegisterMode = false;
-        let allProducts = [], filteredProducts = [], currentPage = 1, currentActiveCategory = 'Все', currentSort = null;
         
-        // Устанавливаем 12 товаров на страницу
+        // Предопределенный стартовый набор товаров для моментальной отрисовки без ожидания файла
+        let allProducts = [
+            { id: 'def_1', name: 'iPhone 18 Pro Max Burgundy 256GB', category: 'iPhone', priceString: 'от 149 990 ₽', numericPrice: 149990 },
+            { id: 'def_2', name: 'iPhone 18 Pro 128GB', category: 'iPhone', priceString: 'от 129 990 ₽', numericPrice: 129990 },
+            { id: 'def_3', name: 'MacBook Air 15 M3 512GB', category: 'MacBook', priceString: 'от 139 990 ₽', numericPrice: 139990 },
+            { id: 'def_4', name: 'Apple Watch Series 11 45mm', category: 'Watch', priceString: 'от 42 990 ₽', numericPrice: 42990 },
+            { id: 'def_5', name: 'iPad Pro 11 M4', category: 'iPad', priceString: 'от 99 990 ₽', numericPrice: 99990 },
+            { id: 'def_6', name: 'AirPods Pro 2 USB-C', category: 'AirPods', priceString: 'от 22 990 ₽', numericPrice: 22990 }
+        ];
+
+        let filteredProducts = [...allProducts], currentPage = 1, currentActiveCategory = 'Все', currentSort = null;
         const itemsPerPage = 12;
 
         const formatPrice = (price) => price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + "&nbsp;₽";
 
-       async function loadCatalog() {
+        // Рендерим стартовые товары сразу при загрузке скрипта
+        window.addEventListener('DOMContentLoaded', () => {
+            window.filterCategory('Все');
+            loadCatalogAsync(); // Фоновая загрузка полного каталога из файла
+        });
+
+        async function loadCatalogAsync() {
             try {
                 const response = await fetch('catalog.csv');
-                if (!response.ok) throw new Error('Файл не найден');
+                if (!response.ok) return;
                 const rows = (await response.text()).split('\n').filter(row => row.trim() !== '');
-                
+                if (rows.length <= 1) return;
+
+                let loadedProducts = [];
                 for (let i = 1; i < rows.length; i++) {
                     let rowStr = rows[i].trim();
                     if (!rowStr) continue;
 
-                    // Определяем разделитель (; или ,)
                     const delimiter = rowStr.includes(';') ? ';' : ',';
                     const regex = new RegExp(`${delimiter}(?=(?:(?:[^"]*"){2})*[^"]*$)`);
                     const values = rowStr.split(regex).map(v => v.replace(/^"|"$/g, '').trim()); 
@@ -489,52 +513,42 @@
                     let name = values[0] || '';
                     name = name.replace(/^Apple\s+/i, '').trim();
                     
-       let numericPrice = 0;
-
-                    // Если данные разбиты на несколько колонок
+                    let numericPrice = 0;
                     if (values.length > 1) {
                         let rawPriceText = values[values.length - 1] || ''; 
                         if (values.length >= 4) rawPriceText = values[3];
                         else if (values.length === 3) rawPriceText = values[2];
-                        
                         numericPrice = parseInt(rawPriceText.replace(/[^0-9]/g, ''), 10) || 0;
                     }
 
-                    // Ищем цену в конце названия товара (с дефисом или просто через пробел)
                     const priceInNameMatch = name.match(/(?:\s*-\s*|\s+)([\d\s.,]{4,})(?:₽|р|P|p)?\s*$/i);
                     if (priceInNameMatch) {
-                        // Берём цену из регулярного выражения
                         numericPrice = parseInt(priceInNameMatch[1].replace(/[^0-9]/g, ''), 10);
-                        // Отрезаем цену от названия
                         name = name.replace(priceInNameMatch[0], '').trim();
                     }
 
-                    // Если цена все еще 0 или названия нет - пропускаем
                     if (!name || name.length < 3 || numericPrice === 0) continue;
-
                     if (numericPrice > 0 && numericPrice % 500 === 0) numericPrice -= 10;
                     
-                    // --- ЖЕСТКАЯ ПРИВЯЗКА КАТЕГОРИИ ПО НАЗВАНИЮ ТОВАРА ---
-                    let category = 'Аксессуары'; // Категория по умолчанию
+                    let category = 'Аксессуары';
                     const lowName = name.toLowerCase();
-                    
                     if (lowName.includes('iphone')) category = 'iPhone';
                     else if (lowName.includes('macbook') || lowName.includes('mac')) category = 'MacBook';
                     else if (lowName.includes('watch')) category = 'Watch';
                     else if (lowName.includes('ipad')) category = 'iPad';
                     else if (lowName.includes('airpods')) category = 'AirPods';
 
-                    allProducts.push({ id: 'prod_' + i, name, category, priceString: "от " + formatPrice(numericPrice), numericPrice });
+                    loadedProducts.push({ id: 'prod_' + i, name, category, priceString: "от " + formatPrice(numericPrice), numericPrice });
                 }
-                window.filterCategory('Все');
+
+                if (loadedProducts.length > 0) {
+                    allProducts = loadedProducts;
+                    window.filterCategory(currentActiveCategory, null, true);
+                }
             } catch (error) {
-                // Выводим более понятную ошибку, если файл не загрузился
-                document.getElementById('products-grid').innerHTML = '<p class="text-center text-red-500 w-full col-span-full mt-10 text-lg font-medium">Не удалось загрузить товары.<br><span class="text-sm text-gray-500">Убедитесь, что файл catalog.csv загружен на сервер и сайт открыт по ссылке http:// или https://</span></p>';
-                console.error("Ошибка загрузки каталога:", error);
+                console.log("Файл catalog.csv не обнаружен, используются встроенные товары.");
             }
         }
-
-        window.addEventListener('DOMContentLoaded', loadCatalog);
 
         window.handleSearch = function(event) {
             const query = event.target.value.toLowerCase().trim();
@@ -561,7 +575,6 @@
             window.filterCategory('Все');
         };
 
-        // Обновленная логика фильтрации по категориям
         window.filterCategory = function(categoryName, event, isFromSearch = false) {
             if(event) event.preventDefault();
             if (!isFromSearch) {
@@ -581,7 +594,6 @@
                 }
             });
             
-            // Фильтруем так, чтобы категории точно соответствовали
             filteredProducts = categoryName === 'Все' ? [...allProducts] : allProducts.filter(p => p.category === categoryName);
             
             applySorting();
