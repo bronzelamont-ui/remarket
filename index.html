@@ -481,7 +481,7 @@
 
         const formatPrice = (price) => price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + "&nbsp;₽";
 
-        async function loadCatalog() {
+       async function loadCatalog() {
             try {
                 const response = await fetch('catalog.csv');
                 if (!response.ok) throw new Error('Файл не найден');
@@ -491,70 +491,83 @@
                     let rowStr = rows[i].trim();
                     if (!rowStr) continue;
 
+                    // Определяем разделитель (; или ,)
                     const delimiter = rowStr.includes(';') ? ';' : ',';
                     const regex = new RegExp(`${delimiter}(?=(?:(?:[^"]*"){2})*[^"]*$)`);
                     const values = rowStr.split(regex).map(v => v.replace(/^"|"$/g, '').trim()); 
                     
                     let name = values[0] || '';
-                    
-                    // Удаляем слово "Apple" в начале названия товара
                     name = name.replace(/^Apple\s+/i, '').trim();
-
-                    let category = values[1] || '';
                     
+                    // Пытаемся найти цену в разных колонках
                     let rawPriceText = values[values.length - 1] || ''; 
                     if (values.length >= 4) rawPriceText = values[3];
                     else if (values.length === 3) rawPriceText = values[2];
 
                     let numericPrice = parseInt(rawPriceText.replace(/[^0-9]/g, ''), 10) || 0;
 
-                    // Умное извлечение цены, если она "прилипла" к названию
                     const priceInNameMatch = name.match(/(?:\s*-\s*)?([\d\s.,]{4,})(?:₽|р|P|p)?\s*$/i);
                     if (priceInNameMatch && numericPrice === 0) {
                         numericPrice = parseInt(priceInNameMatch[1].replace(/[^0-9]/g, ''), 10);
                         name = name.replace(priceInNameMatch[0], '').trim();
                     }
 
-                    // Пропуск пустых строк и товаров без цены
+                    // Если цена все еще 0 или названия нет - пропускаем
                     if (!name || name.length < 3 || numericPrice === 0) continue;
-
-                    if (!category || category.toLowerCase() === 'без категории') {
-                        const lowName = name.toLowerCase();
-                        if (lowName.includes('iphone')) category = 'iPhone';
-                        else if (lowName.includes('macbook') || lowName.includes('mac')) category = 'MacBook';
-                        else if (lowName.includes('watch')) category = 'Watch';
-                        else if (lowName.includes('ipad')) category = 'iPad';
-                        else if (lowName.includes('airpods')) category = 'AirPods';
-                        else category = 'Аксессуары';
-                    }
 
                     if (numericPrice > 0 && numericPrice % 500 === 0) numericPrice -= 10;
                     
+                    // --- ЖЕСТКАЯ ПРИВЯЗКА КАТЕГОРИИ ПО НАЗВАНИЮ ТОВАРА ---
+                    let category = 'Аксессуары'; // Категория по умолчанию
+                    const lowName = name.toLowerCase();
+                    
+                    if (lowName.includes('iphone')) category = 'iPhone';
+                    else if (lowName.includes('macbook') || lowName.includes('mac')) category = 'MacBook';
+                    else if (lowName.includes('watch')) category = 'Watch';
+                    else if (lowName.includes('ipad')) category = 'iPad';
+                    else if (lowName.includes('airpods')) category = 'AirPods';
+
                     allProducts.push({ id: 'prod_' + i, name, category, priceString: "от " + formatPrice(numericPrice), numericPrice });
                 }
                 window.filterCategory('Все');
             } catch (error) {
-                document.getElementById('products-grid').innerHTML = '<p class="text-center text-red-500 w-full col-span-full mt-10">Не удалось загрузить прайс-лист. Проверьте наличие файла catalog.csv.</p>';
+                // Выводим более понятную ошибку, если файл не загрузился
+                document.getElementById('products-grid').innerHTML = '<p class="text-center text-red-500 w-full col-span-full mt-10 text-lg font-medium">Не удалось загрузить товары.<br><span class="text-sm text-gray-500">Убедитесь, что файл catalog.csv загружен на сервер и сайт открыт по ссылке http:// или https://</span></p>';
+                console.error("Ошибка загрузки каталога:", error);
             }
         }
-        window.addEventListener('DOMContentLoaded', loadCatalog);
 
-        window.handleSearch = function(event) {
-            const query = event.target.value.toLowerCase().trim();
-            const clearBtn = document.getElementById('clear-search');
-            
-            if (query.length > 0) { clearBtn.classList.remove('scale-0', 'opacity-0'); clearBtn.classList.add('scale-100', 'opacity-100'); }
-            else { clearBtn.classList.remove('scale-100', 'opacity-100'); clearBtn.classList.add('scale-0', 'opacity-0'); }
-            
-            if (query === '') return window.filterCategory(currentActiveCategory, null, true); 
+        window.filterCategory = function(categoryName, event, isFromSearch = false) {
+            if(event) event.preventDefault();
+            if (!isFromSearch) {
+                const searchInput = document.getElementById('catalog-search');
+                if (searchInput) searchInput.value = '';
+                const clearBtn = document.getElementById('clear-search');
+                if (clearBtn) { clearBtn.classList.remove('scale-100', 'opacity-100'); clearBtn.classList.add('scale-0', 'opacity-0'); }
+            }
 
-            filteredProducts = allProducts.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+            currentActiveCategory = categoryName; 
+            currentPage = 1; 
             
+            // Подсветка активной кнопки меню
             document.querySelectorAll('.nav-cat-btn').forEach(btn => {
-                btn.classList.remove('bg-white/60', 'text-apple-blue', 'shadow-sm'); btn.classList.add('text-apple-dark', 'hover:bg-white/40');
+                if (btn.dataset.cat === categoryName) {
+                    btn.classList.add('bg-white/60', 'text-apple-blue', 'shadow-sm'); 
+                    btn.classList.remove('text-apple-dark', 'hover:bg-white/40');
+                } else {
+                    btn.classList.remove('bg-white/60', 'text-apple-blue', 'shadow-sm'); 
+                    btn.classList.add('text-apple-dark', 'hover:bg-white/40');
+                }
             });
+            
+            // Точная фильтрация по категории
+            filteredProducts = categoryName === 'Все' 
+                ? [...allProducts] 
+                : allProducts.filter(p => p.category === categoryName);
+            
             applySorting();
-            currentPage = 1; renderPage();
+            renderPage();
+        };
         };
 
         window.clearSearch = function() {
