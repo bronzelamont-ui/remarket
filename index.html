@@ -35,12 +35,7 @@
     
     <style>
         html, body {
-            background-color: #eef1f6;
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-            background-size: 35px 35px;
-            background-position: center top;
+            background-color: #f0f3f8;
             color: #1d1d1f;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             overflow-x: hidden;
@@ -78,49 +73,70 @@
 
         @keyframes splashAppear { 0% { opacity: 0; transform: translateY(22px); } 100% { opacity: 1; transform: translateY(0); } }
 
-        /* Истинное глубокое жидкое стекло (Liquid Glass / Water Lens) */
+        /* Абсолютный премиальный Liquid Glass фон с плавающими каплями и технической сеткой */
+        .animated-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden;
+            background-color: #f0f4f9;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center top;
+        }
+
+        .fluid-shape { position: absolute; filter: blur(60px); opacity: 0.75; animation: fluidRotate 35s infinite linear; pointer-events: none; }
+        .shape-1 { width: 65vw; height: 65vw; background: linear-gradient(135deg, rgba(0, 113, 227, 0.22) 0%, rgba(175, 82, 222, 0.15) 100%); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; animation: fluidRotate 40s infinite linear, move1 25s infinite alternate ease-in-out; top: -10%; left: -10%; }
+        .shape-2 { width: 60vw; height: 60vw; background: linear-gradient(135deg, rgba(255, 45, 85, 0.15) 0%, rgba(0, 199, 190, 0.18) 100%); border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; animation: fluidRotate 45s infinite linear reverse, move2 30s infinite alternate ease-in-out; bottom: -10%; right: -10%; }
+        .shape-3 { width: 45vw; height: 45vw; background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 70%); border-radius: 50%; animation: move3 22s infinite alternate ease-in-out; top: 30%; left: 30%; }
+
+        @keyframes fluidRotate { 100% { transform: rotate(360deg); } }
+        @keyframes move1 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(8%, 12%) scale(1.1); } }
+        @keyframes move2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-10%, -8%) scale(1.05); } }
+        @keyframes move3 { 0% { transform: translate(0, 0); } 100% { transform: translate(15%, -10%); } }
+
+        /* Истинное объемное жидкое стекло (Liquid Water Glass / Water Droplet Lenses) */
         .liquid-water-glass {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 100%);
-            backdrop-filter: blur(24px) saturate(200%);
-            -webkit-backdrop-filter: blur(24px) saturate(200%);
-            border: 1.5px solid rgba(255, 255, 255, 0.95);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.2) 100%);
+            backdrop-filter: blur(28px) saturate(220%);
+            -webkit-backdrop-filter: blur(28px) saturate(220%);
+            border: 1.5px solid rgba(255, 255, 255, 0.9);
             border-top: 1.5px solid rgba(255, 255, 255, 1);
             border-left: 1.5px solid rgba(255, 255, 255, 1);
             box-shadow: 
-                0 20px 45px rgba(0, 0, 0, 0.07),
-                0 4px 12px rgba(0, 0, 0, 0.03),
+                0 25px 50px rgba(0, 0, 0, 0.06),
+                0 6px 15px rgba(0, 0, 0, 0.02),
                 inset 0 2px 4px rgba(255, 255, 255, 1),
-                inset 0 -3px 6px rgba(0, 0, 0, 0.06);
+                inset 0 -3px 8px rgba(0, 0, 0, 0.05);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .liquid-water-glass:hover {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.45) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 100%);
             box-shadow: 
-                0 25px 60px rgba(0, 113, 227, 0.12),
-                0 6px 16px rgba(0, 0, 0, 0.05),
+                0 30px 65px rgba(0, 113, 227, 0.1),
+                0 8px 20px rgba(0, 0, 0, 0.04),
                 inset 0 3px 6px rgba(255, 255, 255, 1),
-                inset 0 -3px 8px rgba(0, 0, 0, 0.08);
+                inset 0 -4px 10px rgba(0, 0, 0, 0.07);
             transform: translateY(-3px);
         }
 
         .liquid-water-dark {
-            background: linear-gradient(135deg, rgba(35, 35, 38, 0.9) 0%, rgba(10, 10, 12, 0.75) 100%);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1.5px solid rgba(255, 255, 255, 0.3);
-            border-top: 1.5px solid rgba(255, 255, 255, 0.6);
+            background: linear-gradient(135deg, rgba(30, 30, 34, 0.9) 0%, rgba(10, 10, 12, 0.8) 100%);
+            backdrop-filter: blur(24px) saturate(190%);
+            -webkit-backdrop-filter: blur(24px) saturate(190%);
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            border-top: 1.5px solid rgba(255, 255, 255, 0.5);
             box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.2),
+                0 20px 40px rgba(0, 0, 0, 0.2),
                 inset 0 1px 3px rgba(255, 255, 255, 0.4);
             color: #ffffff;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .liquid-water-dark:hover {
-            background: linear-gradient(135deg, rgba(45, 45, 48, 0.95) 0%, rgba(20, 20, 22, 0.9) 100%);
+            background: linear-gradient(135deg, rgba(40, 40, 45, 0.95) 0%, rgba(15, 15, 18, 0.9) 100%);
             transform: translateY(-2px);
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
         }
 
         .product-card { 
@@ -137,7 +153,14 @@
 </head>
 <body class="splash-active antialiased selection:bg-apple-blue selection:text-white">
 
-    <!-- Экран загрузки с анимированными жидкими волнами -->
+    <!-- Фоновые объемные слои жидкого стекла (капли и преломления) -->
+    <div class="animated-bg">
+        <div class="fluid-shape shape-1"></div>
+        <div class="fluid-shape shape-2"></div>
+        <div class="fluid-shape shape-3"></div>
+    </div>
+
+    <!-- Экран загрузки с анимированными волнами -->
     <div id="splash-screen">
         <canvas id="liquid-canvas"></canvas>
         <div class="splash-content">
@@ -196,7 +219,7 @@
             
             <!-- Поиск с подсветкой и цветным преломлением -->
             <div class="max-w-2xl mx-auto mb-6 relative group z-20">
-                <div class="absolute -inset-1 bg-gradient-to-r from-[#0071e3] via-[#ff2d55] to-[#af52de] rounded-full blur-xl opacity-20 group-hover:opacity-40 transition duration-700 pointer-events-none"></div>
+                <div class="absolute -inset-1 bg-gradient-to-r from-[#0071e3] via-[#ff2d55] to-[#af52de] rounded-full blur-xl opacity-30 group-hover:opacity-50 transition duration-700 pointer-events-none"></div>
                 <div class="relative flex items-center w-full liquid-water-glass rounded-full p-2.5 transition-all duration-500 focus-within:scale-[1.02]">
                     <i class="ph ph-magnifying-glass text-2xl text-gray-400 ml-4 group-hover:text-apple-blue transition-colors duration-300"></i>
                     <input type="text" id="catalog-search" placeholder="Найти iPhone 18 Pro Max, MacBook Air..." class="w-full bg-transparent border-none outline-none text-apple-dark px-4 py-3 text-lg placeholder-gray-400 font-medium" oninput="window.handleSearch(event)">
