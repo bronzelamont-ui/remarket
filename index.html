@@ -182,17 +182,7 @@
         </div>
     </nav>
 
-    <main class="pt-48 sm:pt-56 pb-12 overflow-hidden text-center">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex flex-col items-center">
-            <h1 class="text-[2.8rem] sm:text-6xl md:text-[5.5rem] leading-[1.05] font-bold text-[#1d1d1f] mb-4 tracking-tight">
-                iPhone 18 Pro Max <br/>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#3b0918] via-[#8c1c31] to-[#3b0918]">Burgundy</span>
-            </h1>
-            <p class="mt-4 text-xl text-[#86868b] max-w-2xl mx-auto font-light">
-                Гипнотическая эстетика и ультимативная мощь.
-            </p>
-        </div>
-    </main>
+    <main class="pt-32 pb-8"></main>
 
     <section id="products" class="py-12 relative z-10 scroll-mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -537,37 +527,24 @@
             }
         }
 
-        window.filterCategory = function(categoryName, event, isFromSearch = false) {
-            if(event) event.preventDefault();
-            if (!isFromSearch) {
-                const searchInput = document.getElementById('catalog-search');
-                if (searchInput) searchInput.value = '';
-                const clearBtn = document.getElementById('clear-search');
-                if (clearBtn) { clearBtn.classList.remove('scale-100', 'opacity-100'); clearBtn.classList.add('scale-0', 'opacity-0'); }
-            }
+        window.addEventListener('DOMContentLoaded', loadCatalog);
 
-            currentActiveCategory = categoryName; 
-            currentPage = 1; 
+        window.handleSearch = function(event) {
+            const query = event.target.value.toLowerCase().trim();
+            const clearBtn = document.getElementById('clear-search');
             
-            // Подсветка активной кнопки меню
+            if (query.length > 0) { clearBtn.classList.remove('scale-0', 'opacity-0'); clearBtn.classList.add('scale-100', 'opacity-100'); }
+            else { clearBtn.classList.remove('scale-100', 'opacity-100'); clearBtn.classList.add('scale-0', 'opacity-0'); }
+            
+            if (query === '') return window.filterCategory(currentActiveCategory, null, true); 
+
+            filteredProducts = allProducts.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+            
             document.querySelectorAll('.nav-cat-btn').forEach(btn => {
-                if (btn.dataset.cat === categoryName) {
-                    btn.classList.add('bg-white/60', 'text-apple-blue', 'shadow-sm'); 
-                    btn.classList.remove('text-apple-dark', 'hover:bg-white/40');
-                } else {
-                    btn.classList.remove('bg-white/60', 'text-apple-blue', 'shadow-sm'); 
-                    btn.classList.add('text-apple-dark', 'hover:bg-white/40');
-                }
+                btn.classList.remove('bg-white/60', 'text-apple-blue', 'shadow-sm'); btn.classList.add('text-apple-dark', 'hover:bg-white/40');
             });
-            
-            // Точная фильтрация по категории
-            filteredProducts = categoryName === 'Все' 
-                ? [...allProducts] 
-                : allProducts.filter(p => p.category === categoryName);
-            
             applySorting();
-            renderPage();
-        };
+            currentPage = 1; renderPage();
         };
 
         window.clearSearch = function() {
@@ -598,10 +575,7 @@
             });
             
             // Фильтруем так, чтобы категории точно соответствовали
-            filteredProducts = categoryName === 'Все' ? [...allProducts] : allProducts.filter(p => 
-                p.category.toLowerCase() === categoryName.toLowerCase() || 
-                p.name.toLowerCase().includes(categoryName.toLowerCase())
-            );
+            filteredProducts = categoryName === 'Все' ? [...allProducts] : allProducts.filter(p => p.category === categoryName);
             
             applySorting();
             renderPage();
