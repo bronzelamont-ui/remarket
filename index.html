@@ -35,8 +35,8 @@
     
     <style>
         html, body {
-            background-color: #2b2d38;
-            color: #1d1d1f;
+            background-color: #161821;
+            color: #ffffff;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
@@ -48,7 +48,7 @@
 
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #ffffff; display: flex; flex-direction: column;
+            background: #111216; display: flex; flex-direction: column;
             align-items: center; justify-content: center; z-index: 99999;
             text-align: center; padding: 0 24px;
             transition: opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease;
@@ -64,110 +64,111 @@
 
         .splash-brand-title {
             font-weight: 800; font-size: clamp(2.8rem, 7.5vw, 5.8rem); letter-spacing: -0.04em;
-            margin-bottom: 12px; background: linear-gradient(180deg, #111112 0%, #4a4a4e 100%);
+            margin-bottom: 12px; background: linear-gradient(180deg, #ffffff 0%, #88888b 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .splash-brand-subtitle { font-size: clamp(0.95rem, 2.2vw, 1.35rem); color: #86868b; letter-spacing: -0.015em; }
 
-        /* Фоновые мягкие градиентные переливы */
+        /* Фоновые живые переливы */
         .animated-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden;
-            background: radial-gradient(circle at 20% 20%, #4c2844 0%, #222530 50%, #1a1c24 100%);
+            background: radial-gradient(circle at 30% 30%, #3a1d35 0%, #151720 60%, #0d0e13 100%);
         }
 
-        .fluid-shape { position: absolute; filter: blur(80px); opacity: 0.6; pointer-events: none; will-change: transform; }
-        .shape-1 { width: 50vw; height: 50vw; background: rgba(255, 45, 85, 0.25); border-radius: 50%; top: -10%; left: -10%; }
-        .shape-2 { width: 45vw; height: 45vw; background: rgba(0, 113, 227, 0.2); border-radius: 50%; bottom: -10%; right: -10%; }
+        .fluid-shape { position: absolute; filter: blur(90px); opacity: 0.5; pointer-events: none; will-change: transform; }
+        .shape-1 { width: 55vw; height: 55vw; background: rgba(255, 45, 85, 0.2); border-radius: 50%; top: -10%; left: -10%; }
+        .shape-2 { width: 50vw; height: 50vw; background: rgba(0, 113, 227, 0.18); border-radius: 50%; bottom: -10%; right: -10%; }
 
-        /* Рамка матового прозрачного стекла */
+        /* Рамка глянцевого прозрачного стекла на весь экран */
         .glass-container-frame {
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            border-top: 1px solid rgba(255, 255, 255, 0.35);
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4), inset 0 1px 3px rgba(255, 255, 255, 0.25);
-            border-radius: 40px;
-            margin: 24px auto;
-            max-width: 1440px;
-            min-height: calc(100vh - 48px);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(50px) saturate(220%);
+            -webkit-backdrop-filter: blur(50px) saturate(220%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 
+                0 50px 120px rgba(0, 0, 0, 0.6), 
+                inset 0 1px 4px rgba(255, 255, 255, 0.2),
+                inset 0 -2px 10px rgba(0, 0, 0, 0.5);
+            border-radius: 36px;
+            margin: 12px;
+            min-height: calc(100vh - 24px);
             position: relative;
             overflow: hidden;
         }
 
-        /* Ультра-стекло для элементов интерфейса */
+        /* Ультра-прозрачное стекло для интерфейса */
         .ultra-glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(25px) saturate(200%);
-            -webkit-backdrop-filter: blur(25px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-top: 1px solid rgba(255, 255, 255, 0.55);
-            border-left: 1px solid rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.35);
+            border-left: 1px solid rgba(255, 255, 255, 0.35);
             box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.15),
-                inset 0 1px 2px rgba(255, 255, 255, 0.4),
-                inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+                0 15px 35px rgba(0, 0, 0, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.3);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .ultra-glass:hover {
-            background: rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.12);
             transform: translateY(-2px);
             box-shadow: 
-                0 20px 45px rgba(0, 0, 0, 0.25),
-                inset 0 1px 3px rgba(255, 255, 255, 0.6),
-                inset 0 -2px 5px rgba(0, 0, 0, 0.3);
+                0 20px 45px rgba(0, 0, 0, 0.3),
+                inset 0 1px 3px rgba(255, 255, 255, 0.5);
         }
 
-        /* Уникальные карточки товара со стеклянной линзой-иконкой */
+        /* Уникальные карточки товаров */
         .product-card { 
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
-            backdrop-filter: blur(30px) saturate(200%);
-            -webkit-backdrop-filter: blur(30px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-top: 1px solid rgba(255, 255, 255, 0.5);
-            border-left: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 28px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(35px) saturate(200%);
+            -webkit-backdrop-filter: blur(35px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.2);
             transform: translateZ(0); 
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform, box-shadow; 
         }
         .product-card:hover { 
             transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(255, 255, 255, 0.7);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.5), inset 0 1px 4px rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
         }
 
-        /* Анимированная стеклянная линза-иконка */
-        .product-lens-icon {
-            width: 54px; height: 54px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 70%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), inset 0 2px 3px rgba(255, 255, 255, 0.8), inset 0 -2px 3px rgba(0, 0, 0, 0.2);
+        /* Уникальная анимированная стеклянная линза-иконка */
+        .product-lens-capsule {
+            width: 60px; height: 60px;
+            border-radius: 22px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.03) 80%);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), inset 0 2px 3px rgba(255, 255, 255, 0.5), inset 0 -2px 3px rgba(0, 0, 0, 0.4);
             display: flex; align-items: center; justify-content: center;
-            color: #ffffff; font-size: 24px;
-            transition: transform 0.4s ease;
+            color: #ffffff; font-size: 26px;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .product-card:hover .product-lens-icon {
-            transform: scale(1.1) rotate(6deg);
+        .product-card:hover .product-lens-capsule {
+            transform: scale(1.1) rotate(-6deg);
         }
 
         .ultra-glass-dark {
-            background: rgba(20, 20, 24, 0.85);
-            backdrop-filter: blur(25px) saturate(200%);
-            -webkit-backdrop-filter: blur(25px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-top: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(255, 255, 255, 0.4);
+            background: rgba(25, 25, 32, 0.85);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.3);
             color: #ffffff;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .ultra-glass-dark:hover {
-            background: rgba(10, 10, 12, 0.95);
+            background: rgba(12, 12, 16, 0.95);
             transform: translateY(-2px);
         }
 
@@ -191,11 +192,11 @@
         </div>
     </div>
 
-    <!-- Сайт в рамке матового стекла -->
+    <!-- Сайт в рамке прозрачного глянцевого стекла на весь экран -->
     <div class="glass-container-frame">
 
         <!-- Навигация -->
-        <nav class="sticky top-0 w-full z-50 ultra-glass border-b border-white/20" id="navbar">
+        <nav class="sticky top-0 w-full z-50 ultra-glass border-b border-white/10" id="navbar">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-20">
                     <div class="flex-shrink-0 flex items-center text-white cursor-default select-none font-extrabold text-2xl tracking-tighter">
@@ -205,11 +206,11 @@
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-2 text-sm font-medium">
                             <a href="#products" onclick="window.filterCategory('Все', event)" data-cat="Все" class="nav-cat-btn ultra-glass text-white shadow-sm px-5 py-2.5 rounded-full">Все</a>
-                            <a href="#products" onclick="window.filterCategory('iPhone', event)" data-cat="iPhone" class="nav-cat-btn text-white/80 hover:text-white px-5 py-2.5 rounded-full transition-all">iPhone</a>
-                            <a href="#products" onclick="window.filterCategory('MacBook', event)" data-cat="MacBook" class="nav-cat-btn text-white/80 hover:text-white px-5 py-2.5 rounded-full transition-all">MacBook</a>
-                            <a href="#products" onclick="window.filterCategory('Watch', event)" data-cat="Watch" class="nav-cat-btn text-white/80 hover:text-white px-5 py-2.5 rounded-full transition-all">Watch</a>
-                            <a href="#products" onclick="window.filterCategory('iPad', event)" data-cat="iPad" class="nav-cat-btn text-white/80 hover:text-white px-5 py-2.5 rounded-full transition-all">iPad</a>
-                            <a href="#products" onclick="window.filterCategory('AirPods', event)" data-cat="AirPods" class="nav-cat-btn text-white/80 hover:text-white px-5 py-2.5 rounded-full transition-all">AirPods</a>
+                            <a href="#products" onclick="window.filterCategory('iPhone', event)" data-cat="iPhone" class="nav-cat-btn text-white/70 hover:text-white px-5 py-2.5 rounded-full transition-all">iPhone</a>
+                            <a href="#products" onclick="window.filterCategory('MacBook', event)" data-cat="MacBook" class="nav-cat-btn text-white/70 hover:text-white px-5 py-2.5 rounded-full transition-all">MacBook</a>
+                            <a href="#products" onclick="window.filterCategory('Watch', event)" data-cat="Watch" class="nav-cat-btn text-white/70 hover:text-white px-5 py-2.5 rounded-full transition-all">Watch</a>
+                            <a href="#products" onclick="window.filterCategory('iPad', event)" data-cat="iPad" class="nav-cat-btn text-white/70 hover:text-white px-5 py-2.5 rounded-full transition-all">iPad</a>
+                            <a href="#products" onclick="window.filterCategory('AirPods', event)" data-cat="AirPods" class="nav-cat-btn text-white/70 hover:text-white px-5 py-2.5 rounded-full transition-all">AirPods</a>
                         </div>
                     </div>
 
@@ -229,16 +230,16 @@
             </div>
         </nav>
 
-        <main class="pt-16 pb-6">
-            <!-- Заголовок Burgundy в 2 строки -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-10">
+        <main class="pt-24 pb-8">
+            <!-- Заголовок Burgundy (опущен ниже от рамки) -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12">
                 <h2 class="text-4xl sm:text-7xl font-extrabold tracking-tight text-white uppercase drop-shadow-sm select-none leading-tight">
                     iPhone 18 Pro Max
                 </h2>
                 <h2 class="text-4xl sm:text-7xl font-extrabold tracking-tight uppercase drop-shadow-sm select-none leading-tight bg-gradient-to-r from-[#ff4d79] via-[#e63956] to-[#b3193e] bg-clip-text text-transparent mt-1">
                     Burgundy
                 </h2>
-                <p class="text-sm sm:text-base text-white/70 mt-3 font-medium tracking-wide">Бескомпромиссная мощь. Абсолютная элегантность</p>
+                <p class="text-sm sm:text-base text-white/60 mt-3 font-medium tracking-wide">Бескомпромиссная мощь. Абсолютная элегантность</p>
             </div>
         </main>
 
@@ -248,46 +249,46 @@
                 <!-- Поиск -->
                 <div class="max-w-2xl mx-auto mb-8 relative group z-20">
                     <div class="relative flex items-center w-full ultra-glass rounded-full p-3">
-                        <i class="ph ph-magnifying-glass text-2xl text-white/60 ml-4"></i>
-                        <input type="text" id="catalog-search" placeholder="Найти iPhone 18 Pro Max, MacBook Air..." class="w-full bg-transparent border-none outline-none text-white px-4 py-3 text-lg placeholder-white/50 font-medium" oninput="window.handleSearch(event)">
-                        <button id="clear-search" onclick="window.clearSearch()" class="p-2 text-white/60 hover:text-red-400 transition-all transform scale-0 opacity-0 absolute right-4 ultra-glass rounded-full w-10 h-10 flex items-center justify-center shadow-sm">
+                        <i class="ph ph-magnifying-glass text-2xl text-white/50 ml-4"></i>
+                        <input type="text" id="catalog-search" placeholder="Найти iPhone 18 Pro Max, MacBook Air..." class="w-full bg-transparent border-none outline-none text-white px-4 py-3 text-lg placeholder-white/40 font-medium" oninput="window.handleSearch(event)">
+                        <button id="clear-search" onclick="window.clearSearch()" class="p-2 text-white/50 hover:text-red-400 transition-all transform scale-0 opacity-0 absolute right-4 ultra-glass rounded-full w-10 h-10 flex items-center justify-center shadow-sm">
                             <i class="ph ph-x text-lg font-bold"></i>
                         </button>
                     </div>
                 </div>
 
                 <!-- Сортировка -->
-                <div class="flex justify-center mb-12 relative z-20">
+                <div class="flex justify-center mb-14 relative z-20">
                     <div class="ultra-glass p-1.5 rounded-full inline-flex gap-1 shadow-sm">
-                        <button onclick="window.sortProducts('asc')" id="sort-asc-btn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-white/90 transition-all hover:bg-white/20 flex items-center gap-2">
+                        <button onclick="window.sortProducts('asc')" id="sort-asc-btn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-white/80 transition-all hover:bg-white/15 flex items-center gap-2">
                             <i class="ph ph-sort-ascending text-lg"></i> По возрастанию
                         </button>
-                        <button onclick="window.sortProducts('desc')" id="sort-desc-btn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-white/90 transition-all hover:bg-white/20 flex items-center gap-2">
+                        <button onclick="window.sortProducts('desc')" id="sort-desc-btn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-white/80 transition-all hover:bg-white/15 flex items-center gap-2">
                             <i class="ph ph-sort-descending text-lg"></i> По убыванию
                         </button>
                     </div>
                 </div>
 
                 <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-opacity duration-300"></div>
-                <div id="pagination-container" class="mt-16 pb-12"></div>
+                <div id="pagination-container" class="mt-16 pb-16"></div>
             </div>
         </section>
 
         <!-- Корзина -->
-        <div id="cart-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
-        <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-[420px] ultra-glass z-50 transform translate-x-full transition-transform duration-300 ease-in-out border-l border-white/30 shadow-2xl flex flex-col">
-            <div class="p-6 border-b border-white/20 flex justify-between items-center">
+        <div id="cart-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
+        <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-[420px] ultra-glass z-50 transform translate-x-full transition-transform duration-300 ease-in-out border-l border-white/20 shadow-2xl flex flex-col">
+            <div class="p-6 border-b border-white/15 flex justify-between items-center">
                 <h2 class="text-2xl font-bold text-white">Ваша корзина</h2>
                 <button onclick="toggleCart()" class="text-white/70 hover:text-white ultra-glass rounded-full p-2.5"><i class="ph ph-x text-xl"></i></button>
             </div>
             <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4">
-                <div class="text-center text-white/50 mt-20" id="empty-cart-msg">
-                    <i class="ph ph-shopping-bag text-6xl mb-4 opacity-50"></i>
+                <div class="text-center text-white/40 mt-20" id="empty-cart-msg">
+                    <i class="ph ph-shopping-bag text-6xl mb-4 opacity-40"></i>
                     <p class="text-lg text-white font-medium">Корзина пуста</p>
                     <p class="text-sm mt-2">Добавьте что-нибудь, чтобы продолжить.</p>
                 </div>
             </div>
-            <div class="p-6 border-t border-white/20 bg-white/10 backdrop-blur-md">
+            <div class="p-6 border-t border-white/15 bg-black/20 backdrop-blur-md">
                 <div class="flex justify-between items-center mb-6">
                     <span class="text-white/70 text-lg">Итого:</span>
                     <span class="text-white text-3xl font-bold" id="cart-total">0&nbsp;₽</span>
@@ -297,7 +298,7 @@
         </div>
 
         <!-- Модальное окно авторизации -->
-        <div id="auth-modal-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeAuthModal()"></div>
+        <div id="auth-modal-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeAuthModal()"></div>
         <div id="auth-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md ultra-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl">
             <div class="flex justify-between items-center mb-6">
                 <h3 id="auth-title" class="text-2xl font-bold text-white">Вход в систему</h3>
@@ -307,24 +308,24 @@
                 <div id="register-fields" class="space-y-4 hidden">
                     <div>
                         <label class="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-1">Имя</label>
-                        <input type="text" id="auth-name" placeholder="Иван Иванов" class="w-full ultra-glass border border-white/30 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-white/40">
+                        <input type="text" id="auth-name" placeholder="Иван Иванов" class="w-full ultra-glass border border-white/20 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-white/30">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-1">Username</label>
-                        <input type="text" id="auth-username" placeholder="ivanov" class="w-full ultra-glass border border-white/30 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-white/40">
+                        <input type="text" id="auth-username" placeholder="ivanov" class="w-full ultra-glass border border-white/20 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-white/30">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-1">Номер телефона</label>
-                        <input type="tel" id="auth-phone" placeholder="+7 (999) 000-00-00" class="w-full ultra-glass border border-white/30 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-white/40">
+                        <input type="tel" id="auth-phone" placeholder="+7 (999) 000-00-00" class="w-full ultra-glass border border-white/20 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-white/30">
                     </div>
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-1">Email</label>
-                    <input type="email" id="auth-email" required placeholder="name@example.com" class="w-full ultra-glass border border-white/30 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-white/40">
+                    <input type="email" id="auth-email" required placeholder="name@example.com" class="w-full ultra-glass border border-white/20 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-white/30">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-white/70 uppercase tracking-wider mb-1">Пароль</label>
-                    <input type="password" id="auth-password" required placeholder="••••••••" class="w-full ultra-glass border border-white/30 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-white/40">
+                    <input type="password" id="auth-password" required placeholder="••••••••" class="w-full ultra-glass border border-white/20 rounded-2xl px-4 py-3.5 text-sm text-white placeholder-white/30">
                 </div>
                 <button type="submit" id="auth-submit-btn" class="w-full ultra-glass-dark py-4 rounded-2xl font-semibold shadow-lg mt-2">Войти</button>
             </form>
@@ -336,7 +337,7 @@
         </div>
 
         <!-- Модальное окно профиля -->
-        <div id="profile-modal-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeProfileModal()"></div>
+        <div id="profile-modal-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeProfileModal()"></div>
         <div id="profile-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg ultra-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl">
             <div class="flex justify-between items-center mb-6">
                 <div class="flex items-center gap-3">
@@ -344,15 +345,15 @@
                     <div>
                         <h3 id="profile-name" class="text-xl font-bold text-white">Пользователь</h3>
                         <p id="profile-username" class="text-xs text-[#ff4d79] font-medium">@username</p>
-                        <p id="profile-email" class="text-xs text-white/60">email@example.com</p>
+                        <p id="profile-email" class="text-xs text-white/50">email@example.com</p>
                     </div>
                 </div>
                 <button onclick="closeProfileModal()" class="text-white/70 hover:text-white p-2 rounded-full ultra-glass"><i class="ph ph-x text-xl"></i></button>
             </div>
-            <div class="border-t border-white/20 pt-4 mb-6">
+            <div class="border-t border-white/15 pt-4 mb-6">
                 <h4 class="text-sm font-bold text-white mb-3">История заказов</h4>
                 <div id="profile-orders" class="space-y-3 max-h-48 overflow-y-auto">
-                    <p class="text-xs text-white/50 text-center py-4">У вас пока нет оформленных заказов</p>
+                    <p class="text-xs text-white/40 text-center py-4">У вас пока нет оформленных заказов</p>
                 </div>
             </div>
             <button onclick="logoutUser()" class="w-full bg-red-500/20 text-red-300 border border-red-500/30 py-3 rounded-2xl font-semibold hover:bg-red-500/30 transition-all">Выйти из аккаунта</button>
@@ -364,17 +365,17 @@
         </div>
 
         <!-- Футер -->
-        <footer class="border-t border-white/20 mt-20 py-20 text-center ultra-glass relative z-10 rounded-b-[40px]">
+        <footer class="border-t border-white/15 mt-20 py-20 text-center ultra-glass relative z-10 rounded-b-[36px]">
             <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
                 <div class="flex flex-col items-center justify-center mb-6">
                     <div class="flex items-center font-sans font-extrabold text-7xl text-white tracking-tighter cursor-default select-none transition-all duration-300 hover:scale-105">
                         re:market
                     </div>
-                    <p class="mt-4 text-sm tracking-[0.4em] text-white/60 font-bold uppercase cursor-default select-none transition-all duration-300 hover:tracking-[0.5em] hover:scale-105">EST'D 2022</p>
-                    <p class="mt-2 text-xs tracking-[0.3em] text-white/40 font-bold uppercase select-none cursor-default transition-all duration-300 hover:tracking-[0.4em] hover:scale-105">улица Темерницкая, 74 | Ростов-на-Дону</p>
+                    <p class="mt-4 text-sm tracking-[0.4em] text-white/50 font-bold uppercase cursor-default select-none transition-all duration-300 hover:tracking-[0.5em] hover:scale-105">EST'D 2022</p>
+                    <p class="mt-2 text-xs tracking-[0.3em] text-white/30 font-bold uppercase select-none cursor-default transition-all duration-300 hover:tracking-[0.4em] hover:scale-105">улица Темерницкая, 74 | Ростов-на-Дону</p>
                 </div>
                 <div class="mt-4">
-                    <button onclick="openLinksModal()" class="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 ultra-glass border border-white/40 rounded-full text-white font-semibold text-base shadow-sm transition-all duration-300 hover:bg-white hover:text-black">
+                    <button onclick="openLinksModal()" class="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 ultra-glass border border-white/30 rounded-full text-white font-semibold text-base shadow-sm transition-all duration-300 hover:bg-white hover:text-black">
                         <i class="ph ph-share-network text-xl"></i> Связаться с нами
                     </button>
                 </div>
@@ -384,7 +385,7 @@
     </div>
 
     <!-- Модальное окно контактов -->
-    <div id="links-modal-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeLinksModal()"></div>
+    <div id="links-modal-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeLinksModal()"></div>
     <div id="links-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md ultra-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl">
         <div class="flex justify-between items-center mb-6">
             <div class="flex items-center font-bold text-2xl text-white">re:market</div>
@@ -393,19 +394,19 @@
         <p class="text-sm text-white/70 mb-6 text-center">Выберите удобный для вас способ связи с нами:</p>
         <div class="space-y-3">
             <a href="https://t.me/remarketapple" target="_blank" class="flex flex-col p-4 ultra-glass hover:bg-white hover:text-black text-white rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
-                <div class="font-bold text-base">Telegram</div><div class="text-xs text-white/50 group-hover:text-black/60">@remarketapple</div>
+                <div class="font-bold text-base">Telegram</div><div class="text-xs text-white/40 group-hover:text-black/60">@remarketapple</div>
             </a>
             <a href="https://wa.me/79043422202" target="_blank" class="flex flex-col p-4 ultra-glass hover:bg-white hover:text-black text-white rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
-                <div class="font-bold text-base">WhatsApp</div><div class="text-xs text-white/50 group-hover:text-black/60">+7 (904) 342-22-02</div>
+                <div class="font-bold text-base">WhatsApp</div><div class="text-xs text-white/40 group-hover:text-black/60">+7 (904) 342-22-02</div>
             </a>
             <a href="https://instagram.com/remarketapple" target="_blank" class="flex flex-col p-4 ultra-glass hover:bg-white hover:text-black text-white rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
-                <div class="font-bold text-base">Instagram</div><div class="text-xs text-white/50 group-hover:text-black/60">@remarketapple</div>
+                <div class="font-bold text-base">Instagram</div><div class="text-xs text-white/40 group-hover:text-black/60">@remarketapple</div>
             </a>
             <a href="https://vk.ru/remarketapple" target="_blank" class="flex flex-col p-4 ultra-glass hover:bg-white hover:text-black text-white rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
-                <div class="font-bold text-base">VK</div><div class="text-xs text-white/50 group-hover:text-black/60">vk.ru/remarketapple</div>
+                <div class="font-bold text-base">VK</div><div class="text-xs text-white/40 group-hover:text-black/60">vk.ru/remarketapple</div>
             </a>
             <a href="https://web.max.ru/79043422202" target="_blank" class="flex flex-col p-4 ultra-glass hover:bg-white hover:text-black text-white rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
-                <div class="font-bold text-base">MAX</div><div class="text-xs text-white/50 group-hover:text-black/60">+7 (904) 342-22-02</div>
+                <div class="font-bold text-base">MAX</div><div class="text-xs text-white/40 group-hover:text-black/60">+7 (904) 342-22-02</div>
             </a>
         </div>
     </div>
@@ -438,8 +439,8 @@
                     }
                     ctx.lineTo(width, height); ctx.closePath();
                     const grad = ctx.createLinearGradient(0, height * 0.35, width, height);
-                    grad.addColorStop(0, `rgba(235, 240, 248, ${0.45 - i * 0.08})`);
-                    grad.addColorStop(1, `rgba(215, 222, 235, ${0.52 - i * 0.09})`);
+                    grad.addColorStop(0, `rgba(40, 42, 54, ${0.45 - i * 0.08})`);
+                    grad.addColorStop(1, `rgba(20, 22, 28, ${0.52 - i * 0.09})`);
                     ctx.fillStyle = grad; ctx.fill();
                 }
                 animId = requestAnimationFrame(renderWaves);
@@ -628,7 +629,7 @@
             
             document.querySelectorAll('.nav-cat-btn').forEach(btn => {
                 btn.classList.remove('ultra-glass', 'text-white', 'shadow-sm'); 
-                btn.classList.add('text-white/80');
+                btn.classList.add('text-white/70');
             });
             applySorting();
             currentPage = 1; renderPage();
@@ -655,10 +656,10 @@
             document.querySelectorAll('.nav-cat-btn').forEach(btn => {
                 if (btn.dataset.cat === categoryName) {
                     btn.classList.add('ultra-glass', 'text-white', 'shadow-sm'); 
-                    btn.classList.remove('text-white/80');
+                    btn.classList.remove('text-white/70');
                 } else {
                     btn.classList.remove('ultra-glass', 'text-white', 'shadow-sm'); 
-                    btn.classList.add('text-white/80');
+                    btn.classList.add('text-white/70');
                 }
             });
             
@@ -679,11 +680,11 @@
             const ascBtn = document.getElementById('sort-asc-btn');
             const descBtn = document.getElementById('sort-desc-btn');
             
-            ascBtn.classList.remove('bg-white/25', 'text-white', 'shadow-md');
-            descBtn.classList.remove('bg-white/25', 'text-white', 'shadow-md');
+            ascBtn.classList.remove('bg-white/20', 'text-white', 'shadow-md');
+            descBtn.classList.remove('bg-white/20', 'text-white', 'shadow-md');
             
-            if (direction === 'asc') ascBtn.classList.add('bg-white/25', 'text-white', 'shadow-md');
-            else descBtn.classList.add('bg-white/25', 'text-white', 'shadow-md');
+            if (direction === 'asc') ascBtn.classList.add('bg-white/20', 'text-white', 'shadow-md');
+            else descBtn.classList.add('bg-white/20', 'text-white', 'shadow-md');
             
             applySorting();
             currentPage = 1;
@@ -706,7 +707,7 @@
             const productsToShow = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
             if (productsToShow.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-center text-white/60 py-10">Товары не найдены.</p>`;
+                grid.innerHTML = `<p class="col-span-full text-center text-white/50 py-10">Товары не найдены.</p>`;
                 document.getElementById('pagination-container').innerHTML = '';
                 return;
             }
@@ -717,10 +718,10 @@
                 grid.innerHTML += `
                     <div class="product-card p-8 flex flex-col justify-between h-[320px] text-left relative group">
                         <div class="flex items-center justify-between w-full">
-                            <div class="product-lens-icon">
+                            <div class="product-lens-capsule">
                                 <i class="ph ${iconClass}"></i>
                             </div>
-                            <div class="bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-white/80 uppercase tracking-wider">${product.category}</div>
+                            <div class="bg-white/10 backdrop-blur-md px-3.5 py-1 rounded-full text-[10px] font-bold text-white/70 uppercase tracking-wider">${product.category}</div>
                         </div>
                         <div>
                             <h3 class="text-2xl font-semibold text-white mt-4">${product.name}</h3>
@@ -745,13 +746,13 @@
             html += `<button onclick="window.changePage(${currentPage - 1})" class="${btnBase} ultra-glass ${currentPage === 1 ? 'opacity-40 cursor-not-allowed' : 'hover:scale-105'}"><i class="ph ph-caret-left text-lg"></i></button>`;
             
             let start = Math.max(1, currentPage - 2), end = Math.min(totalPages, currentPage + 2);
-            if (start > 1) html += `<button onclick="window.changePage(1)" class="${btnBase} ultra-glass hover:scale-105">1</button>${start > 2 ? '<span class="px-1 text-white/40">...</span>' : ''}`;
+            if (start > 1) html += `<button onclick="window.changePage(1)" class="${btnBase} ultra-glass hover:scale-105">1</button>${start > 2 ? '<span class="px-1 text-white/30">...</span>' : ''}`;
             
             for (let i = start; i <= end; i++) {
-                html += i === currentPage ? `<button class="${btnBase} bg-white/30 text-white font-bold scale-105 shadow-lg cursor-default">${i}</button>` : `<button onclick="window.changePage(${i})" class="${btnBase} ultra-glass hover:scale-105">${i}</button>`;
+                html += i === currentPage ? `<button class="${btnBase} bg-white/25 text-white font-bold scale-105 shadow-lg cursor-default">${i}</button>` : `<button onclick="window.changePage(${i})" class="${btnBase} ultra-glass hover:scale-105">${i}</button>`;
             }
             
-            if (end < totalPages) html += `${end < totalPages - 1 ? '<span class="px-1 text-white/40">...</span>' : ''}<button onclick="window.changePage(${totalPages})" class="${btnBase} ultra-glass hover:scale-105">${totalPages}</button>`;
+            if (end < totalPages) html += `${end < totalPages - 1 ? '<span class="px-1 text-white/30">...</span>' : ''}<button onclick="window.changePage(${totalPages})" class="${btnBase} ultra-glass hover:scale-105">${totalPages}</button>`;
             
             html += `<button onclick="window.changePage(${currentPage + 1})" class="${btnBase} ultra-glass ${currentPage === totalPages ? 'opacity-40 cursor-not-allowed' : 'hover:scale-105'}"><i class="ph ph-caret-right text-lg"></i></button></div>`;
             pagContainer.innerHTML = html;
@@ -792,7 +793,7 @@
             totalEl.innerHTML = formatPrice(total);
 
             if (cart.length === 0) {
-                container.innerHTML = `<div class="text-center text-white/50 mt-20"><i class="ph ph-shopping-bag text-6xl mb-4 opacity-50"></i><p class="text-lg text-white font-medium">Корзина пуста</p></div>`;
+                container.innerHTML = `<div class="text-center text-white/40 mt-20"><i class="ph ph-shopping-bag text-6xl mb-4 opacity-40"></i><p class="text-lg text-white font-medium">Корзина пуста</p></div>`;
             } else {
                 container.innerHTML = cart.map(item => `
                     <div class="flex items-center justify-between gap-4 ultra-glass p-4 rounded-2xl shadow-sm">
@@ -805,7 +806,7 @@
                                 <button onclick="changeQuantity('${item.id}', 1)" class="w-5 h-5 rounded-full hover:bg-white/20">+</button>
                             </div>
                         </div>
-                        <button onclick="removeFromCart('${item.id}')" class="text-white/60 hover:text-red-400 p-2"><i class="ph ph-trash text-xl"></i></button>
+                        <button onclick="removeFromCart('${item.id}')" class="text-white/50 hover:text-red-400 p-2"><i class="ph ph-trash text-xl"></i></button>
                     </div>`).join('');
             }
         }
