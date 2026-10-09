@@ -15,27 +15,18 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        apple: {
-                            light: '#fbfbfd',
-                            gray: '#86868b',
-                            dark: '#1d1d1f',
-                            blue: '#0071e3',
-                        }
+                        apple: { light: '#fbfbfd', gray: '#86868b', dark: '#1d1d1f', blue: '#0071e3' }
                     }
                 }
             }
@@ -45,6 +36,11 @@
     <style>
         html, body {
             background-color: #fbfbfd;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            background-position: center top;
             color: #1d1d1f;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             overflow-x: hidden;
@@ -56,247 +52,139 @@
         body.splash-active {
             overflow: hidden !important;
             height: 100vh;
-            height: 100dvh;
             touch-action: none;
         }
 
         #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh;
-            background: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-            text-align: center;
-            padding: 0 24px;
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-                        filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform, filter;
-            pointer-events: all;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #ffffff; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; z-index: 99999;
+            text-align: center; padding: 0 24px;
+            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         #splash-screen.fade-out {
-            opacity: 0;
-            transform: scale(1.04);
-            filter: blur(10px);
-            pointer-events: none;
+            opacity: 0; transform: scale(1.04); filter: blur(10px); pointer-events: none;
         }
 
-        canvas#liquid-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
+        canvas#liquid-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
 
         .splash-content {
-            position: relative;
-            z-index: 2;
+            position: relative; z-index: 2;
             animation: splashAppear 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center;
         }
 
         .splash-brand-title {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-weight: 800;
-            font-size: clamp(2.8rem, 7.5vw, 5.8rem);
-            letter-spacing: -0.04em;
-            color: #1d1d1f;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0px;
-            margin-bottom: 12px;
-            background: linear-gradient(180deg, #111112 0%, #4a4a4e 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 800; font-size: clamp(2.8rem, 7.5vw, 5.8rem); letter-spacing: -0.04em;
+            margin-bottom: 12px; background: linear-gradient(180deg, #111112 0%, #4a4a4e 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .splash-brand-subtitle {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-size: clamp(0.95rem, 2.2vw, 1.35rem);
-            font-weight: 400;
-            color: #86868b;
-            letter-spacing: -0.015em;
-        }
+        .splash-brand-subtitle { font-size: clamp(0.95rem, 2.2vw, 1.35rem); color: #86868b; letter-spacing: -0.015em; }
 
         @keyframes splashAppear {
             0% { opacity: 0; transform: translateY(22px); }
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        a, button, input, select, .product-card {
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
         .animated-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2;
-            overflow: hidden;
-            background: #fbfbfd;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2;
+            overflow: hidden; background: transparent; 
         }
 
-        .fluid-shape {
-            position: absolute;
-            filter: blur(60px);
-            opacity: 0.6;
-            animation: fluidRotate 30s infinite linear;
-        }
-
+        .fluid-shape { position: absolute; filter: blur(40px); opacity: 0.85; animation: fluidRotate 30s infinite linear; }
         .shape-1 {
-            width: 70vw;
-            height: 70vw;
-            background: linear-gradient(135deg, rgba(80,0,30,0.3) 0%, rgba(120,20,60,0.15) 100%);
-            top: -20%;
-            left: -10%;
+            width: 70vw; height: 70vw; background: linear-gradient(135deg, rgba(80,0,30,0.3) 0%, rgba(120,20,60,0.15) 100%);
             border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
             animation: fluidRotate 35s infinite linear, move1 25s infinite alternate ease-in-out;
         }
-
         .shape-2 {
-            width: 60vw;
-            height: 60vw;
-            background: linear-gradient(135deg, rgba(175,82,222,0.3) 0%, rgba(255,45,85,0.15) 100%);
-            bottom: -20%;
-            right: -10%;
+            width: 60vw; height: 60vw; background: linear-gradient(135deg, rgba(175,82,222,0.3) 0%, rgba(255,45,85,0.15) 100%);
             border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
             animation: fluidRotate 40s infinite linear reverse, move2 30s infinite alternate ease-in-out;
         }
-
         .shape-3 {
-            width: 50vw;
-            height: 50vw;
-            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
-            top: 30%;
-            left: 30%;
-            border-radius: 50%;
-            animation: move3 20s infinite alternate ease-in-out;
+            width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%; animation: move3 20s infinite alternate ease-in-out;
         }
 
         .bg-glass-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            backdrop-filter: blur(80px) saturate(150%);
-            -webkit-backdrop-filter: blur(80px) saturate(150%);
-            background: rgba(251, 251, 253, 0.5);
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            backdrop-filter: blur(80px) saturate(150%); -webkit-backdrop-filter: blur(80px) saturate(150%);
+            background: rgba(251, 251, 253, 0.4); pointer-events: none;
         }
 
-        @keyframes fluidRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @keyframes move1 {
-            0% { top: -20%; left: -10%; }
-            100% { top: 5%; left: 5%; }
-        }
-        @keyframes move2 {
-            0% { bottom: -20%; right: -10%; }
-            100% { bottom: 5%; right: 5%; }
-        }
-        @keyframes move3 {
-            0% { top: 30%; left: 30%; }
-            100% { top: 45%; left: 45%; }
-        }
+        @keyframes fluidRotate { 100% { transform: rotate(360deg); } }
+        @keyframes move1 { 0% { top: -20%; left: -10%; } 100% { top: 5%; left: 5%; } }
+        @keyframes move2 { 0% { bottom: -20%; right: -10%; } 100% { bottom: 5%; right: 5%; } }
+        @keyframes move3 { 0% { top: 30%; left: 30%; } 100% { top: 45%; left: 45%; } }
+
+        .liquid-btn, .liquid-btn-dark, .glass, .glass-heavy { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
 
         .liquid-btn {
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: saturate(200%) blur(25px);
-            -webkit-backdrop-filter: saturate(200%) blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(8px) saturate(120%); -webkit-backdrop-filter: blur(8px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.3); border-top-color: rgba(255, 255, 255, 0.9); border-left-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 4px 10px 20px rgba(0, 0, 0, 0.04), inset 1px 1px 3px rgba(255, 255, 255, 0.8), inset -1px -1px 4px rgba(255, 255, 255, 0.2);
             color: #1d1d1f;
         }
         .liquid-btn:hover {
-            background: rgba(255, 255, 255, 0.75);
-            border-color: rgba(255, 255, 255, 1);
-            box-shadow: 0 12px 40px 0 rgba(0, 113, 227, 0.15), inset 0 1px 2px rgba(255, 255, 255, 1);
-            transform: scale(1.03);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 100%);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 6px 15px 25px rgba(0, 113, 227, 0.08), inset 1px 1px 3px rgba(255, 255, 255, 1);
         }
 
         .liquid-btn-dark {
-            background: rgba(29, 29, 31, 0.85);
-            backdrop-filter: saturate(200%) blur(25px);
-            -webkit-backdrop-filter: saturate(200%) blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-            color: #ffffff;
+            background: linear-gradient(135deg, rgba(40, 40, 42, 0.7) 0%, rgba(10, 10, 12, 0.4) 100%);
+            backdrop-filter: blur(12px) saturate(150%); -webkit-backdrop-filter: blur(12px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.15); border-top-color: rgba(255, 255, 255, 0.3); border-left-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), inset 1px 1px 2px rgba(255, 255, 255, 0.2); color: #ffffff;
         }
         .liquid-btn-dark:hover {
-            background: rgba(0, 0, 0, 0.95);
-            transform: scale(1.03);
+            background: linear-gradient(135deg, rgba(50, 50, 52, 0.85) 0%, rgba(20, 20, 22, 0.6) 100%);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), inset 1px 1px 3px rgba(255, 255, 255, 0.3);
         }
 
         .glass {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: saturate(180%) blur(25px);
-            -webkit-backdrop-filter: saturate(180%) blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(12px) saturate(110%); -webkit-backdrop-filter: blur(12px) saturate(110%);
+            border: 1px solid rgba(255, 255, 255, 0.3); border-top-color: rgba(255, 255, 255, 0.8); border-left-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 8px 20px 40px -10px rgba(0, 0, 0, 0.06), inset 2px 2px 5px rgba(255, 255, 255, 0.6), inset -2px -2px 5px rgba(0, 0, 0, 0.02);
         }
 
         .glass-heavy {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: saturate(200%) blur(30px);
-            -webkit-backdrop-filter: saturate(200%) blur(30px);
-            border: 1px solid rgba(255, 255, 255, 1);
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.15) 100%);
+            backdrop-filter: blur(16px) saturate(120%); -webkit-backdrop-filter: blur(16px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.4); border-top-color: rgba(255, 255, 255, 1); border-left-color: rgba(255, 255, 255, 1);
+            box-shadow: 15px 30px 50px -10px rgba(0, 0, 0, 0.08), inset 2px 2px 6px rgba(255, 255, 255, 0.9), inset -2px -2px 6px rgba(255, 255, 255, 0.1);
         }
 
         .product-card {
-            transform: perspective(1000px);
-            transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.3s ease;
+            transform: perspective(1000px) translateZ(0);
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            will-change: transform, box-shadow;
         }
-        
         .product-card:hover {
-            border-color: rgba(255, 255, 255, 1);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.08), 0 0 40px rgba(0,113,227,0.05);
-            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.6); border-top-color: rgba(255, 255, 255, 1); border-left-color: rgba(255, 255, 255, 1);
+            box-shadow: 15px 35px 60px rgba(0, 0, 0, 0.1), 0 0 50px rgba(0, 113, 227, 0.05), inset 2px 2px 8px rgba(255, 255, 255, 0.9);
+            transform: translateY(-8px) scale(1.01) translateZ(20px);
         }
 
         .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 100;
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px);
+            opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 100;
         }
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     </style>
 </head>
 <body class="splash-active antialiased selection:bg-apple-blue selection:text-white">
 
-    <!-- Заставка -->
     <div id="splash-screen">
         <canvas id="liquid-canvas"></canvas>
         <div class="splash-content">
-            <h1 class="splash-brand-title">
-                re:market
-            </h1>
+            <h1 class="splash-brand-title">re:market</h1>
             <p class="splash-brand-subtitle">Breathtaking Liquid Glass And Aluminium</p>
         </div>
     </div>
@@ -308,17 +196,15 @@
     </div>
     <div class="bg-glass-overlay"></div>
 
-    <!-- Навигация с категориями -->
     <nav class="fixed top-0 w-full z-50 glass transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <div id="nav-logo-container" class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none transition-opacity duration-500 opacity-100" style="gap: 0px; font-weight: 800; font-size: 1.5rem; letter-spacing: -0.04em;">
+                <div class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none transition-opacity duration-500 font-extrabold text-2xl tracking-tighter">
                     re:market
                 </div>
                 
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-2 text-sm font-medium">
-                        <!-- Кнопки фильтрации категорий -->
                         <a href="#products" onclick="window.filterCategory('Все', event)" data-cat="Все" class="nav-cat-btn bg-white/60 text-apple-blue shadow-sm transition-all px-4 py-2 rounded-full">Все</a>
                         <a href="#products" onclick="window.filterCategory('iPhone', event)" data-cat="iPhone" class="nav-cat-btn hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">iPhone</a>
                         <a href="#products" onclick="window.filterCategory('MacBook', event)" data-cat="MacBook" class="nav-cat-btn hover:text-apple-blue hover:bg-white/40 text-apple-dark transition-all px-4 py-2 rounded-full">MacBook</a>
@@ -346,7 +232,7 @@
 
     <main class="pt-48 sm:pt-56 pb-12 overflow-hidden text-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative flex flex-col items-center">
-            <h1 class="text-[2.8rem] sm:text-6xl md:text-[5.5rem] leading-[1.05] font-bold text-[#1d1d1f] mb-4" style="letter-spacing: -0.035em;">
+            <h1 class="text-[2.8rem] sm:text-6xl md:text-[5.5rem] leading-[1.05] font-bold text-[#1d1d1f] mb-4 tracking-tight">
                 iPhone 18 Pro Max <br/>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#3b0918] via-[#8c1c31] to-[#3b0918]">Burgundy</span>
             </h1>
@@ -356,31 +242,32 @@
         </div>
     </main>
 
-    <!-- Секция товаров с пагинацией -->
     <section id="products" class="py-20 relative z-10 scroll-mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 id="category-title-display" class="text-3xl md:text-4xl font-bold text-apple-dark mb-12 text-center">Все модели</h2>
             
-            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Сюда вставляются карточки товаров -->
+            <div class="max-w-2xl mx-auto mb-16 relative group z-20">
+                <div class="absolute -inset-1 bg-gradient-to-r from-[#0071e3] via-[#ff2d55] to-[#af52de] rounded-full blur-xl opacity-0 group-hover:opacity-25 transition duration-700 pointer-events-none"></div>
+                <div class="relative flex items-center w-full glass-heavy rounded-full p-2 transition-all duration-500 focus-within:scale-[1.02] focus-within:bg-white/90">
+                    <i class="ph ph-magnifying-glass text-2xl text-gray-400 ml-5 group-hover:text-apple-blue transition-colors duration-300"></i>
+                    <input type="text" id="catalog-search" placeholder="Найти iPhone 15 Pro, MacBook Air..." class="w-full bg-transparent border-none outline-none text-apple-dark px-4 py-3 text-lg placeholder-gray-400 font-medium" oninput="window.handleSearch(event)">
+                    <button id="clear-search" onclick="window.clearSearch()" class="p-2 text-gray-400 hover:text-red-500 transition-all duration-300 transform scale-0 opacity-0 absolute right-4 liquid-btn rounded-full w-10 h-10 flex items-center justify-center shadow-sm">
+                        <i class="ph ph-x text-lg font-bold"></i>
+                    </button>
+                </div>
             </div>
 
-            <!-- Контейнер для кнопок страниц -->
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
             <div id="pagination-container" class="mt-16 pb-8"></div>
         </div>
     </section>
 
-    <!-- Корзина -->
     <div id="cart-overlay" class="fixed inset-0 bg-white/30 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
-    
     <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-[420px] glass-heavy z-50 transform translate-x-full transition-transform duration-500 ease-in-out border-l border-white shadow-2xl flex flex-col">
         <div class="p-6 border-b border-gray-200/50 flex justify-between items-center">
             <h2 class="text-2xl font-bold text-apple-dark">Ваша корзина</h2>
-            <button onclick="toggleCart()" class="text-gray-500 hover:text-black liquid-btn rounded-full p-2.5 transition-all">
-                <i class="ph ph-x text-xl"></i>
-            </button>
+            <button onclick="toggleCart()" class="text-gray-500 hover:text-black liquid-btn rounded-full p-2.5 transition-all"><i class="ph ph-x text-xl"></i></button>
         </div>
-
         <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4">
             <div class="text-center text-gray-400 mt-20" id="empty-cart-msg">
                 <i class="ph ph-shopping-bag text-6xl mb-4 opacity-50"></i>
@@ -388,27 +275,21 @@
                 <p class="text-sm mt-2">Добавьте что-нибудь, чтобы продолжить.</p>
             </div>
         </div>
-
         <div class="p-6 border-t border-gray-200/50 bg-white/50 backdrop-blur-md">
             <div class="flex justify-between items-center mb-6">
                 <span class="text-gray-500 text-lg">Итого:</span>
-                <span class="text-apple-dark text-3xl font-bold" id="cart-total">0 ₽</span>
+                <span class="text-apple-dark text-3xl font-bold" id="cart-total">0&nbsp;₽</span>
             </div>
-            <button onclick="checkout()" class="w-full liquid-btn-dark py-4 rounded-2xl font-semibold text-lg transition-all shadow-lg">
-                Оформить заказ
-            </button>
+            <button onclick="checkout()" class="w-full liquid-btn-dark py-4 rounded-2xl font-semibold text-lg transition-all shadow-lg">Оформить заказ</button>
         </div>
     </div>
 
-    <!-- Модалки Auth, Profile, Links -->
     <div id="auth-modal-overlay" class="fixed inset-0 bg-white/30 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeAuthModal()"></div>
-    
     <div id="auth-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md glass-heavy rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-white">
         <div class="flex justify-between items-center mb-6">
             <h3 id="auth-title" class="text-2xl font-bold text-apple-dark">Вход в систему</h3>
             <button onclick="closeAuthModal()" class="text-gray-400 hover:text-black p-2 rounded-full liquid-btn"><i class="ph ph-x text-xl"></i></button>
         </div>
-
         <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
             <div id="register-fields" class="space-y-4 hidden">
                 <div>
@@ -434,7 +315,6 @@
             </div>
             <button type="submit" id="auth-submit-btn" class="w-full liquid-btn-dark py-4 rounded-2xl font-semibold shadow-lg mt-2">Войти</button>
         </form>
-
         <div class="mt-6 text-center">
             <p id="auth-switch-text" class="text-sm text-gray-500">
                 Нет аккаунта? <button onclick="switchAuthMode()" type="button" class="text-apple-blue font-semibold hover:underline">Зарегистрироваться</button>
@@ -443,7 +323,6 @@
     </div>
 
     <div id="profile-modal-overlay" class="fixed inset-0 bg-white/30 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeProfileModal()"></div>
-    
     <div id="profile-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg glass-heavy rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-white">
         <div class="flex justify-between items-center mb-6">
             <div class="flex items-center gap-3">
@@ -473,129 +352,91 @@
     <footer class="border-t border-gray-200/50 mt-20 py-20 text-center glass relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
             <div class="flex flex-col items-center justify-center mb-6">
-                <div class="flex items-center font-sans font-extrabold text-7xl text-apple-dark tracking-tighter cursor-default select-none transition-all duration-300 hover:scale-105" style="gap: 0px;">
+                <div class="flex items-center font-sans font-extrabold text-7xl text-apple-dark tracking-tighter cursor-default select-none transition-all duration-300 hover:scale-105">
                     re:market
                 </div>
                 <p class="mt-4 text-sm tracking-[0.4em] text-gray-500 font-bold uppercase cursor-default select-none transition-all duration-300 hover:tracking-[0.5em] hover:scale-105">EST'D 2022</p>
                 <p class="mt-2 text-xs tracking-[0.3em] text-gray-400 font-bold uppercase select-none cursor-default transition-all duration-300 hover:tracking-[0.4em] hover:scale-105">улица Темерницкая, 74 | Ростов-на-Дону</p>
             </div>
-
-            <div style="margin-top: 16px;">
-                <button onclick="openLinksModal()" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 28px; background: rgba(255,255,255,0.8); backdrop-filter: blur(15px); border: 1px solid rgba(0,0,0,0.1); border-radius: 9999px; color: #1d1d1f; font-weight: 600; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.04); transition: all 0.3s;" onmouseover="this.style.background='#000';this.style.color='#fff'" onmouseout="this.style.background='rgba(255,255,255,0.8)';this.style.color='#1d1d1f'">
-                    <i class="ph ph-share-network" style="font-size: 20px;"></i> Связаться с нами
+            <div class="mt-4">
+                <button onclick="openLinksModal()" class="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 bg-white/80 backdrop-blur-md border border-black/10 rounded-full text-apple-dark font-semibold text-base shadow-sm transition-all duration-300 hover:bg-black hover:text-white">
+                    <i class="ph ph-share-network text-xl"></i> Связаться с нами
                 </button>
             </div>
         </div>
     </footer>
 
     <div id="links-modal-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeLinksModal()"></div>
-    
     <div id="links-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl border border-gray-100">
         <div class="flex justify-between items-center mb-6">
-            <div class="flex items-center font-bold text-2xl text-apple-dark" style="gap: 0px;">
-                re:market
-            </div>
-            <button onclick="closeLinksModal()" class="text-gray-400 hover:text-black p-2 rounded-full bg-gray-100 transition-all">
-                <i class="ph ph-x text-xl"></i>
-            </button>
+            <div class="flex items-center font-bold text-2xl text-apple-dark">re:market</div>
+            <button onclick="closeLinksModal()" class="text-gray-400 hover:text-black p-2 rounded-full bg-gray-100 transition-all"><i class="ph ph-x text-xl"></i></button>
         </div>
-
         <p class="text-sm text-gray-500 mb-6 text-center">Выберите удобный для вас способ связи с нами:</p>
-
         <div class="space-y-3">
-            <a href="https://t.me/remarketapple" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
-                <div class="font-bold text-base">Telegram</div>
-                <div class="text-xs text-gray-400 group-hover:text-gray-300">@remarketapple</div>
+            <a href="https://t.me/remarketapple" target="_blank" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+                <div class="font-bold text-base">Telegram</div><div class="text-xs text-gray-400 group-hover:text-gray-300">@remarketapple</div>
             </a>
-            <a href="https://wa.me/79043422202" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
-                <div class="font-bold text-base">WhatsApp</div>
-                <div class="text-xs text-gray-400 group-hover:text-gray-300">+7 (904) 342-22-02</div>
+            <a href="https://wa.me/79043422202" target="_blank" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+                <div class="font-bold text-base">WhatsApp</div><div class="text-xs text-gray-400 group-hover:text-gray-300">+7 (904) 342-22-02</div>
             </a>
-            <a href="https://instagram.com/remarketapple" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
-                <div class="font-bold text-base">Instagram</div>
-                <div class="text-xs text-gray-400 group-hover:text-gray-300">@remarketapple</div>
+            <a href="https://instagram.com/remarketapple" target="_blank" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+                <div class="font-bold text-base">Instagram</div><div class="text-xs text-gray-400 group-hover:text-gray-300">@remarketapple</div>
             </a>
-            <a href="https://vk.ru/remarketapple" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
-                <div class="font-bold text-base">VK</div>
-                <div class="text-xs text-gray-400 group-hover:text-gray-300">vk.ru/remarketapple</div>
+            <a href="https://vk.ru/remarketapple" target="_blank" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+                <div class="font-bold text-base">VK</div><div class="text-xs text-gray-400 group-hover:text-gray-300">vk.ru/remarketapple</div>
             </a>
-            <a href="https://web.max.ru/79043422202" target="_blank" rel="noopener noreferrer" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
-                <div class="font-bold text-base">MAX</div>
-                <div class="text-xs text-gray-400 group-hover:text-gray-300">+7 (904) 342-22-02</div>
+            <a href="https://web.max.ru/79043422202" target="_blank" class="flex flex-col p-4 bg-gray-50 hover:bg-black hover:text-white text-apple-dark border border-gray-200 rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+                <div class="font-bold text-base">MAX</div><div class="text-xs text-gray-400 group-hover:text-gray-300">+7 (904) 342-22-02</div>
             </a>
         </div>
     </div>
 
-    <!-- Заставка и анимации -->
     <script>
         (function() {
             const canvas = document.getElementById('liquid-canvas');
             const ctx = canvas.getContext('2d');
             const splash = document.getElementById('splash-screen');
-
-            let width, height;
-            let time = 0;
-            let animId = null;
+            let width, height, time = 0, animId = null;
 
             function resizeCanvas() {
                 if (!splash) return;
                 const dpr = Math.min(window.devicePixelRatio || 1, 2);
-                width = splash.clientWidth;
-                height = splash.clientHeight;
-                canvas.width = width * dpr;
-                canvas.height = height * dpr;
-                ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.scale(dpr, dpr);
+                width = splash.clientWidth; height = splash.clientHeight;
+                canvas.width = width * dpr; canvas.height = height * dpr;
+                ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.scale(dpr, dpr);
             }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas); resizeCanvas();
 
             function renderWaves() {
-                time += 0.01;
-                ctx.clearRect(0, 0, width, height);
-
+                time += 0.01; ctx.clearRect(0, 0, width, height);
                 for (let i = 0; i < 4; i++) {
-                    ctx.beginPath();
-                    ctx.moveTo(0, height);
-
+                    ctx.beginPath(); ctx.moveTo(0, height);
                     for (let x = 0; x <= width; x += 26) {
                         const wave1 = Math.sin(x * 0.0022 + time + i * 1.3) * 65;
                         const wave2 = Math.cos(x * 0.0034 - time * 0.85 + i) * 50;
-                        const y = height * 0.58 + wave1 + wave2 + (i * 42);
-                        ctx.lineTo(x, y);
+                        ctx.lineTo(x, height * 0.58 + wave1 + wave2 + (i * 42));
                     }
-
-                    ctx.lineTo(width, height);
-                    ctx.closePath();
-
+                    ctx.lineTo(width, height); ctx.closePath();
                     const grad = ctx.createLinearGradient(0, height * 0.35, width, height);
                     grad.addColorStop(0, `rgba(240, 243, 248, ${0.45 - i * 0.08})`);
                     grad.addColorStop(1, `rgba(224, 229, 237, ${0.52 - i * 0.09})`);
-
-                    ctx.fillStyle = grad;
-                    ctx.shadowColor = 'rgba(0, 0, 0, 0.02)';
-                    ctx.shadowBlur = 30;
-                    ctx.fill();
+                    ctx.fillStyle = grad; ctx.fill();
                 }
-
                 animId = requestAnimationFrame(renderWaves);
             }
             renderWaves();
 
             setTimeout(() => {
-                splash.classList.add('fade-out');
-                document.body.classList.remove('splash-active');
-
+                splash.classList.add('fade-out'); document.body.classList.remove('splash-active');
                 setTimeout(() => {
                     if (animId) cancelAnimationFrame(animId);
-                    window.removeEventListener('resize', resizeCanvas);
-                    splash.remove();
+                    window.removeEventListener('resize', resizeCanvas); splash.remove();
                 }, 900);
             }, 1800);
         })();
     </script>
 
-    <!-- Firebase Auth -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -612,35 +453,23 @@
         };
 
         let app, auth, rtdb;
-        try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            rtdb = getDatabase(app);
-        } catch (e) {
-            console.log("Firebase Init Error:", e);
-        }
+        try { app = initializeApp(firebaseConfig); auth = getAuth(app); rtdb = getDatabase(app); } catch (e) { console.log(e); }
 
-        window.currentUser = null;
-        window.userProfileData = null;
+        window.currentUser = null; window.userProfileData = null;
 
         if (auth) {
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     window.currentUser = user;
                     try {
-                        const dbRef = ref(rtdb);
-                        const snapshot = await get(child(dbRef, `users/${user.uid}`));
+                        const snapshot = await get(child(ref(rtdb), `users/${user.uid}`));
                         if (snapshot.exists()) {
                             window.userProfileData = snapshot.val();
                             updateAuthNav(true, window.userProfileData.username);
                         }
-                    } catch (err) {
-                        updateAuthNav(true, user.email.split('@')[0]);
-                    }
+                    } catch (err) { updateAuthNav(true, user.email.split('@')[0]); }
                 } else {
-                    window.currentUser = null;
-                    window.userProfileData = null;
-                    updateAuthNav(false);
+                    window.currentUser = null; window.userProfileData = null; updateAuthNav(false);
                 }
             });
         }
@@ -649,471 +478,282 @@
             e.preventDefault();
             const email = document.getElementById('auth-email').value.trim();
             const password = document.getElementById('auth-password').value;
-
             try {
                 if (window.isRegisterMode) {
-                    const usernameInput = document.getElementById('auth-username').value.trim().replace('@', '');
-                    const nameInput = document.getElementById('auth-name').value.trim();
-                    const phoneInput = document.getElementById('auth-phone').value.trim();
-
-                    if (!usernameInput) {
-                        showToast("Введите Username");
-                        return;
-                    }
-
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    const user = userCredential.user;
-
-                    const userData = {
-                        uid: user.uid,
-                        email: email,
-                        username: usernameInput,
-                        displayName: nameInput || usernameInput,
-                        phone: phoneInput
-                    };
-
+                    const username = document.getElementById('auth-username').value.trim().replace('@', '');
+                    const name = document.getElementById('auth-name').value.trim();
+                    const phone = document.getElementById('auth-phone').value.trim();
+                    if (!username) return showToast("Введите Username");
+                    
+                    const user = (await createUserWithEmailAndPassword(auth, email, password)).user;
+                    const userData = { uid: user.uid, email, username, displayName: name || username, phone };
                     await set(ref(rtdb, 'users/' + user.uid), userData);
-
-                    window.currentUser = user;
-                    window.userProfileData = userData;
-                    updateAuthNav(true, usernameInput);
-                    closeAuthModal();
-                    showToast("Регистрация успешна!");
-
+                    
+                    window.currentUser = user; window.userProfileData = userData;
+                    updateAuthNav(true, username); closeAuthModal(); showToast("Регистрация успешна!");
                 } else {
-                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                    const user = userCredential.user;
-
+                    const user = (await signInWithEmailAndPassword(auth, email, password)).user;
                     const snapshot = await get(child(ref(rtdb), `users/${user.uid}`));
                     if (snapshot.exists()) {
                         window.userProfileData = snapshot.val();
                         updateAuthNav(true, window.userProfileData.username);
-                    } else {
-                        updateAuthNav(true, user.email.split('@')[0]);
-                    }
-
-                    closeAuthModal();
-                    showToast("Успешный вход!");
+                    } else { updateAuthNav(true, user.email.split('@')[0]); }
+                    closeAuthModal(); showToast("Успешный вход!");
                 }
-            } catch (error) {
-                console.error("Auth Error:", error);
-                if (error.code === 'auth/email-already-in-use') {
-                    showToast("Этот email уже зарегистрирован!");
-                } else if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
-                    showToast("Неверный email или пароль!");
-                } else {
-                    showToast("Ошибка: " + error.message);
-                }
-            }
+            } catch (error) { showToast("Ошибка: Проверьте данные!"); }
         };
 
         window.logoutUser = async function() {
-            if (auth) {
-                await signOut(auth);
-            }
-            window.currentUser = null;
-            window.userProfileData = null;
-            updateAuthNav(false);
-            closeProfileModal();
-            showToast("Вы вышли из аккаунта");
+            if (auth) await signOut(auth);
+            window.currentUser = null; window.userProfileData = null;
+            updateAuthNav(false); closeProfileModal(); showToast("Вы вышли из аккаунта");
         };
     </script>
 
-    <!-- Основная логика каталога (Фильтры, Пагинация, Корзина) -->
     <script>
-        let cart = [];
-        let isCartOpen = false;
-        window.isRegisterMode = false;
-
-        // Данные каталога
-        let allProducts = [];
-        let filteredProducts = [];
-        let currentPage = 1;
+        let cart = [], isCartOpen = false, isRegisterMode = false;
+        let allProducts = [], filteredProducts = [], currentPage = 1, currentActiveCategory = 'Все';
         const itemsPerPage = 15;
-        let currentActiveCategory = 'Все';
 
-        // Форматирование с неразрывным пробелом перед ₽
-        const formatPrice = (price) => {
-            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + "&nbsp;₽";
-        };
+        const formatPrice = (price) => price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + "&nbsp;₽";
 
         async function loadCatalog() {
             try {
                 const response = await fetch('catalog.csv');
                 if (!response.ok) throw new Error('Файл не найден');
-                const data = await response.text();
+                const rows = (await response.text()).split('\n').filter(row => row.trim() !== '');
                 
-                const rows = data.split('\n').filter(row => row.trim() !== '');
-                
-                // Считываем товары
                 for (let i = 1; i < rows.length; i++) {
-                    const values = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
+                    const delimiter = rows[i].includes(';') ? ';' : ',';
+                    const regex = new RegExp(`${delimiter}(?=(?:(?:[^"]*"){2})*[^"]*$)`);
+                    const values = rows[i].split(regex).map(v => v.replace(/^"|"$/g, '').trim()); 
                     
-                    if (values.length >= 4) {
-                        const name = values[0].replace(/"/g, '').trim();
-                        const category = values[1].replace(/"/g, '').trim();
-                        
-                        let rawPriceText = values[3].replace(/"/g, '').trim();
+                    if (values.length >= 2) {
+                        const name = values[0];
+                        const category = values[1] || 'Без категории';
+                        let rawPriceText = values[values.length - 1]; 
+                        if (values.length >= 4) rawPriceText = values[3];
+                        else if (values.length === 3) rawPriceText = values[2];
+
                         let numericPrice = parseInt(rawPriceText.replace(/[^0-9]/g, ''), 10) || 0;
                         
-                        if (numericPrice > 0 && numericPrice % 500 === 0) {
-                            numericPrice -= 10;
-                        }
+                        // ИСПРАВЛЕНИЕ: Автоматически вычитаем 10 рублей для цен кратных 500
+                        if (numericPrice > 0 && numericPrice % 500 === 0) numericPrice -= 10;
                         
-                        const priceString = "от " + formatPrice(numericPrice);
-                        const id = 'prod_' + i; 
-
-                        allProducts.push({ id, name, category, priceString, numericPrice });
+                        allProducts.push({ id: 'prod_' + i, name, category, priceString: "от " + formatPrice(numericPrice), numericPrice });
                     }
                 }
-
-                // Изначально показываем все товары
                 window.filterCategory('Все');
-                
             } catch (error) {
-                console.error('Ошибка загрузки каталога:', error);
-                document.getElementById('products-grid').innerHTML = '<p class="text-center text-red-500 w-full col-span-full">Не удалось загрузить товары из файла catalog.csv.</p>';
+                document.getElementById('products-grid').innerHTML = '<p class="text-center text-red-500 w-full col-span-full">Не удалось загрузить catalog.csv</p>';
             }
         }
-
         window.addEventListener('DOMContentLoaded', loadCatalog);
 
-        // Фильтрация при клике по меню
-        window.filterCategory = function(categoryName, event) {
-            if(event) event.preventDefault();
-            currentActiveCategory = categoryName;
-            currentPage = 1; // Сбрасываем на 1 страницу
+        window.handleSearch = function(event) {
+            const query = event.target.value.toLowerCase().trim();
+            const clearBtn = document.getElementById('clear-search');
             
-            // Обновление дизайна кнопок меню
+            if (query.length > 0) { clearBtn.classList.remove('scale-0', 'opacity-0'); clearBtn.classList.add('scale-100', 'opacity-100'); }
+            else { clearBtn.classList.remove('scale-100', 'opacity-100'); clearBtn.classList.add('scale-0', 'opacity-0'); }
+            
+            if (query === '') return window.filterCategory(currentActiveCategory, null, true); 
+
+            filteredProducts = allProducts.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
+            document.getElementById('category-title-display').innerHTML = `Поиск: <span class="text-transparent bg-clip-text bg-gradient-to-r from-apple-blue to-purple-500">"${event.target.value}"</span>`;
             document.querySelectorAll('.nav-cat-btn').forEach(btn => {
-                if (btn.dataset.cat === categoryName) {
-                    btn.classList.add('bg-white/60', 'text-apple-blue', 'shadow-sm');
-                    btn.classList.remove('text-apple-dark', 'hover:bg-white/40');
-                } else {
-                    btn.classList.remove('bg-white/60', 'text-apple-blue', 'shadow-sm');
-                    btn.classList.add('text-apple-dark', 'hover:bg-white/40');
-                }
+                btn.classList.remove('bg-white/60', 'text-apple-blue', 'shadow-sm'); btn.classList.add('text-apple-dark', 'hover:bg-white/40');
             });
+            currentPage = 1; renderPage();
+        };
 
-            // Обновление заголовка
-            const titleDisplay = document.getElementById('category-title-display');
-            titleDisplay.textContent = categoryName === 'Все' ? 'Модельный ряд' : categoryName;
+        window.clearSearch = function() {
+            document.getElementById('catalog-search').value = '';
+            const clearBtn = document.getElementById('clear-search');
+            clearBtn.classList.remove('scale-100', 'opacity-100'); clearBtn.classList.add('scale-0', 'opacity-0');
+            window.filterCategory('Все');
+        };
 
-            // Фильтруем массив
-            if (categoryName === 'Все') {
-                filteredProducts = allProducts;
-            } else {
-                const lowerCat = categoryName.toLowerCase();
-                filteredProducts = allProducts.filter(p => 
-                    p.category.toLowerCase().includes(lowerCat) || 
-                    p.name.toLowerCase().includes(lowerCat)
-                );
+        window.filterCategory = function(categoryName, event, isFromSearch = false) {
+            if(event) event.preventDefault();
+            if (!isFromSearch) {
+                const searchInput = document.getElementById('catalog-search');
+                if (searchInput) searchInput.value = '';
+                const clearBtn = document.getElementById('clear-search');
+                if (clearBtn) { clearBtn.classList.remove('scale-100', 'opacity-100'); clearBtn.classList.add('scale-0', 'opacity-0'); }
             }
 
+            currentActiveCategory = categoryName; currentPage = 1; 
+            
+            document.querySelectorAll('.nav-cat-btn').forEach(btn => {
+                if (btn.dataset.cat === categoryName) {
+                    btn.classList.add('bg-white/60', 'text-apple-blue', 'shadow-sm'); btn.classList.remove('text-apple-dark', 'hover:bg-white/40');
+                } else {
+                    btn.classList.remove('bg-white/60', 'text-apple-blue', 'shadow-sm'); btn.classList.add('text-apple-dark', 'hover:bg-white/40');
+                }
+            });
+            document.getElementById('category-title-display').textContent = categoryName === 'Все' ? 'Модельный ряд' : categoryName;
+            
+            filteredProducts = categoryName === 'Все' ? allProducts : allProducts.filter(p => p.category.toLowerCase().includes(categoryName.toLowerCase()) || p.name.toLowerCase().includes(categoryName.toLowerCase()));
             renderPage();
         };
 
-        // Отрисовка конкретной страницы (15 товаров)
         function renderPage() {
-            const grid = document.getElementById('products-grid');
-            grid.innerHTML = '';
-            
-            const startIndex = (currentPage - 1) * itemsPerPage;
-            const endIndex = startIndex + itemsPerPage;
-            const productsToShow = filteredProducts.slice(startIndex, endIndex);
+            const grid = document.getElementById('products-grid'); grid.innerHTML = '';
+            const productsToShow = filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-            if (productsToShow.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">В этой категории пока нет товаров.</p>`;
-            }
+            if (productsToShow.length === 0) grid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">Товары не найдены.</p>`;
 
             productsToShow.forEach(product => {
                 const safeName = product.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-                
                 grid.innerHTML += `
                     <div class="product-card glass rounded-[2rem] p-8 flex flex-col justify-between h-[320px] text-left relative group">
-                        <div class="absolute top-4 right-4 bg-white/50 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-gray-500 uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-                            ${product.category}
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-semibold text-apple-dark">${product.name}</h3>
-                        </div>
+                        <div class="absolute top-4 right-4 bg-white/50 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-gray-500 uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">${product.category}</div>
+                        <div><h3 class="text-2xl font-semibold text-apple-dark">${product.name}</h3></div>
                         <div>
                             <p class="text-xl font-medium text-apple-dark mb-4">${product.priceString}</p>
-                            <button onclick="window.addToCart('${product.id}', '${safeName}', ${product.numericPrice})" class="w-full py-3.5 liquid-btn-dark rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-md">
-                                В корзину
-                            </button>
+                            <button onclick="window.addToCart('${product.id}', '${safeName}', ${product.numericPrice})" class="w-full py-3.5 liquid-btn-dark rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95 shadow-md">В корзину</button>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
-
             renderPagination();
         }
 
-        // Отрисовка крутых кнопок пагинации (Apple Style)
         function renderPagination() {
             const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
             const pagContainer = document.getElementById('pagination-container');
-            
-            if (totalPages <= 1) {
-                pagContainer.innerHTML = '';
-                return;
-            }
+            if (totalPages <= 1) return pagContainer.innerHTML = '';
             
             let html = '<div class="flex items-center justify-center gap-3">';
             const btnBase = "w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-300 shadow-sm ";
             
-            // Кнопка Назад
             html += `<button onclick="window.changePage(${currentPage - 1})" class="${btnBase} glass ${currentPage === 1 ? 'opacity-40 cursor-not-allowed' : 'hover:scale-110 hover:bg-white'}"><i class="ph ph-caret-left text-lg"></i></button>`;
             
-            let startPage = Math.max(1, currentPage - 2);
-            let endPage = Math.min(totalPages, currentPage + 2);
+            let start = Math.max(1, currentPage - 2), end = Math.min(totalPages, currentPage + 2);
+            if (start > 1) html += `<button onclick="window.changePage(1)" class="${btnBase} glass hover:scale-110 hover:bg-white text-apple-dark">1</button>${start > 2 ? '<span class="px-1 text-gray-400">...</span>' : ''}`;
             
-            if (startPage > 1) {
-                html += `<button onclick="window.changePage(1)" class="${btnBase} glass hover:scale-110 hover:bg-white text-apple-dark">1</button>`;
-                if (startPage > 2) html += `<span class="px-1 text-gray-400">...</span>`;
+            for (let i = start; i <= end; i++) {
+                html += i === currentPage ? `<button class="${btnBase} bg-apple-dark text-white font-bold scale-110 shadow-lg cursor-default">${i}</button>` : `<button onclick="window.changePage(${i})" class="${btnBase} glass hover:scale-110 hover:bg-white text-apple-dark">${i}</button>`;
             }
             
-            for (let i = startPage; i <= endPage; i++) {
-                if (i === currentPage) {
-                    html += `<button class="${btnBase} bg-apple-dark text-white font-bold scale-110 shadow-lg cursor-default">${i}</button>`;
-                } else {
-                    html += `<button onclick="window.changePage(${i})" class="${btnBase} glass hover:scale-110 hover:bg-white text-apple-dark">${i}</button>`;
-                }
-            }
+            if (end < totalPages) html += `${end < totalPages - 1 ? '<span class="px-1 text-gray-400">...</span>' : ''}<button onclick="window.changePage(${totalPages})" class="${btnBase} glass hover:scale-110 hover:bg-white text-apple-dark">${totalPages}</button>`;
             
-            if (endPage < totalPages) {
-                if (endPage < totalPages - 1) html += `<span class="px-1 text-gray-400">...</span>`;
-                html += `<button onclick="window.changePage(${totalPages})" class="${btnBase} glass hover:scale-110 hover:bg-white text-apple-dark">${totalPages}</button>`;
-            }
-            
-            // Кнопка Вперед
-            html += `<button onclick="window.changePage(${currentPage + 1})" class="${btnBase} glass ${currentPage === totalPages ? 'opacity-40 cursor-not-allowed' : 'hover:scale-110 hover:bg-white'}"><i class="ph ph-caret-right text-lg"></i></button>`;
-            
-            html += '</div>';
+            html += `<button onclick="window.changePage(${currentPage + 1})" class="${btnBase} glass ${currentPage === totalPages ? 'opacity-40 cursor-not-allowed' : 'hover:scale-110 hover:bg-white'}"><i class="ph ph-caret-right text-lg"></i></button></div>`;
             pagContainer.innerHTML = html;
         }
 
-        // Плавный переход на нужную страницу
         window.changePage = function(page) {
             const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
             if (page < 1 || page > totalPages) return;
-            
-            currentPage = page;
-            renderPage();
-            
-            // Плавный скролл наверх к заголовку товаров
-            const productsSection = document.getElementById('products');
-            const offset = 80;
-            const elementPosition = productsSection.getBoundingClientRect().top + window.pageYOffset;
-            window.scrollTo({
-                top: elementPosition - offset,
-                behavior: "smooth"
-            });
+            currentPage = page; renderPage();
+            window.scrollTo({ top: document.getElementById('products').getBoundingClientRect().top + window.pageYOffset - 80, behavior: "smooth" });
         };
 
-        // Корзина и UI
         window.addToCart = function(id, name, price) {
-            const existingItem = cart.find(item => item.id === id);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ id, name, price, quantity: 1 });
-            }
-            updateCartUI();
-            showToast(`Добавлено в корзину`);
-        };
-
-        window.removeFromCart = function(id) {
-            cart = cart.filter(item => item.id !== id);
-            updateCartUI();
+            const item = cart.find(i => i.id === id);
+            item ? item.quantity++ : cart.push({ id, name, price, quantity: 1 });
+            updateCartUI(); showToast("Добавлено в корзину");
         };
 
         window.changeQuantity = function(id, delta) {
-            const item = cart.find(item => item.id === id);
-            if (item) {
-                item.quantity += delta;
-                if (item.quantity <= 0) {
-                    removeFromCart(id);
-                } else {
-                    updateCartUI();
-                }
-            }
+            const item = cart.find(i => i.id === id);
+            if (item) { item.quantity += delta; if (item.quantity <= 0) cart = cart.filter(i => i.id !== id); updateCartUI(); }
         };
+        window.removeFromCart = function(id) { cart = cart.filter(i => i.id !== id); updateCartUI(); };
 
         function updateCartUI() {
-            const cartItemsContainer = document.getElementById('cart-items');
-            const cartTotal = document.getElementById('cart-total');
-            const cartBadge = document.getElementById('cart-badge');
+            const container = document.getElementById('cart-items'), totalEl = document.getElementById('cart-total'), badge = document.getElementById('cart-badge');
+            let count = 0, total = 0;
+            cart.forEach(i => { count += i.quantity; total += i.price * i.quantity; });
             
-            let totalCount = 0;
-            let totalPrice = 0;
-            
-            cart.forEach(item => {
-                totalCount += item.quantity;
-                totalPrice += item.price * item.quantity;
-            });
-
-            if (totalCount > 0) {
-                cartBadge.textContent = totalCount;
-                cartBadge.classList.remove('opacity-0');
-            } else {
-                cartBadge.classList.add('opacity-0');
-            }
-
-            cartTotal.textContent = formatPrice(totalPrice).replace('&nbsp;', ' ');
+            badge.textContent = count; badge.classList.toggle('opacity-0', count === 0);
+            totalEl.innerHTML = formatPrice(total);
 
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = `
-                    <div class="text-center text-gray-400 mt-20" id="empty-cart-msg">
-                        <i class="ph ph-shopping-bag text-6xl mb-4 opacity-50"></i>
-                        <p class="text-lg text-apple-dark font-medium">Корзина пуста</p>
-                        <p class="text-sm mt-2">Добавьте что-нибудь, чтобы продолжить.</p>
-                    </div>
-                `;
+                container.innerHTML = `<div class="text-center text-gray-400 mt-20"><i class="ph ph-shopping-bag text-6xl mb-4 opacity-50"></i><p class="text-lg text-apple-dark font-medium">Корзина пуста</p></div>`;
             } else {
-                cartItemsContainer.innerHTML = '';
-                cart.forEach(item => {
-                    cartItemsContainer.innerHTML += `
-                        <div class="flex items-center justify-between gap-4 bg-white/60 p-4 rounded-2xl border border-white shadow-sm">
-                            <div>
-                                <h4 class="text-apple-dark font-semibold text-sm pr-2">${item.name}</h4>
-                                <div class="text-apple-blue font-medium text-sm mt-1">${formatPrice(item.price)}</div>
-                                <div class="flex items-center gap-3 mt-2 bg-gray-100 rounded-full w-fit px-2 py-1">
-                                    <button onclick="changeQuantity('${item.id}', -1)" class="w-5 h-5 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200">-</button>
-                                    <span class="text-apple-dark text-xs font-bold w-4 text-center">${item.quantity}</span>
-                                    <button onclick="changeQuantity('${item.id}', 1)" class="w-5 h-5 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200">+</button>
-                                </div>
+                container.innerHTML = cart.map(item => `
+                    <div class="flex items-center justify-between gap-4 bg-white/60 p-4 rounded-2xl border border-white shadow-sm">
+                        <div>
+                            <h4 class="text-apple-dark font-semibold text-sm pr-2">${item.name}</h4>
+                            <div class="text-apple-blue font-medium text-sm mt-1">${formatPrice(item.price)}</div>
+                            <div class="flex items-center gap-3 mt-2 bg-gray-100 rounded-full w-fit px-2 py-1">
+                                <button onclick="changeQuantity('${item.id}', -1)" class="w-5 h-5 rounded-full text-gray-600 hover:bg-gray-200">-</button>
+                                <span class="text-apple-dark text-xs font-bold w-4 text-center">${item.quantity}</span>
+                                <button onclick="changeQuantity('${item.id}', 1)" class="w-5 h-5 rounded-full text-gray-600 hover:bg-gray-200">+</button>
                             </div>
-                            <button onclick="removeFromCart('${item.id}')" class="text-gray-400 hover:text-red-500 p-2"><i class="ph ph-trash text-xl"></i></button>
                         </div>
-                    `;
-                });
+                        <button onclick="removeFromCart('${item.id}')" class="text-gray-400 hover:text-red-500 p-2"><i class="ph ph-trash text-xl"></i></button>
+                    </div>`).join('');
             }
         }
 
         window.toggleCart = function() {
-            const sidebar = document.getElementById('cart-sidebar');
-            const overlay = document.getElementById('cart-overlay');
             isCartOpen = !isCartOpen;
-            if (isCartOpen) {
-                sidebar.classList.remove('translate-x-full');
-                overlay.classList.remove('hidden');
-                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
-                document.body.style.overflow = 'hidden';
-            } else {
-                sidebar.classList.add('translate-x-full');
-                overlay.classList.add('opacity-0');
-                setTimeout(() => overlay.classList.add('hidden'), 300);
-                document.body.style.overflow = '';
-            }
+            document.getElementById('cart-sidebar').classList.toggle('translate-x-full', !isCartOpen);
+            const overlay = document.getElementById('cart-overlay');
+            if (isCartOpen) { overlay.classList.remove('hidden'); setTimeout(() => overlay.classList.remove('opacity-0'), 10); document.body.style.overflow = 'hidden'; } 
+            else { overlay.classList.add('opacity-0'); setTimeout(() => overlay.classList.add('hidden'), 300); document.body.style.overflow = ''; }
         };
 
-        window.checkout = function() {
-            if (cart.length === 0) return;
-            cart = [];
-            updateCartUI();
-            toggleCart();
-            showToast("Заказ успешно оформлен!");
-        };
+        window.checkout = function() { if (!cart.length) return; cart = []; updateCartUI(); toggleCart(); showToast("Заказ успешно оформлен!"); };
 
         window.openAuthModal = function(mode = 'login') {
-            window.isRegisterMode = (mode === 'register');
-            const modal = document.getElementById('auth-modal');
-            const overlay = document.getElementById('auth-modal-overlay');
-            const title = document.getElementById('auth-title');
-            const submitBtn = document.getElementById('auth-submit-btn');
-            const registerFields = document.getElementById('register-fields');
-            const switchText = document.getElementById('auth-switch-text');
-
-            if (window.isRegisterMode) {
-                title.textContent = 'Регистрация';
-                submitBtn.textContent = 'Зарегистрироваться';
-                registerFields.classList.remove('hidden');
-                switchText.innerHTML = 'Уже есть аккаунт? <button type="button" onclick="openAuthModal(\'login\')" class="text-apple-blue font-semibold hover:underline">Войти</button>';
-            } else {
-                title.textContent = 'Вход в систему';
-                submitBtn.textContent = 'Войти';
-                registerFields.classList.add('hidden');
-                switchText.innerHTML = 'Нет аккаунта? <button type="button" onclick="openAuthModal(\'register\')" class="text-apple-blue font-semibold hover:underline">Зарегистрироваться</button>';
-            }
-            modal.classList.remove('hidden');
-            overlay.classList.remove('hidden');
+            window.isRegisterMode = mode === 'register';
+            document.getElementById('auth-title').textContent = isRegisterMode ? 'Регистрация' : 'Вход в систему';
+            document.getElementById('auth-submit-btn').textContent = isRegisterMode ? 'Зарегистрироваться' : 'Войти';
+            document.getElementById('register-fields').classList.toggle('hidden', !isRegisterMode);
+            document.getElementById('auth-switch-text').innerHTML = isRegisterMode ? 'Уже есть аккаунт? <button type="button" onclick="openAuthModal(\'login\')" class="text-apple-blue font-semibold hover:underline">Войти</button>' : 'Нет аккаунта? <button type="button" onclick="openAuthModal(\'register\')" class="text-apple-blue font-semibold hover:underline">Зарегистрироваться</button>';
+            const modal = document.getElementById('auth-modal'), overlay = document.getElementById('auth-modal-overlay');
+            modal.classList.remove('hidden'); overlay.classList.remove('hidden');
             setTimeout(() => { modal.classList.remove('opacity-0', 'scale-95'); overlay.classList.remove('opacity-0'); }, 10);
         };
 
         window.closeAuthModal = function() {
-            const modal = document.getElementById('auth-modal');
-            const overlay = document.getElementById('auth-modal-overlay');
-            modal.classList.add('opacity-0', 'scale-95');
-            overlay.classList.add('opacity-0');
+            const modal = document.getElementById('auth-modal'), overlay = document.getElementById('auth-modal-overlay');
+            modal.classList.add('opacity-0', 'scale-95'); overlay.classList.add('opacity-0');
             setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 300);
         };
-
-        window.switchAuthMode = function() { 
-            openAuthModal(window.isRegisterMode ? 'login' : 'register'); 
-        };
+        window.switchAuthMode = () => openAuthModal(window.isRegisterMode ? 'login' : 'register');
 
         function updateAuthNav(isAuth, name = '') {
-            const container = document.getElementById('auth-nav-container');
-            const cleanName = name.replace('@', '');
-            if (isAuth) {
-                container.innerHTML = `<button onclick="openProfileModal()" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> ${cleanName}</button>`;
-            } else {
-                container.innerHTML = `<button onclick="openAuthModal('login')" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> Войти</button>`;
-            }
+            document.getElementById('auth-nav-container').innerHTML = isAuth ? `<button onclick="openProfileModal()" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> ${name.replace('@', '')}</button>` : `<button onclick="openAuthModal('login')" class="liquid-btn px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> Войти</button>`;
         }
 
         window.openProfileModal = function() {
             if (!window.currentUser) return;
-            const modal = document.getElementById('profile-modal');
-            const overlay = document.getElementById('profile-modal-overlay');
-            
-            const uData = window.userProfileData || {};
-            const username = uData.username || window.currentUser.email.split('@')[0];
-            
+            const uData = window.userProfileData || {}, username = uData.username || window.currentUser.email.split('@')[0];
             document.getElementById('profile-name').textContent = username;
             document.getElementById('profile-username').textContent = `@${username}`;
             document.getElementById('profile-email').textContent = window.currentUser.email;
             document.getElementById('profile-avatar').textContent = username.charAt(0).toUpperCase();
             
-            modal.classList.remove('hidden'); 
-            overlay.classList.remove('hidden');
+            const modal = document.getElementById('profile-modal'), overlay = document.getElementById('profile-modal-overlay');
+            modal.classList.remove('hidden'); overlay.classList.remove('hidden');
             setTimeout(() => { modal.classList.remove('opacity-0', 'scale-95'); overlay.classList.remove('opacity-0'); }, 10);
         };
 
         window.closeProfileModal = function() {
-            const modal = document.getElementById('profile-modal');
-            const overlay = document.getElementById('profile-modal-overlay');
+            const modal = document.getElementById('profile-modal'), overlay = document.getElementById('profile-modal-overlay');
             modal.classList.add('opacity-0', 'scale-95'); overlay.classList.add('opacity-0');
             setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 300);
         };
 
         window.showToast = function(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-msg').textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
+            const toast = document.getElementById('toast'); document.getElementById('toast-msg').textContent = msg;
+            toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 3000);
         };
 
         window.openLinksModal = function() {
-            const modal = document.getElementById('links-modal');
-            const overlay = document.getElementById('links-modal-overlay');
-            if (modal && overlay) {
-                modal.classList.remove('hidden'); overlay.classList.remove('hidden');
-                setTimeout(() => { modal.classList.remove('opacity-0', 'scale-95'); overlay.classList.remove('opacity-0'); }, 10);
-                document.body.style.overflow = 'hidden';
-            }
+            const modal = document.getElementById('links-modal'), overlay = document.getElementById('links-modal-overlay');
+            modal.classList.remove('hidden'); overlay.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0', 'scale-95'); overlay.classList.remove('opacity-0'); }, 10); document.body.style.overflow = 'hidden';
         };
 
         window.closeLinksModal = function() {
-            const modal = document.getElementById('links-modal');
-            const overlay = document.getElementById('links-modal-overlay');
-            if (modal && overlay) {
-                modal.classList.add('opacity-0', 'scale-95'); overlay.classList.add('opacity-0');
-                setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 300);
-                document.body.style.overflow = '';
-            }
+            const modal = document.getElementById('links-modal'), overlay = document.getElementById('links-modal-overlay');
+            modal.classList.add('opacity-0', 'scale-95'); overlay.classList.add('opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 300); document.body.style.overflow = '';
         };
     </script>
 </body>
