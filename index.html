@@ -26,7 +26,7 @@
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        apple: { light: '#f2f4f8', gray: '#86868b', dark: '#1d1d1f', blue: '#0071e3' }
+                        apple: { light: '#f0f3f8', gray: '#86868b', dark: '#1d1d1f', blue: '#0071e3', burgundy: '#7a1c35' }
                     }
                 }
             }
@@ -73,7 +73,7 @@
 
         @keyframes splashAppear { 0% { opacity: 0; transform: translateY(22px); } 100% { opacity: 1; transform: translateY(0); } }
 
-        /* Абсолютный премиальный Liquid Glass фон с плавающими каплями и технической сеткой */
+        /* Фоновые живые капли и сетка */
         .animated-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden;
             background-color: #f0f4f9;
@@ -85,8 +85,8 @@
         }
 
         .fluid-shape { position: absolute; filter: blur(60px); opacity: 0.75; animation: fluidRotate 35s infinite linear; pointer-events: none; }
-        .shape-1 { width: 65vw; height: 65vw; background: linear-gradient(135deg, rgba(0, 113, 227, 0.22) 0%, rgba(175, 82, 222, 0.15) 100%); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; animation: fluidRotate 40s infinite linear, move1 25s infinite alternate ease-in-out; top: -10%; left: -10%; }
-        .shape-2 { width: 60vw; height: 60vw; background: linear-gradient(135deg, rgba(255, 45, 85, 0.15) 0%, rgba(0, 199, 190, 0.18) 100%); border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; animation: fluidRotate 45s infinite linear reverse, move2 30s infinite alternate ease-in-out; bottom: -10%; right: -10%; }
+        .shape-1 { width: 65vw; height: 65vw; background: linear-gradient(135deg, rgba(0, 113, 227, 0.22) 0%, rgba(122, 28, 53, 0.12) 100%); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; animation: fluidRotate 40s infinite linear, move1 25s infinite alternate ease-in-out; top: -10%; left: -10%; }
+        .shape-2 { width: 60vw; height: 60vw; background: linear-gradient(135deg, rgba(122, 28, 53, 0.15) 0%, rgba(0, 199, 190, 0.18) 100%); border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; animation: fluidRotate 45s infinite linear reverse, move2 30s infinite alternate ease-in-out; bottom: -10%; right: -10%; }
         .shape-3 { width: 45vw; height: 45vw; background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 70%); border-radius: 50%; animation: move3 22s infinite alternate ease-in-out; top: 30%; left: 30%; }
 
         @keyframes fluidRotate { 100% { transform: rotate(360deg); } }
@@ -94,7 +94,7 @@
         @keyframes move2 { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(-10%, -8%) scale(1.05); } }
         @keyframes move3 { 0% { transform: translate(0, 0); } 100% { transform: translate(15%, -10%); } }
 
-        /* Истинное объемное жидкое стекло (Liquid Water Glass / Water Droplet Lenses) */
+        /* Liquid Water Glass стили с плавной анимацией */
         .liquid-water-glass {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.2) 100%);
             backdrop-filter: blur(28px) saturate(220%);
@@ -107,13 +107,13 @@
                 0 6px 15px rgba(0, 0, 0, 0.02),
                 inset 0 2px 4px rgba(255, 255, 255, 1),
                 inset 0 -3px 8px rgba(0, 0, 0, 0.05);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .liquid-water-glass:hover {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 100%);
             box-shadow: 
-                0 30px 65px rgba(0, 113, 227, 0.1),
+                0 30px 65px rgba(122, 28, 53, 0.08),
                 0 8px 20px rgba(0, 0, 0, 0.04),
                 inset 0 3px 6px rgba(255, 255, 255, 1),
                 inset 0 -4px 10px rgba(0, 0, 0, 0.07);
@@ -130,7 +130,7 @@
                 0 20px 40px rgba(0, 0, 0, 0.2),
                 inset 0 1px 3px rgba(255, 255, 255, 0.4);
             color: #ffffff;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .liquid-water-dark:hover {
@@ -141,36 +141,45 @@
 
         .product-card { 
             transform: perspective(1000px) translateZ(0); 
-            will-change: transform, box-shadow; 
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, box-shadow, opacity; 
         }
         .product-card:hover { 
             transform: translateY(-8px) scale(1.01) translateZ(15px); 
+        }
+
+        /* Плавная анимация появления карточек */
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: translateY(15px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-fade-in {
+            animation: fadeInScale 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 100; }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     </style>
 </head>
-<body class="splash-active antialiased selection:bg-apple-blue selection:text-white">
+<body class="splash-active antialiased selection:bg-apple-burgundy selection:text-white">
 
-    <!-- Фоновые объемные слои жидкого стекла (капли и преломления) -->
     <div class="animated-bg">
         <div class="fluid-shape shape-1"></div>
         <div class="fluid-shape shape-2"></div>
         <div class="fluid-shape shape-3"></div>
     </div>
 
-    <!-- Экран загрузки с анимированными волнами -->
+    <!-- Приветственная анимация -->
     <div id="splash-screen">
         <canvas id="liquid-canvas"></canvas>
         <div class="splash-content">
             <h1 class="splash-brand-title">re:market</h1>
-            <p class="splash-brand-subtitle">Liquid Water Glass Architecture</p>
+            <p class="splash-brand-subtitle">Breathtaking Liquid Glass And Aluminium</p>
         </div>
     </div>
 
-    <!-- Навигационная панель -->
-    <nav class="fixed top-0 w-full z-50 liquid-water-glass transition-all duration-300" id="navbar">
+    <!-- Навигация -->
+    <nav class="fixed top-0 w-full z-50 liquid-water-glass transition-all duration-500" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none font-extrabold text-2xl tracking-tighter">
@@ -179,25 +188,25 @@
                 
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-2 text-sm font-medium">
-                        <a href="#products" onclick="window.filterCategory('Все', event)" data-cat="Все" class="nav-cat-btn liquid-water-glass text-apple-blue shadow-sm transition-all px-4 py-2 rounded-full">Все</a>
-                        <a href="#products" onclick="window.filterCategory('iPhone', event)" data-cat="iPhone" class="nav-cat-btn hover:text-apple-blue text-apple-dark transition-all px-4 py-2 rounded-full">iPhone</a>
-                        <a href="#products" onclick="window.filterCategory('MacBook', event)" data-cat="MacBook" class="nav-cat-btn hover:text-apple-blue text-apple-dark transition-all px-4 py-2 rounded-full">MacBook</a>
-                        <a href="#products" onclick="window.filterCategory('Watch', event)" data-cat="Watch" class="nav-cat-btn hover:text-apple-blue text-apple-dark transition-all px-4 py-2 rounded-full">Watch</a>
-                        <a href="#products" onclick="window.filterCategory('iPad', event)" data-cat="iPad" class="nav-cat-btn hover:text-apple-blue text-apple-dark transition-all px-4 py-2 rounded-full">iPad</a>
-                        <a href="#products" onclick="window.filterCategory('AirPods', event)" data-cat="AirPods" class="nav-cat-btn hover:text-apple-blue text-apple-dark transition-all px-4 py-2 rounded-full">AirPods</a>
+                        <a href="#products" onclick="window.filterCategory('Все', event)" data-cat="Все" class="nav-cat-btn liquid-water-glass text-apple-burgundy shadow-sm transition-all duration-500 px-4 py-2 rounded-full">Все</a>
+                        <a href="#products" onclick="window.filterCategory('iPhone', event)" data-cat="iPhone" class="nav-cat-btn hover:text-apple-burgundy text-apple-dark transition-all duration-500 px-4 py-2 rounded-full">iPhone</a>
+                        <a href="#products" onclick="window.filterCategory('MacBook', event)" data-cat="MacBook" class="nav-cat-btn hover:text-apple-burgundy text-apple-dark transition-all duration-500 px-4 py-2 rounded-full">MacBook</a>
+                        <a href="#products" onclick="window.filterCategory('Watch', event)" data-cat="Watch" class="nav-cat-btn hover:text-apple-burgundy text-apple-dark transition-all duration-500 px-4 py-2 rounded-full">Watch</a>
+                        <a href="#products" onclick="window.filterCategory('iPad', event)" data-cat="iPad" class="nav-cat-btn hover:text-apple-burgundy text-apple-dark transition-all duration-500 px-4 py-2 rounded-full">iPad</a>
+                        <a href="#products" onclick="window.filterCategory('AirPods', event)" data-cat="AirPods" class="nav-cat-btn hover:text-apple-burgundy text-apple-dark transition-all duration-500 px-4 py-2 rounded-full">AirPods</a>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-3">
                     <div id="auth-nav-container">
-                        <button onclick="openAuthModal('login')" class="liquid-water-glass px-4 py-2 rounded-full text-sm font-semibold text-apple-dark transition-all shadow-sm flex items-center gap-2">
+                        <button onclick="openAuthModal('login')" class="liquid-water-glass px-4 py-2 rounded-full text-sm font-semibold text-apple-dark transition-all duration-500 shadow-sm flex items-center gap-2">
                             <i class="ph ph-user text-base"></i> Войти
                         </button>
                     </div>
 
-                    <button onclick="toggleCart()" class="relative p-2.5 rounded-full liquid-water-glass text-apple-dark hover:text-apple-blue transition-all">
+                    <button onclick="toggleCart()" class="relative p-2.5 rounded-full liquid-water-glass text-apple-dark hover:text-apple-burgundy transition-all duration-500">
                         <i class="ph ph-shopping-bag text-xl"></i>
-                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-apple-blue text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center opacity-0 transition-opacity">0</span>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-apple-burgundy text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center opacity-0 transition-opacity">0</span>
                     </button>
                 </div>
             </div>
@@ -205,10 +214,10 @@
     </nav>
 
     <main class="pt-28 pb-4">
-        <!-- Заголовок iPhone 18 Pro Max Burgundy -->
+        <!-- Премиальный заголовок в стиле Apple с акцентом Burgundy -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
             <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-apple-dark uppercase drop-shadow-sm select-none">
-                iPhone 18 Pro Max Burgundy
+                iPhone 18 Pro Max <span class="bg-gradient-to-r from-[#9e2444] via-[#7a1c35] to-[#541223] bg-clip-text text-transparent">Burgundy</span>
             </h2>
             <p class="text-sm sm:text-base text-gray-500 mt-2 font-medium tracking-wide">Флагманская коллекция в эксклюзивном исполнении</p>
         </div>
@@ -217,11 +226,11 @@
     <section id="products" class="py-4 relative z-10 scroll-mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <!-- Поиск с подсветкой и цветным преломлением -->
+            <!-- Поиск -->
             <div class="max-w-2xl mx-auto mb-6 relative group z-20">
-                <div class="absolute -inset-1 bg-gradient-to-r from-[#0071e3] via-[#ff2d55] to-[#af52de] rounded-full blur-xl opacity-30 group-hover:opacity-50 transition duration-700 pointer-events-none"></div>
+                <div class="absolute -inset-1 bg-gradient-to-r from-[#0071e3] via-[#7a1c35] to-[#af52de] rounded-full blur-xl opacity-20 group-hover:opacity-40 transition duration-700 pointer-events-none"></div>
                 <div class="relative flex items-center w-full liquid-water-glass rounded-full p-2.5 transition-all duration-500 focus-within:scale-[1.02]">
-                    <i class="ph ph-magnifying-glass text-2xl text-gray-400 ml-4 group-hover:text-apple-blue transition-colors duration-300"></i>
+                    <i class="ph ph-magnifying-glass text-2xl text-gray-400 ml-4 group-hover:text-apple-burgundy transition-colors duration-300"></i>
                     <input type="text" id="catalog-search" placeholder="Найти iPhone 18 Pro Max, MacBook Air..." class="w-full bg-transparent border-none outline-none text-apple-dark px-4 py-3 text-lg placeholder-gray-400 font-medium" oninput="window.handleSearch(event)">
                     <button id="clear-search" onclick="window.clearSearch()" class="p-2 text-gray-400 hover:text-red-500 transition-all duration-300 transform scale-0 opacity-0 absolute right-4 liquid-water-glass rounded-full w-10 h-10 flex items-center justify-center shadow-sm">
                         <i class="ph ph-x text-lg font-bold"></i>
@@ -229,25 +238,25 @@
                 </div>
             </div>
 
-            <!-- Сортировка -->
+            <!-- Сортировка с плавной анимацией -->
             <div class="flex justify-center mb-12 relative z-20">
                 <div class="liquid-water-glass p-1.5 rounded-full inline-flex gap-1 shadow-sm">
-                    <button onclick="window.sortProducts('asc')" id="sort-asc-btn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-apple-dark transition-all duration-300 hover:bg-white flex items-center gap-2">
+                    <button onclick="window.sortProducts('asc')" id="sort-asc-btn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-apple-dark transition-all duration-500 hover:bg-white flex items-center gap-2">
                         <i class="ph ph-sort-ascending text-lg"></i> По возрастанию
                     </button>
-                    <button onclick="window.sortProducts('desc')" id="sort-desc-btn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-apple-dark transition-all duration-300 hover:bg-white flex items-center gap-2">
+                    <button onclick="window.sortProducts('desc')" id="sort-desc-btn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-apple-dark transition-all duration-500 hover:bg-white flex items-center gap-2">
                         <i class="ph ph-sort-descending text-lg"></i> По убыванию
                     </button>
                 </div>
             </div>
 
-            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-300 ease-out transform origin-top"></div>
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-500 ease-out transform origin-top"></div>
             <div id="pagination-container" class="mt-16 pb-8"></div>
         </div>
     </section>
 
     <!-- Корзина -->
-    <div id="cart-overlay" class="fixed inset-0 bg-black/25 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
+    <div id="cart-overlay" class="fixed inset-0 bg-black/25 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-500" onclick="toggleCart()"></div>
     <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-[420px] liquid-water-glass z-50 transform translate-x-full transition-transform duration-500 ease-in-out border-l border-white shadow-2xl flex flex-col">
         <div class="p-6 border-b border-white/60 flex justify-between items-center">
             <h2 class="text-2xl font-bold text-apple-dark">Ваша корзина</h2>
@@ -270,8 +279,8 @@
     </div>
 
     <!-- Модальное окно авторизации -->
-    <div id="auth-modal-overlay" class="fixed inset-0 bg-black/25 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeAuthModal()"></div>
-    <div id="auth-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md liquid-water-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl">
+    <div id="auth-modal-overlay" class="fixed inset-0 bg-black/25 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-500" onclick="closeAuthModal()"></div>
+    <div id="auth-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md liquid-water-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-500 shadow-2xl">
         <div class="flex justify-between items-center mb-6">
             <h3 id="auth-title" class="text-2xl font-bold text-apple-dark">Вход в систему</h3>
             <button onclick="closeAuthModal()" class="text-gray-400 hover:text-black p-2 rounded-full liquid-water-glass"><i class="ph ph-x text-xl"></i></button>
@@ -303,20 +312,20 @@
         </form>
         <div class="mt-6 text-center">
             <p id="auth-switch-text" class="text-sm text-gray-500">
-                Нет аккаунта? <button onclick="switchAuthMode()" type="button" class="text-apple-blue font-semibold hover:underline">Зарегистрироваться</button>
+                Нет аккаунта? <button onclick="switchAuthMode()" type="button" class="text-apple-burgundy font-semibold hover:underline">Зарегистрироваться</button>
             </p>
         </div>
     </div>
 
     <!-- Модальное окно профиля -->
-    <div id="profile-modal-overlay" class="fixed inset-0 bg-black/25 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeProfileModal()"></div>
-    <div id="profile-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg liquid-water-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl">
+    <div id="profile-modal-overlay" class="fixed inset-0 bg-black/25 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-500" onclick="closeProfileModal()"></div>
+    <div id="profile-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg liquid-water-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-500 shadow-2xl">
         <div class="flex justify-between items-center mb-6">
             <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-apple-blue to-purple-500 text-white font-bold text-lg flex items-center justify-center shadow-md" id="profile-avatar">U</div>
+                <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-apple-burgundy to-purple-600 text-white font-bold text-lg flex items-center justify-center shadow-md" id="profile-avatar">U</div>
                 <div>
                     <h3 id="profile-name" class="text-xl font-bold text-apple-dark">Пользователь</h3>
-                    <p id="profile-username" class="text-xs text-apple-blue font-medium">@username</p>
+                    <p id="profile-username" class="text-xs text-apple-burgundy font-medium">@username</p>
                     <p id="profile-email" class="text-xs text-gray-500">email@example.com</p>
                 </div>
             </div>
@@ -332,7 +341,7 @@
     </div>
 
     <div id="toast" class="toast liquid-water-glass px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3">
-        <i class="ph-fill ph-check-circle text-apple-blue text-2xl"></i>
+        <i class="ph-fill ph-check-circle text-apple-burgundy text-2xl"></i>
         <span class="text-apple-dark font-medium" id="toast-msg">Товар добавлен</span>
     </div>
 
@@ -355,8 +364,8 @@
     </footer>
 
     <!-- Модальное окно контактов -->
-    <div id="links-modal-overlay" class="fixed inset-0 bg-black/25 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeLinksModal()"></div>
-    <div id="links-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md liquid-water-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl">
+    <div id="links-modal-overlay" class="fixed inset-0 bg-black/25 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-500" onclick="closeLinksModal()"></div>
+    <div id="links-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md liquid-water-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-500 shadow-2xl">
         <div class="flex justify-between items-center mb-6">
             <div class="flex items-center font-bold text-2xl text-apple-dark">re:market</div>
             <button onclick="closeLinksModal()" class="text-gray-400 hover:text-black p-2 rounded-full liquid-water-glass"><i class="ph ph-x text-xl"></i></button>
@@ -381,7 +390,7 @@
         </div>
     </div>
 
-    <!-- Скрипт анимированных волн заставки -->
+    <!-- Анимация волн заставки -->
     <script>
         (function() {
             const canvas = document.getElementById('liquid-canvas');
@@ -501,17 +510,23 @@
         };
     </script>
 
-    <!-- Логика каталога и магазина -->
+    <!-- Логика магазина с плавной анимацией и расширенной базой товаров -->
     <script>
         let cart = [], isCartOpen = false, isRegisterMode = false;
         
         let allProducts = [
             { id: 'def_1', name: 'iPhone 18 Pro Max Burgundy 256GB', category: 'iPhone', priceString: 'от 149 990 ₽', numericPrice: 149990 },
-            { id: 'def_2', name: 'iPhone 18 Pro 128GB', category: 'iPhone', priceString: 'от 129 990 ₽', numericPrice: 129990 },
-            { id: 'def_3', name: 'MacBook Air 15 M3 512GB', category: 'MacBook', priceString: 'от 139 990 ₽', numericPrice: 139990 },
-            { id: 'def_4', name: 'Apple Watch Series 11 45mm', category: 'Watch', priceString: 'от 42 990 ₽', numericPrice: 42990 },
-            { id: 'def_5', name: 'iPad Pro 11 M4', category: 'iPad', priceString: 'от 99 990 ₽', numericPrice: 99990 },
-            { id: 'def_6', name: 'AirPods Pro 2 USB-C', category: 'AirPods', priceString: 'от 22 990 ₽', numericPrice: 22990 }
+            { id: 'def_2', name: 'iPhone 18 Pro Max Burgundy 512GB', category: 'iPhone', priceString: 'от 169 990 ₽', numericPrice: 169990 },
+            { id: 'def_3', name: 'iPhone 18 Pro 128GB', category: 'iPhone', priceString: 'от 129 990 ₽', numericPrice: 129990 },
+            { id: 'def_4', name: 'iPhone 17 Pro Max 256GB', category: 'iPhone', priceString: 'от 119 990 ₽', numericPrice: 119990 },
+            { id: 'def_5', name: 'iPhone 16 Pro 128GB', category: 'iPhone', priceString: 'от 99 990 ₽', numericPrice: 99990 },
+            { id: 'def_6', name: 'MacBook Pro 16 M3 Max 1TB', category: 'MacBook', priceString: 'от 289 990 ₽', numericPrice: 289990 },
+            { id: 'def_7', name: 'MacBook Air 15 M3 512GB', category: 'MacBook', priceString: 'от 139 990 ₽', numericPrice: 139990 },
+            { id: 'def_8', name: 'Apple Watch Ultra 2 Titanium', category: 'Watch', priceString: 'от 79 990 ₽', numericPrice: 79990 },
+            { id: 'def_9', name: 'Apple Watch Series 11 45mm', category: 'Watch', priceString: 'от 42 990 ₽', numericPrice: 42990 },
+            { id: 'def_10', name: 'iPad Pro 13 M4 OLED', category: 'iPad', priceString: 'от 129 990 ₽', numericPrice: 129990 },
+            { id: 'def_11', name: 'iPad Pro 11 M4', category: 'iPad', priceString: 'от 99 990 ₽', numericPrice: 99990 },
+            { id: 'def_12', name: 'AirPods Pro 2 USB-C', category: 'AirPods', priceString: 'от 22 990 ₽', numericPrice: 22990 }
         ];
 
         let filteredProducts = [...allProducts], currentPage = 1, currentActiveCategory = 'Все', currentSort = null;
@@ -576,7 +591,7 @@
                     window.filterCategory(currentActiveCategory, null, true);
                 }
             } catch (error) {
-                console.log("Каталог загружен из встроенного буфера.");
+                console.log("Используется встроенный расширенный каталог.");
             }
         }
 
@@ -592,7 +607,7 @@
             filteredProducts = allProducts.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
             
             document.querySelectorAll('.nav-cat-btn').forEach(btn => {
-                btn.classList.remove('liquid-water-glass', 'text-apple-blue', 'shadow-sm'); 
+                btn.classList.remove('liquid-water-glass', 'text-apple-burgundy', 'shadow-sm'); 
                 btn.classList.add('text-apple-dark');
             });
             applySorting();
@@ -606,6 +621,7 @@
             window.filterCategory('Все');
         };
 
+        // Плавное переключение категорий с анимацией сетки товаров
         window.filterCategory = function(categoryName, event, isFromSearch = false) {
             if(event) event.preventDefault();
             if (!isFromSearch) {
@@ -619,10 +635,10 @@
             
             document.querySelectorAll('.nav-cat-btn').forEach(btn => {
                 if (btn.dataset.cat === categoryName) {
-                    btn.classList.add('liquid-water-glass', 'text-apple-blue', 'shadow-sm'); 
+                    btn.classList.add('liquid-water-glass', 'text-apple-burgundy', 'shadow-sm'); 
                     btn.classList.remove('text-apple-dark');
                 } else {
-                    btn.classList.remove('liquid-water-glass', 'text-apple-blue', 'shadow-sm'); 
+                    btn.classList.remove('liquid-water-glass', 'text-apple-burgundy', 'shadow-sm'); 
                     btn.classList.add('text-apple-dark');
                 }
             });
@@ -630,23 +646,37 @@
             filteredProducts = categoryName === 'Все' ? [...allProducts] : allProducts.filter(p => p.category === categoryName);
             
             applySorting();
-            renderPage();
+            
+            // Плавное затухание и появление сетки товаров
+            const grid = document.getElementById('products-grid');
+            grid.style.opacity = '0';
+            setTimeout(() => {
+                renderPage();
+                grid.style.opacity = '1';
+            }, 250);
         };
 
+        // Плавная сортировка товаров
         window.sortProducts = function(direction) {
             currentSort = direction;
             const ascBtn = document.getElementById('sort-asc-btn');
             const descBtn = document.getElementById('sort-desc-btn');
             
-            ascBtn.classList.remove('bg-white', 'text-apple-blue', 'shadow-md');
-            descBtn.classList.remove('bg-white', 'text-apple-blue', 'shadow-md');
+            ascBtn.classList.remove('bg-white', 'text-apple-burgundy', 'shadow-md');
+            descBtn.classList.remove('bg-white', 'text-apple-burgundy', 'shadow-md');
             
-            if (direction === 'asc') ascBtn.classList.add('bg-white', 'text-apple-blue', 'shadow-md');
-            else descBtn.classList.add('bg-white', 'text-apple-blue', 'shadow-md');
+            if (direction === 'asc') ascBtn.classList.add('bg-white', 'text-apple-burgundy', 'shadow-md');
+            else descBtn.classList.add('bg-white', 'text-apple-burgundy', 'shadow-md');
             
             applySorting();
             currentPage = 1;
-            renderPage();
+            
+            const grid = document.getElementById('products-grid');
+            grid.style.opacity = '0';
+            setTimeout(() => {
+                renderPage();
+                grid.style.opacity = '1';
+            }, 250);
         };
 
         function applySorting() {
@@ -664,15 +694,15 @@
                 return;
             }
 
-            productsToShow.forEach(product => {
+            productsToShow.forEach((product, idx) => {
                 const safeName = product.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 grid.innerHTML += `
-                    <div class="product-card liquid-water-glass rounded-[2rem] p-8 flex flex-col justify-between h-[320px] text-left relative group">
+                    <div class="product-card liquid-water-glass rounded-[2rem] p-8 flex flex-col justify-between h-[320px] text-left relative group animate-fade-in" style="animation-delay: ${idx * 40}ms">
                         <div class="absolute top-4 right-4 bg-white/70 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-gray-500 uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">${product.category}</div>
                         <div><h3 class="text-2xl font-semibold text-apple-dark">${product.name}</h3></div>
                         <div>
                             <p class="text-xl font-medium text-apple-dark mb-4">${product.priceString}</p>
-                            <button onclick="window.addToCart('${product.id}', '${safeName}', ${product.numericPrice})" class="w-full py-3.5 liquid-water-dark rounded-full font-medium transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-md">В корзину</button>
+                            <button onclick="window.addToCart('${product.id}', '${safeName}', ${product.numericPrice})" class="w-full py-3.5 liquid-water-dark rounded-full font-medium transition-all duration-500 hover:scale-[1.02] active:scale-95 shadow-md">В корзину</button>
                         </div>
                     </div>`;
             });
@@ -685,7 +715,7 @@
             if (totalPages <= 1) return pagContainer.innerHTML = '';
             
             let html = '<div class="flex items-center justify-center gap-3">';
-            const btnBase = "w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-300 shadow-sm ";
+            const btnBase = "w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-500 shadow-sm ";
             
             html += `<button onclick="window.changePage(${currentPage - 1})" class="${btnBase} liquid-water-glass ${currentPage === 1 ? 'opacity-40 cursor-not-allowed' : 'hover:scale-110'}"><i class="ph ph-caret-left text-lg"></i></button>`;
             
@@ -705,8 +735,15 @@
         window.changePage = function(page) {
             const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
             if (page < 1 || page > totalPages) return;
-            currentPage = page; renderPage();
-            window.scrollTo({ top: document.getElementById('products').getBoundingClientRect().top + window.pageYOffset - 80, behavior: "smooth" });
+            currentPage = page; 
+            
+            const grid = document.getElementById('products-grid');
+            grid.style.opacity = '0';
+            setTimeout(() => {
+                renderPage();
+                grid.style.opacity = '1';
+                window.scrollTo({ top: document.getElementById('products').getBoundingClientRect().top + window.pageYOffset - 80, behavior: "smooth" });
+            }, 250);
         };
 
         window.addToCart = function(id, name, price) {
@@ -736,7 +773,7 @@
                     <div class="flex items-center justify-between gap-4 liquid-water-glass p-4 rounded-2xl shadow-sm">
                         <div>
                             <h4 class="text-apple-dark font-semibold text-sm pr-2">${item.name}</h4>
-                            <div class="text-apple-blue font-medium text-sm mt-1">${formatPrice(item.price)}</div>
+                            <div class="text-apple-burgundy font-medium text-sm mt-1">${formatPrice(item.price)}</div>
                             <div class="flex items-center gap-3 mt-2 bg-white/70 rounded-full w-fit px-2 py-1">
                                 <button onclick="changeQuantity('${item.id}', -1)" class="w-5 h-5 rounded-full text-gray-600 hover:bg-gray-200">-</button>
                                 <span class="text-apple-dark text-xs font-bold w-4 text-center">${item.quantity}</span>
@@ -753,7 +790,7 @@
             document.getElementById('cart-sidebar').classList.toggle('translate-x-full', !isCartOpen);
             const overlay = document.getElementById('cart-overlay');
             if (isCartOpen) { overlay.classList.remove('hidden'); setTimeout(() => overlay.classList.remove('opacity-0'), 10); document.body.style.overflow = 'hidden'; } 
-            else { overlay.classList.add('opacity-0'); setTimeout(() => overlay.classList.add('hidden'), 300); document.body.style.overflow = ''; }
+            else { overlay.classList.add('opacity-0'); setTimeout(() => overlay.classList.add('hidden'), 500); document.body.style.overflow = ''; }
         };
 
         window.checkout = function() { if (!cart.length) return; cart = []; updateCartUI(); toggleCart(); showToast("Заказ успешно оформлен!"); };
@@ -763,7 +800,7 @@
             document.getElementById('auth-title').textContent = isRegisterMode ? 'Регистрация' : 'Вход в систему';
             document.getElementById('auth-submit-btn').textContent = isRegisterMode ? 'Зарегистрироваться' : 'Войти';
             document.getElementById('register-fields').classList.toggle('hidden', !isRegisterMode);
-            document.getElementById('auth-switch-text').innerHTML = isRegisterMode ? 'Уже есть аккаунт? <button type="button" onclick="openAuthModal(\'login\')" class="text-apple-blue font-semibold hover:underline">Войти</button>' : 'Нет аккаунта? <button type="button" onclick="openAuthModal(\'register\')" class="text-apple-blue font-semibold hover:underline">Зарегистрироваться</button>';
+            document.getElementById('auth-switch-text').innerHTML = isRegisterMode ? 'Уже есть аккаунт? <button type="button" onclick="openAuthModal(\'login\')" class="text-apple-burgundy font-semibold hover:underline">Войти</button>' : 'Нет аккаунта? <button type="button" onclick="openAuthModal(\'register\')" class="text-apple-burgundy font-semibold hover:underline">Зарегистрироваться</button>';
             const modal = document.getElementById('auth-modal'), overlay = document.getElementById('auth-modal-overlay');
             modal.classList.remove('hidden'); overlay.classList.remove('hidden');
             setTimeout(() => { modal.classList.remove('opacity-0', 'scale-95'); overlay.classList.remove('opacity-0'); }, 10);
@@ -772,7 +809,7 @@
         window.closeAuthModal = function() {
             const modal = document.getElementById('auth-modal'), overlay = document.getElementById('auth-modal-overlay');
             modal.classList.add('opacity-0', 'scale-95'); overlay.classList.add('opacity-0');
-            setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 300);
+            setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 500);
         };
         window.switchAuthMode = () => openAuthModal(window.isRegisterMode ? 'login' : 'register');
 
@@ -796,7 +833,7 @@
         window.closeProfileModal = function() {
             const modal = document.getElementById('profile-modal'), overlay = document.getElementById('profile-modal-overlay');
             modal.classList.add('opacity-0', 'scale-95'); overlay.classList.add('opacity-0');
-            setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 300);
+            setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 500);
         };
 
         window.showToast = function(msg) {
@@ -813,7 +850,7 @@
         window.closeLinksModal = function() {
             const modal = document.getElementById('links-modal'), overlay = document.getElementById('links-modal-overlay');
             modal.classList.add('opacity-0', 'scale-95'); overlay.classList.add('opacity-0');
-            setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 300); document.body.style.overflow = '';
+            setTimeout(() => { modal.classList.add('hidden'); overlay.classList.add('hidden'); }, 500); document.body.style.overflow = '';
         };
     </script>
 </body>
