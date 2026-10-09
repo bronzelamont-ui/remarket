@@ -26,7 +26,7 @@
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     colors: {
-                        apple: { light: '#f5f5f7', gray: '#86868b', dark: '#1d1d1f', blue: '#0071e3' }
+                        apple: { light: '#f2f4f8', gray: '#86868b', dark: '#1d1d1f', blue: '#0071e3' }
                     }
                 }
             }
@@ -35,11 +35,11 @@
     
     <style>
         html, body {
-            background-color: #f2f3f7;
+            background-color: #eef1f6;
             background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-            background-size: 40px 40px;
+                linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 35px 35px;
             background-position: center top;
             color: #1d1d1f;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -53,13 +53,14 @@
 
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: #f2f3f7; display: flex; flex-direction: column;
+            background: #ffffff; display: flex; flex-direction: column;
             align-items: center; justify-content: center; z-index: 99999;
             text-align: center; padding: 0 24px;
             transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        #splash-screen.fade-out { opacity: 0; transform: scale(1.04); filter: blur(10px); pointer-events: none; }
+        #splash-screen.fade-out { opacity: 0; transform: scale(1.04); filter: blur(12px); pointer-events: none; }
+        canvas#liquid-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
 
         .splash-content {
             position: relative; z-index: 2;
@@ -69,56 +70,57 @@
 
         .splash-brand-title {
             font-weight: 800; font-size: clamp(2.8rem, 7.5vw, 5.8rem); letter-spacing: -0.04em;
-            margin-bottom: 12px; color: #1d1d1f;
+            margin-bottom: 12px; background: linear-gradient(180deg, #111112 0%, #4a4a4e 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .splash-brand-subtitle { font-size: clamp(0.95rem, 2.2vw, 1.35rem); color: #86868b; letter-spacing: -0.015em; }
 
         @keyframes splashAppear { 0% { opacity: 0; transform: translateY(22px); } 100% { opacity: 1; transform: translateY(0); } }
 
-        /* Истинный Liquid Glass стиль — прозрачная вода, объемные преломления и мягкие тени */
-        .liquid-glass {
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            border-top: 1px solid rgba(255, 255, 255, 1);
-            border-left: 1px solid rgba(255, 255, 255, 1);
+        /* Истинное глубокое жидкое стекло (Liquid Glass / Water Lens) */
+        .liquid-water-glass {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 100%);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            border: 1.5px solid rgba(255, 255, 255, 0.95);
+            border-top: 1.5px solid rgba(255, 255, 255, 1);
+            border-left: 1.5px solid rgba(255, 255, 255, 1);
             box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.05),
-                0 2px 6px rgba(0, 0, 0, 0.03),
-                inset 0 1px 2px rgba(255, 255, 255, 0.9),
-                inset 0 -2px 4px rgba(0, 0, 0, 0.03);
+                0 20px 45px rgba(0, 0, 0, 0.07),
+                0 4px 12px rgba(0, 0, 0, 0.03),
+                inset 0 2px 4px rgba(255, 255, 255, 1),
+                inset 0 -3px 6px rgba(0, 0, 0, 0.06);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .liquid-glass:hover {
-            background: rgba(255, 255, 255, 0.82);
+        .liquid-water-glass:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.45) 100%);
             box-shadow: 
-                0 25px 50px rgba(0, 0, 0, 0.08),
-                0 4px 12px rgba(0, 113, 227, 0.06),
-                inset 0 1px 3px rgba(255, 255, 255, 1),
-                inset 0 -2px 5px rgba(0, 0, 0, 0.04);
-            transform: translateY(-2px);
+                0 25px 60px rgba(0, 113, 227, 0.12),
+                0 6px 16px rgba(0, 0, 0, 0.05),
+                inset 0 3px 6px rgba(255, 255, 255, 1),
+                inset 0 -3px 8px rgba(0, 0, 0, 0.08);
+            transform: translateY(-3px);
         }
 
-        .liquid-glass-dark {
-            background: rgba(29, 29, 31, 0.85);
+        .liquid-water-dark {
+            background: linear-gradient(135deg, rgba(35, 35, 38, 0.9) 0%, rgba(10, 10, 12, 0.75) 100%);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            border-top: 1.5px solid rgba(255, 255, 255, 0.6);
             box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.15),
-                inset 0 1px 2px rgba(255, 255, 255, 0.3);
+                0 15px 35px rgba(0, 0, 0, 0.2),
+                inset 0 1px 3px rgba(255, 255, 255, 0.4);
             color: #ffffff;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .liquid-glass-dark:hover {
-            background: rgba(0, 0, 0, 0.95);
+        .liquid-water-dark:hover {
+            background: linear-gradient(135deg, rgba(45, 45, 48, 0.95) 0%, rgba(20, 20, 22, 0.9) 100%);
             transform: translateY(-2px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
         }
 
         .product-card { 
@@ -126,7 +128,7 @@
             will-change: transform, box-shadow; 
         }
         .product-card:hover { 
-            transform: translateY(-6px) scale(1.01) translateZ(10px); 
+            transform: translateY(-8px) scale(1.01) translateZ(15px); 
         }
 
         .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 100; }
@@ -135,7 +137,9 @@
 </head>
 <body class="splash-active antialiased selection:bg-apple-blue selection:text-white">
 
+    <!-- Экран загрузки с анимированными жидкими волнами -->
     <div id="splash-screen">
+        <canvas id="liquid-canvas"></canvas>
         <div class="splash-content">
             <h1 class="splash-brand-title">re:market</h1>
             <p class="splash-brand-subtitle">Liquid Water Glass Architecture</p>
@@ -143,7 +147,7 @@
     </div>
 
     <!-- Навигационная панель -->
-    <nav class="fixed top-0 w-full z-50 liquid-glass transition-all duration-300" id="navbar">
+    <nav class="fixed top-0 w-full z-50 liquid-water-glass transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0 flex items-center text-apple-dark cursor-default select-none font-extrabold text-2xl tracking-tighter">
@@ -152,7 +156,7 @@
                 
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-2 text-sm font-medium">
-                        <a href="#products" onclick="window.filterCategory('Все', event)" data-cat="Все" class="nav-cat-btn liquid-glass text-apple-blue shadow-sm transition-all px-4 py-2 rounded-full">Все</a>
+                        <a href="#products" onclick="window.filterCategory('Все', event)" data-cat="Все" class="nav-cat-btn liquid-water-glass text-apple-blue shadow-sm transition-all px-4 py-2 rounded-full">Все</a>
                         <a href="#products" onclick="window.filterCategory('iPhone', event)" data-cat="iPhone" class="nav-cat-btn hover:text-apple-blue text-apple-dark transition-all px-4 py-2 rounded-full">iPhone</a>
                         <a href="#products" onclick="window.filterCategory('MacBook', event)" data-cat="MacBook" class="nav-cat-btn hover:text-apple-blue text-apple-dark transition-all px-4 py-2 rounded-full">MacBook</a>
                         <a href="#products" onclick="window.filterCategory('Watch', event)" data-cat="Watch" class="nav-cat-btn hover:text-apple-blue text-apple-dark transition-all px-4 py-2 rounded-full">Watch</a>
@@ -163,12 +167,12 @@
 
                 <div class="flex items-center gap-3">
                     <div id="auth-nav-container">
-                        <button onclick="openAuthModal('login')" class="liquid-glass px-4 py-2 rounded-full text-sm font-semibold text-apple-dark transition-all shadow-sm flex items-center gap-2">
+                        <button onclick="openAuthModal('login')" class="liquid-water-glass px-4 py-2 rounded-full text-sm font-semibold text-apple-dark transition-all shadow-sm flex items-center gap-2">
                             <i class="ph ph-user text-base"></i> Войти
                         </button>
                     </div>
 
-                    <button onclick="toggleCart()" class="relative p-2.5 rounded-full liquid-glass text-apple-dark hover:text-apple-blue transition-all">
+                    <button onclick="toggleCart()" class="relative p-2.5 rounded-full liquid-water-glass text-apple-dark hover:text-apple-blue transition-all">
                         <i class="ph ph-shopping-bag text-xl"></i>
                         <span id="cart-badge" class="absolute -top-1 -right-1 bg-apple-blue text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center opacity-0 transition-opacity">0</span>
                     </button>
@@ -190,12 +194,13 @@
     <section id="products" class="py-4 relative z-10 scroll-mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <!-- Поиск в стиле водяной линзы -->
+            <!-- Поиск с подсветкой и цветным преломлением -->
             <div class="max-w-2xl mx-auto mb-6 relative group z-20">
-                <div class="relative flex items-center w-full liquid-glass rounded-full p-2.5 transition-all duration-500 focus-within:scale-[1.02]">
+                <div class="absolute -inset-1 bg-gradient-to-r from-[#0071e3] via-[#ff2d55] to-[#af52de] rounded-full blur-xl opacity-20 group-hover:opacity-40 transition duration-700 pointer-events-none"></div>
+                <div class="relative flex items-center w-full liquid-water-glass rounded-full p-2.5 transition-all duration-500 focus-within:scale-[1.02]">
                     <i class="ph ph-magnifying-glass text-2xl text-gray-400 ml-4 group-hover:text-apple-blue transition-colors duration-300"></i>
                     <input type="text" id="catalog-search" placeholder="Найти iPhone 18 Pro Max, MacBook Air..." class="w-full bg-transparent border-none outline-none text-apple-dark px-4 py-3 text-lg placeholder-gray-400 font-medium" oninput="window.handleSearch(event)">
-                    <button id="clear-search" onclick="window.clearSearch()" class="p-2 text-gray-400 hover:text-red-500 transition-all duration-300 transform scale-0 opacity-0 absolute right-4 liquid-glass rounded-full w-10 h-10 flex items-center justify-center shadow-sm">
+                    <button id="clear-search" onclick="window.clearSearch()" class="p-2 text-gray-400 hover:text-red-500 transition-all duration-300 transform scale-0 opacity-0 absolute right-4 liquid-water-glass rounded-full w-10 h-10 flex items-center justify-center shadow-sm">
                         <i class="ph ph-x text-lg font-bold"></i>
                     </button>
                 </div>
@@ -203,11 +208,11 @@
 
             <!-- Сортировка -->
             <div class="flex justify-center mb-12 relative z-20">
-                <div class="liquid-glass p-1.5 rounded-full inline-flex gap-1 shadow-sm">
-                    <button onclick="window.sortProducts('asc')" id="sort-asc-btn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-apple-dark transition-all duration-300 hover:bg-white/80 flex items-center gap-2">
+                <div class="liquid-water-glass p-1.5 rounded-full inline-flex gap-1 shadow-sm">
+                    <button onclick="window.sortProducts('asc')" id="sort-asc-btn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-apple-dark transition-all duration-300 hover:bg-white flex items-center gap-2">
                         <i class="ph ph-sort-ascending text-lg"></i> По возрастанию
                     </button>
-                    <button onclick="window.sortProducts('desc')" id="sort-desc-btn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-apple-dark transition-all duration-300 hover:bg-white/80 flex items-center gap-2">
+                    <button onclick="window.sortProducts('desc')" id="sort-desc-btn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-apple-dark transition-all duration-300 hover:bg-white flex items-center gap-2">
                         <i class="ph ph-sort-descending text-lg"></i> По убыванию
                     </button>
                 </div>
@@ -219,11 +224,11 @@
     </section>
 
     <!-- Корзина -->
-    <div id="cart-overlay" class="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
-    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-[420px] liquid-glass z-50 transform translate-x-full transition-transform duration-500 ease-in-out border-l border-white shadow-2xl flex flex-col">
-        <div class="p-6 border-b border-white/50 flex justify-between items-center">
+    <div id="cart-overlay" class="fixed inset-0 bg-black/25 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-[420px] liquid-water-glass z-50 transform translate-x-full transition-transform duration-500 ease-in-out border-l border-white shadow-2xl flex flex-col">
+        <div class="p-6 border-b border-white/60 flex justify-between items-center">
             <h2 class="text-2xl font-bold text-apple-dark">Ваша корзина</h2>
-            <button onclick="toggleCart()" class="text-gray-500 hover:text-black liquid-glass rounded-full p-2.5 transition-all"><i class="ph ph-x text-xl"></i></button>
+            <button onclick="toggleCart()" class="text-gray-500 hover:text-black liquid-water-glass rounded-full p-2.5 transition-all"><i class="ph ph-x text-xl"></i></button>
         </div>
         <div id="cart-items" class="flex-grow overflow-y-auto p-6 space-y-4">
             <div class="text-center text-gray-400 mt-20" id="empty-cart-msg">
@@ -232,46 +237,46 @@
                 <p class="text-sm mt-2">Добавьте что-нибудь, чтобы продолжить.</p>
             </div>
         </div>
-        <div class="p-6 border-t border-white/50 bg-white/40 backdrop-blur-md">
+        <div class="p-6 border-t border-white/60 bg-white/40 backdrop-blur-md">
             <div class="flex justify-between items-center mb-6">
                 <span class="text-gray-500 text-lg">Итого:</span>
                 <span class="text-apple-dark text-3xl font-bold" id="cart-total">0&nbsp;₽</span>
             </div>
-            <button onclick="checkout()" class="w-full liquid-glass-dark py-4 rounded-2xl font-semibold text-lg shadow-lg">Оформить заказ</button>
+            <button onclick="checkout()" class="w-full liquid-water-dark py-4 rounded-2xl font-semibold text-lg shadow-lg">Оформить заказ</button>
         </div>
     </div>
 
     <!-- Модальное окно авторизации -->
-    <div id="auth-modal-overlay" class="fixed inset-0 bg-black/20 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeAuthModal()"></div>
-    <div id="auth-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md liquid-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl">
+    <div id="auth-modal-overlay" class="fixed inset-0 bg-black/25 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeAuthModal()"></div>
+    <div id="auth-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md liquid-water-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl">
         <div class="flex justify-between items-center mb-6">
             <h3 id="auth-title" class="text-2xl font-bold text-apple-dark">Вход в систему</h3>
-            <button onclick="closeAuthModal()" class="text-gray-400 hover:text-black p-2 rounded-full liquid-glass"><i class="ph ph-x text-xl"></i></button>
+            <button onclick="closeAuthModal()" class="text-gray-400 hover:text-black p-2 rounded-full liquid-water-glass"><i class="ph ph-x text-xl"></i></button>
         </div>
         <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="space-y-4">
             <div id="register-fields" class="space-y-4 hidden">
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Имя</label>
-                    <input type="text" id="auth-name" placeholder="Иван Иванов" class="w-full liquid-glass border border-white rounded-2xl px-4 py-3.5 text-sm">
+                    <input type="text" id="auth-name" placeholder="Иван Иванов" class="w-full liquid-water-glass border border-white rounded-2xl px-4 py-3.5 text-sm">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Username</label>
-                    <input type="text" id="auth-username" placeholder="ivanov" class="w-full liquid-glass border border-white rounded-2xl px-4 py-3.5 text-sm">
+                    <input type="text" id="auth-username" placeholder="ivanov" class="w-full liquid-water-glass border border-white rounded-2xl px-4 py-3.5 text-sm">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Номер телефона</label>
-                    <input type="tel" id="auth-phone" placeholder="+7 (999) 000-00-00" class="w-full liquid-glass border border-white rounded-2xl px-4 py-3.5 text-sm">
+                    <input type="tel" id="auth-phone" placeholder="+7 (999) 000-00-00" class="w-full liquid-water-glass border border-white rounded-2xl px-4 py-3.5 text-sm">
                 </div>
             </div>
             <div>
                 <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Email</label>
-                <input type="email" id="auth-email" required placeholder="name@example.com" class="w-full liquid-glass border border-white rounded-2xl px-4 py-3.5 text-sm">
+                <input type="email" id="auth-email" required placeholder="name@example.com" class="w-full liquid-water-glass border border-white rounded-2xl px-4 py-3.5 text-sm">
             </div>
             <div>
                 <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Пароль</label>
-                <input type="password" id="auth-password" required placeholder="••••••••" class="w-full liquid-glass border border-white rounded-2xl px-4 py-3.5 text-sm">
+                <input type="password" id="auth-password" required placeholder="••••••••" class="w-full liquid-water-glass border border-white rounded-2xl px-4 py-3.5 text-sm">
             </div>
-            <button type="submit" id="auth-submit-btn" class="w-full liquid-glass-dark py-4 rounded-2xl font-semibold shadow-lg mt-2">Войти</button>
+            <button type="submit" id="auth-submit-btn" class="w-full liquid-water-dark py-4 rounded-2xl font-semibold shadow-lg mt-2">Войти</button>
         </form>
         <div class="mt-6 text-center">
             <p id="auth-switch-text" class="text-sm text-gray-500">
@@ -281,8 +286,8 @@
     </div>
 
     <!-- Модальное окно профиля -->
-    <div id="profile-modal-overlay" class="fixed inset-0 bg-black/20 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeProfileModal()"></div>
-    <div id="profile-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg liquid-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl">
+    <div id="profile-modal-overlay" class="fixed inset-0 bg-black/25 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeProfileModal()"></div>
+    <div id="profile-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-lg liquid-water-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl">
         <div class="flex justify-between items-center mb-6">
             <div class="flex items-center gap-3">
                 <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-apple-blue to-purple-500 text-white font-bold text-lg flex items-center justify-center shadow-md" id="profile-avatar">U</div>
@@ -292,9 +297,9 @@
                     <p id="profile-email" class="text-xs text-gray-500">email@example.com</p>
                 </div>
             </div>
-            <button onclick="closeProfileModal()" class="text-gray-400 hover:text-black p-2 rounded-full liquid-glass"><i class="ph ph-x text-xl"></i></button>
+            <button onclick="closeProfileModal()" class="text-gray-400 hover:text-black p-2 rounded-full liquid-water-glass"><i class="ph ph-x text-xl"></i></button>
         </div>
-        <div class="border-t border-white/55 pt-4 mb-6">
+        <div class="border-t border-white/60 pt-4 mb-6">
             <h4 class="text-sm font-bold text-apple-dark mb-3">История заказов</h4>
             <div id="profile-orders" class="space-y-3 max-h-48 overflow-y-auto">
                 <p class="text-xs text-gray-400 text-center py-4">У вас пока нет оформленных заказов</p>
@@ -303,13 +308,13 @@
         <button onclick="logoutUser()" class="w-full bg-red-50 text-red-600 border border-red-100 py-3 rounded-2xl font-semibold hover:bg-red-100 transition-all">Выйти из аккаунта</button>
     </div>
 
-    <div id="toast" class="toast liquid-glass px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3">
+    <div id="toast" class="toast liquid-water-glass px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3">
         <i class="ph-fill ph-check-circle text-apple-blue text-2xl"></i>
         <span class="text-apple-dark font-medium" id="toast-msg">Товар добавлен</span>
     </div>
 
     <!-- Футер -->
-    <footer class="border-t border-white/50 mt-20 py-20 text-center liquid-glass relative z-10">
+    <footer class="border-t border-white/60 mt-20 py-20 text-center liquid-water-glass relative z-10">
         <div class="max-w-7xl mx-auto px-4 flex flex-col items-center">
             <div class="flex flex-col items-center justify-center mb-6">
                 <div class="flex items-center font-sans font-extrabold text-7xl text-apple-dark tracking-tighter cursor-default select-none transition-all duration-300 hover:scale-105">
@@ -319,7 +324,7 @@
                 <p class="mt-2 text-xs tracking-[0.3em] text-gray-400 font-bold uppercase select-none cursor-default transition-all duration-300 hover:tracking-[0.4em] hover:scale-105">улица Темерницкая, 74 | Ростов-на-Дону</p>
             </div>
             <div class="mt-4">
-                <button onclick="openLinksModal()" class="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 liquid-glass border border-white/80 rounded-full text-apple-dark font-semibold text-base shadow-sm transition-all duration-300 hover:bg-black hover:text-white">
+                <button onclick="openLinksModal()" class="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 liquid-water-glass border border-white rounded-full text-apple-dark font-semibold text-base shadow-sm transition-all duration-300 hover:bg-black hover:text-white">
                     <i class="ph ph-share-network text-xl"></i> Связаться с нами
                 </button>
             </div>
@@ -327,41 +332,75 @@
     </footer>
 
     <!-- Модальное окно контактов -->
-    <div id="links-modal-overlay" class="fixed inset-0 bg-black/20 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeLinksModal()"></div>
-    <div id="links-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md liquid-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl">
+    <div id="links-modal-overlay" class="fixed inset-0 bg-black/25 backdrop-blur-md z-50 hidden opacity-0 transition-opacity duration-300" onclick="closeLinksModal()"></div>
+    <div id="links-modal" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md liquid-water-glass rounded-3xl p-8 z-50 hidden opacity-0 scale-95 transition-all duration-300 shadow-2xl">
         <div class="flex justify-between items-center mb-6">
             <div class="flex items-center font-bold text-2xl text-apple-dark">re:market</div>
-            <button onclick="closeLinksModal()" class="text-gray-400 hover:text-black p-2 rounded-full liquid-glass"><i class="ph ph-x text-xl"></i></button>
+            <button onclick="closeLinksModal()" class="text-gray-400 hover:text-black p-2 rounded-full liquid-water-glass"><i class="ph ph-x text-xl"></i></button>
         </div>
         <p class="text-sm text-gray-500 mb-6 text-center">Выберите удобный для вас способ связи с нами:</p>
         <div class="space-y-3">
-            <a href="https://t.me/remarketapple" target="_blank" class="flex flex-col p-4 liquid-glass hover:bg-black hover:text-white text-apple-dark rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+            <a href="https://t.me/remarketapple" target="_blank" class="flex flex-col p-4 liquid-water-glass hover:bg-black hover:text-white text-apple-dark rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
                 <div class="font-bold text-base">Telegram</div><div class="text-xs text-gray-400 group-hover:text-gray-300">@remarketapple</div>
             </a>
-            <a href="https://wa.me/79043422202" target="_blank" class="flex flex-col p-4 liquid-glass hover:bg-black hover:text-white text-apple-dark rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+            <a href="https://wa.me/79043422202" target="_blank" class="flex flex-col p-4 liquid-water-glass hover:bg-black hover:text-white text-apple-dark rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
                 <div class="font-bold text-base">WhatsApp</div><div class="text-xs text-gray-400 group-hover:text-gray-300">+7 (904) 342-22-02</div>
             </a>
-            <a href="https://instagram.com/remarketapple" target="_blank" class="flex flex-col p-4 liquid-glass hover:bg-black hover:text-white text-apple-dark rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+            <a href="https://instagram.com/remarketapple" target="_blank" class="flex flex-col p-4 liquid-water-glass hover:bg-black hover:text-white text-apple-dark rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
                 <div class="font-bold text-base">Instagram</div><div class="text-xs text-gray-400 group-hover:text-gray-300">@remarketapple</div>
             </a>
-            <a href="https://vk.ru/remarketapple" target="_blank" class="flex flex-col p-4 liquid-glass hover:bg-black hover:text-white text-apple-dark rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+            <a href="https://vk.ru/remarketapple" target="_blank" class="flex flex-col p-4 liquid-water-glass hover:bg-black hover:text-white text-apple-dark rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
                 <div class="font-bold text-base">VK</div><div class="text-xs text-gray-400 group-hover:text-gray-300">vk.ru/remarketapple</div>
             </a>
-            <a href="https://web.max.ru/79043422202" target="_blank" class="flex flex-col p-4 liquid-glass hover:bg-black hover:text-white text-apple-dark rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
+            <a href="https://web.max.ru/79043422202" target="_blank" class="flex flex-col p-4 liquid-water-glass hover:bg-black hover:text-white text-apple-dark rounded-2xl font-medium transition-all duration-300 group shadow-sm text-left">
                 <div class="font-bold text-base">MAX</div><div class="text-xs text-gray-400 group-hover:text-gray-300">+7 (904) 342-22-02</div>
             </a>
         </div>
     </div>
 
-    <!-- Скрипт экрана загрузки -->
+    <!-- Скрипт анимированных волн заставки -->
     <script>
         (function() {
+            const canvas = document.getElementById('liquid-canvas');
+            const ctx = canvas.getContext('2d');
             const splash = document.getElementById('splash-screen');
+            let width, height, time = 0, animId = null;
+
+            function resizeCanvas() {
+                if (!splash) return;
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                width = splash.clientWidth; height = splash.clientHeight;
+                canvas.width = width * dpr; canvas.height = height * dpr;
+                ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.scale(dpr, dpr);
+            }
+            window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+            function renderWaves() {
+                time += 0.01; ctx.clearRect(0, 0, width, height);
+                for (let i = 0; i < 4; i++) {
+                    ctx.beginPath(); ctx.moveTo(0, height);
+                    for (let x = 0; x <= width; x += 26) {
+                        const wave1 = Math.sin(x * 0.0022 + time + i * 1.3) * 65;
+                        const wave2 = Math.cos(x * 0.0034 - time * 0.85 + i) * 50;
+                        ctx.lineTo(x, height * 0.58 + wave1 + wave2 + (i * 42));
+                    }
+                    ctx.lineTo(width, height); ctx.closePath();
+                    const grad = ctx.createLinearGradient(0, height * 0.35, width, height);
+                    grad.addColorStop(0, `rgba(235, 240, 248, ${0.45 - i * 0.08})`);
+                    grad.addColorStop(1, `rgba(215, 222, 235, ${0.52 - i * 0.09})`);
+                    ctx.fillStyle = grad; ctx.fill();
+                }
+                animId = requestAnimationFrame(renderWaves);
+            }
+            renderWaves();
+
             setTimeout(() => {
-                splash.classList.add('fade-out'); 
-                document.body.classList.remove('splash-active');
-                setTimeout(() => splash.remove(), 900);
-            }, 1200);
+                splash.classList.add('fade-out'); document.body.classList.remove('splash-active');
+                setTimeout(() => {
+                    if (animId) cancelAnimationFrame(animId);
+                    window.removeEventListener('resize', resizeCanvas); splash.remove();
+                }, 900);
+            }, 1800);
         })();
     </script>
 
@@ -439,7 +478,7 @@
         };
     </script>
 
-    <!-- Логика магазина и каталога -->
+    <!-- Логика каталога и магазина -->
     <script>
         let cart = [], isCartOpen = false, isRegisterMode = false;
         
@@ -530,7 +569,7 @@
             filteredProducts = allProducts.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query));
             
             document.querySelectorAll('.nav-cat-btn').forEach(btn => {
-                btn.classList.remove('liquid-glass', 'text-apple-blue', 'shadow-sm'); 
+                btn.classList.remove('liquid-water-glass', 'text-apple-blue', 'shadow-sm'); 
                 btn.classList.add('text-apple-dark');
             });
             applySorting();
@@ -557,10 +596,10 @@
             
             document.querySelectorAll('.nav-cat-btn').forEach(btn => {
                 if (btn.dataset.cat === categoryName) {
-                    btn.classList.add('liquid-glass', 'text-apple-blue', 'shadow-sm'); 
+                    btn.classList.add('liquid-water-glass', 'text-apple-blue', 'shadow-sm'); 
                     btn.classList.remove('text-apple-dark');
                 } else {
-                    btn.classList.remove('liquid-glass', 'text-apple-blue', 'shadow-sm'); 
+                    btn.classList.remove('liquid-water-glass', 'text-apple-blue', 'shadow-sm'); 
                     btn.classList.add('text-apple-dark');
                 }
             });
@@ -605,12 +644,12 @@
             productsToShow.forEach(product => {
                 const safeName = product.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 grid.innerHTML += `
-                    <div class="product-card liquid-glass rounded-[2rem] p-8 flex flex-col justify-between h-[320px] text-left relative group">
+                    <div class="product-card liquid-water-glass rounded-[2rem] p-8 flex flex-col justify-between h-[320px] text-left relative group">
                         <div class="absolute top-4 right-4 bg-white/70 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-gray-500 uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">${product.category}</div>
                         <div><h3 class="text-2xl font-semibold text-apple-dark">${product.name}</h3></div>
                         <div>
                             <p class="text-xl font-medium text-apple-dark mb-4">${product.priceString}</p>
-                            <button onclick="window.addToCart('${product.id}', '${safeName}', ${product.numericPrice})" class="w-full py-3.5 liquid-glass-dark rounded-full font-medium transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-md">В корзину</button>
+                            <button onclick="window.addToCart('${product.id}', '${safeName}', ${product.numericPrice})" class="w-full py-3.5 liquid-water-dark rounded-full font-medium transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-md">В корзину</button>
                         </div>
                     </div>`;
             });
@@ -625,18 +664,18 @@
             let html = '<div class="flex items-center justify-center gap-3">';
             const btnBase = "w-12 h-12 rounded-full flex items-center justify-center font-medium transition-all duration-300 shadow-sm ";
             
-            html += `<button onclick="window.changePage(${currentPage - 1})" class="${btnBase} liquid-glass ${currentPage === 1 ? 'opacity-40 cursor-not-allowed' : 'hover:scale-110'}"><i class="ph ph-caret-left text-lg"></i></button>`;
+            html += `<button onclick="window.changePage(${currentPage - 1})" class="${btnBase} liquid-water-glass ${currentPage === 1 ? 'opacity-40 cursor-not-allowed' : 'hover:scale-110'}"><i class="ph ph-caret-left text-lg"></i></button>`;
             
             let start = Math.max(1, currentPage - 2), end = Math.min(totalPages, currentPage + 2);
-            if (start > 1) html += `<button onclick="window.changePage(1)" class="${btnBase} liquid-glass hover:scale-110 text-apple-dark">1</button>${start > 2 ? '<span class="px-1 text-gray-400">...</span>' : ''}`;
+            if (start > 1) html += `<button onclick="window.changePage(1)" class="${btnBase} liquid-water-glass hover:scale-110 text-apple-dark">1</button>${start > 2 ? '<span class="px-1 text-gray-400">...</span>' : ''}`;
             
             for (let i = start; i <= end; i++) {
-                html += i === currentPage ? `<button class="${btnBase} bg-apple-dark text-white font-bold scale-110 shadow-lg cursor-default">${i}</button>` : `<button onclick="window.changePage(${i})" class="${btnBase} liquid-glass hover:scale-110 text-apple-dark">${i}</button>`;
+                html += i === currentPage ? `<button class="${btnBase} bg-apple-dark text-white font-bold scale-110 shadow-lg cursor-default">${i}</button>` : `<button onclick="window.changePage(${i})" class="${btnBase} liquid-water-glass hover:scale-110 text-apple-dark">${i}</button>`;
             }
             
-            if (end < totalPages) html += `${end < totalPages - 1 ? '<span class="px-1 text-gray-400">...</span>' : ''}<button onclick="window.changePage(${totalPages})" class="${btnBase} liquid-glass hover:scale-110 text-apple-dark">${totalPages}</button>`;
+            if (end < totalPages) html += `${end < totalPages - 1 ? '<span class="px-1 text-gray-400">...</span>' : ''}<button onclick="window.changePage(${totalPages})" class="${btnBase} liquid-water-glass hover:scale-110 text-apple-dark">${totalPages}</button>`;
             
-            html += `<button onclick="window.changePage(${currentPage + 1})" class="${btnBase} liquid-glass ${currentPage === totalPages ? 'opacity-40 cursor-not-allowed' : 'hover:scale-110'}"><i class="ph ph-caret-right text-lg"></i></button></div>`;
+            html += `<button onclick="window.changePage(${currentPage + 1})" class="${btnBase} liquid-water-glass ${currentPage === totalPages ? 'opacity-40 cursor-not-allowed' : 'hover:scale-110'}"><i class="ph ph-caret-right text-lg"></i></button></div>`;
             pagContainer.innerHTML = html;
         }
 
@@ -671,7 +710,7 @@
                 container.innerHTML = `<div class="text-center text-gray-400 mt-20"><i class="ph ph-shopping-bag text-6xl mb-4 opacity-50"></i><p class="text-lg text-apple-dark font-medium">Корзина пуста</p></div>`;
             } else {
                 container.innerHTML = cart.map(item => `
-                    <div class="flex items-center justify-between gap-4 liquid-glass p-4 rounded-2xl shadow-sm">
+                    <div class="flex items-center justify-between gap-4 liquid-water-glass p-4 rounded-2xl shadow-sm">
                         <div>
                             <h4 class="text-apple-dark font-semibold text-sm pr-2">${item.name}</h4>
                             <div class="text-apple-blue font-medium text-sm mt-1">${formatPrice(item.price)}</div>
@@ -715,7 +754,7 @@
         window.switchAuthMode = () => openAuthModal(window.isRegisterMode ? 'login' : 'register');
 
         function updateAuthNav(isAuth, name = '') {
-            document.getElementById('auth-nav-container').innerHTML = isAuth ? `<button onclick="openProfileModal()" class="liquid-glass px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> ${name.replace('@', '')}</button>` : `<button onclick="openAuthModal('login')" class="liquid-glass px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> Войти</button>`;
+            document.getElementById('auth-nav-container').innerHTML = isAuth ? `<button onclick="openProfileModal()" class="liquid-water-glass px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> ${name.replace('@', '')}</button>` : `<button onclick="openAuthModal('login')" class="liquid-water-glass px-4 py-2 rounded-full text-sm font-semibold text-apple-dark shadow-sm flex items-center gap-2"><i class="ph ph-user"></i> Войти</button>`;
         }
 
         window.openProfileModal = function() {
